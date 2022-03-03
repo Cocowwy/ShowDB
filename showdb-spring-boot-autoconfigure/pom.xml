@@ -24,6 +24,10 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>cn.cocowwy</groupId>
+            <artifactId>showdb-core</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

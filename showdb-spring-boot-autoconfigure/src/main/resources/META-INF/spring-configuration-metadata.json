@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "ShowDB",
+      "type": "cn.cocowwy.showdbautoconfigure.configuration.ShowDBProperties",
+      "sourceType": "cn.cocowwy.showdbautoconfigure.configuration.ShowDBProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "showdb.enable",
+      "type": "java.lang.Boolean",
+      "description": "whether to use ShowDB",
+      "defaultValue": true
+    }
+  ]
+}

@@ -29,6 +29,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>cn.cocowwy</groupId>
+            <artifactId>showdb-spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
