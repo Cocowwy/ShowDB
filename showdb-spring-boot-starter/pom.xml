@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.cocowwy</groupId>
+        <artifactId>ShowDB</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <groupId>cn.cocowwy</groupId>
+    <artifactId>showdb-spring-boot-starter</artifactId>
+    <name>showdb-spring-boot-starter</name>
+
+    <description>相关引用集成</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.cocowwy</groupId>
+            <artifactId>showdb-spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.cocowwy</groupId>
+            <artifactId>showdb-ui</artifactId>
+        </dependency>
+    </dependencies>
+</project>
