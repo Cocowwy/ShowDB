@@ -1,21 +1,28 @@
 package cn.cocowwy.showdbcore.config;
 
+import java.util.Set;
+
 /**
  * @author cocowwy.cn
  * @create 2022-03-03-12:51
  */
 public class GlobalContext {
-    private static String endpoint;
+    /**
+     * 已开启端点的功能集合
+     */
+    private static Set<EndpointEnum> enableEndpoint;
 
-    public static String getEndpoint() {
-        return endpoint;
+    public static Set<EndpointEnum> getEnableEndpoint() {
+        return enableEndpoint;
     }
 
-    public static void setEndpoint(String endpoint) {
-        GlobalContext.endpoint = endpoint;
-    }
-
-    public static void parseEndpoint() {
-        endpoint.split(",");
+    /**
+     * 开启所有
+     */
+    public static void enableAllEndpoint() {
+        for (EndpointEnum endpoint : EndpointEnum.values()) {
+            enableEndpoint.add(endpoint);
+        }
     }
 }
+

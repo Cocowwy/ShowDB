@@ -16,7 +16,7 @@ public class ShowDBFactory {
     private ShowDBFactory() {
     }
 
-    public static void init(DataSource ds) {
+    public void init(DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
         dataSource = ds;
     }

@@ -1,8 +1,8 @@
 package cn.cocowwy.showdbautoconfigure.configuration;
 
-import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.config.ShowDBFactory;
 import cn.cocowwy.showdbcore.exception.ShowDbException;
+import cn.cocowwy.showdbcore.util.EndpointUtil;
 import com.sun.org.slf4j.internal.Logger;
 import com.sun.org.slf4j.internal.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -40,5 +40,6 @@ public class ShowDBAutoConfiguration implements InitializingBean {
 
     public void afterPropertiesSet() {
         ShowDBFactory.INSTANCE.init(dataSource);
+        EndpointUtil.setEnableSet(properties.getEndpoint());
     }
 }
