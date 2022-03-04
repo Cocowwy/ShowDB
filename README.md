@@ -2,7 +2,7 @@
 数据库文档工具，拆箱即用，springboot版
 
 jar版代码 https://github.com/Cocowwy/ShowDB
-原项目会废除，该版本会继承进spring-boot
+
 
 目前只支持**MySQL**
 :zap: 当然这不是一个数据库的（增刪改查）连接工具！！仅仅仅仅只是一个**数据库文档工具**
