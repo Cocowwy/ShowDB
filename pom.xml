@@ -14,6 +14,7 @@
         <module>showdb-spring-boot-starter</module>
         <module>showdb-test</module>
     </modules>
+    <name>ShowDB</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,6 +32,38 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!--module-version-->
+            <dependency>
+                <groupId>cn.cocowwy</groupId>
+                <artifactId>showdb-spring-boot-autoconfigure</artifactId>
+                <version>${showdb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cocowwy</groupId>
+                <artifactId>showdb-ui</artifactId>
+                <version>${showdb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cocowwy</groupId>
+                <artifactId>showdb-core</artifactId>
+                <version>${showdb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cocowwy</groupId>
+                <artifactId>showdb-spring-boot-starter</artifactId>
+                <version>${showdb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cocowwy</groupId>
+                <artifactId>showdb-test</artifactId>
+                <version>${showdb.version}</version>
+            </dependency>
+            <!--spring-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jdbc</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

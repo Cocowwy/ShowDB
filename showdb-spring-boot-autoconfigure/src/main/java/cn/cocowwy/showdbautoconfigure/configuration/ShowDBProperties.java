@@ -7,10 +7,37 @@ package cn.cocowwy.showdbautoconfigure.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.Collections;
+import java.util.Set;
+
 @ConfigurationProperties("showdb")
 public class ShowDBProperties {
     /**
      * 是否启用
      */
     private boolean enable = true;
+    /**
+     * 开启功能端点 以逗号分割
+     *   *                        默认，代表开启所有功能，生产环境不建议开启
+     *   structure                表结构，以及扩展功能
+     *   monitor-master-slave     监控主从库延迟
+     *   monitor-table            监控表数据，大小索引等
+     */
+    private Set<String> endpoint =  Collections.singleton("*");
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
+    public Set<String> getEndpoint() {
+        return endpoint;
+    }
+
+    public void setEndpoint(Set<String> endpoint) {
+        this.endpoint = endpoint;
+    }
 }
