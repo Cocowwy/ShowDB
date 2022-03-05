@@ -3,8 +3,6 @@ package cn.cocowwy.showdbautoconfigure.configuration;
 import cn.cocowwy.showdbcore.config.ShowDBFactory;
 import cn.cocowwy.showdbcore.exception.ShowDbException;
 import cn.cocowwy.showdbcore.util.EndpointUtil;
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -28,7 +26,6 @@ public class ShowDBAutoConfiguration implements InitializingBean {
 
     private final DataSource dataSource;
     private final ShowDBProperties properties;
-    private final static Logger logger = LoggerFactory.getLogger(ShowDBAutoConfiguration.class);
 
     public ShowDBAutoConfiguration(DataSource dataSource, ShowDBProperties properties) {
         if (Objects.isNull(dataSource)) {
@@ -38,6 +35,7 @@ public class ShowDBAutoConfiguration implements InitializingBean {
         this.properties = properties;
     }
 
+    @Override
     public void afterPropertiesSet() {
         ShowDBFactory.INSTANCE.init(dataSource);
         EndpointUtil.setEnableSet(properties.getEndpoint());

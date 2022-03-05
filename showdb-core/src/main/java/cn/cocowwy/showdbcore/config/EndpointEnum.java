@@ -8,9 +8,21 @@ import java.util.Map;
  * @create 2022-03-03-13:35
  */
 public enum EndpointEnum {
+    /**
+     * 所有
+     */
     ALL("*"),
+    /**
+     * 结构
+     */
     STRUCTURE("structure"),
+    /**
+     * 主从信息
+     */
     MONITOR_MASTER_SLAVE("monitor-master-slave"),
+    /**
+     * 表信息
+     */
     MONITOR_TABLE("monitor-table");
 
     private String name;

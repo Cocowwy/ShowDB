@@ -24,5 +24,9 @@ public class GlobalContext {
             enableEndpoint.add(endpoint);
         }
     }
+
+    public static Boolean isEnable(EndpointEnum endpoint) {
+        return enableEndpoint.contains(endpoint);
+    }
 }
 
