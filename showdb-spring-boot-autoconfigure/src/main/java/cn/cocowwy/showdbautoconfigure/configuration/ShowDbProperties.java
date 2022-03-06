@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.Set;
 
 @ConfigurationProperties("showdb")
-public class ShowDBProperties {
+public class ShowDbProperties {
     /**
      * 是否启用
      */
