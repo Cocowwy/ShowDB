@@ -1,4 +1,4 @@
-package cn.cocowwy.showdbcore.config;
+package cn.cocowwy.showdbcore.constants;
 
 import java.util.HashMap;
 import java.util.Map;

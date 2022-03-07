@@ -5,5 +5,8 @@ package cn.cocowwy.showdbcore.strategy;
  * @create 2022-03-03-20:05
  */
 public interface StructExecuteStrategy extends SqlExecuteStrategy {
-    void getTableList();
+    /**
+     * 所有表结构文档
+     */
+    void tablesDoc();
 }

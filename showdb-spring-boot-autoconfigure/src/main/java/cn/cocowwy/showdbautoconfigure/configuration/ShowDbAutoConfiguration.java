@@ -1,5 +1,6 @@
 package cn.cocowwy.showdbautoconfigure.configuration;
 
+import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.config.ShowDbFactory;
 import cn.cocowwy.showdbcore.exception.ShowDbException;
 import cn.cocowwy.showdbcore.util.EndpointUtil;
@@ -7,10 +8,11 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.Objects;
 
 /**
@@ -22,6 +24,7 @@ import java.util.Objects;
 @ConditionalOnClass(DataSource.class)
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({ShowDbProperties.class})
+@ComponentScan(basePackages = {"cn.cocowwy.showdbcore.strategy.impl.*"})
 @ConditionalOnProperty(name = "showdb.enable", havingValue = "true")
 public class ShowDbAutoConfiguration implements InitializingBean {
 
@@ -37,8 +40,10 @@ public class ShowDbAutoConfiguration implements InitializingBean {
     }
 
     @Override
-    public void afterPropertiesSet() {
+    public void afterPropertiesSet() throws SQLException {
         ShowDbFactory.INSTANCE.init(dataSource);
         EndpointUtil.setEnableSet(properties.getEndpoint());
+        GlobalContext.setDatabase(dataSource.getConnection().getMetaData().getDatabaseProductName());
+        GlobalContext.setDatabaseProductVersion(dataSource.getConnection().getMetaData().getDatabaseProductVersion());
     }
 }

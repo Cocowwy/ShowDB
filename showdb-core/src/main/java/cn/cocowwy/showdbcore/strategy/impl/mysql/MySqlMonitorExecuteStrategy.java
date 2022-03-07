@@ -1,8 +1,12 @@
 package cn.cocowwy.showdbcore.strategy.impl.mysql;
 
+import cn.cocowwy.showdbcore.strategy.MonitorExecuteStrategy;
+import org.springframework.stereotype.Component;
+
 /**
  * @author Cocowwy
  * @create 2022-03-03-20:40
  */
-public class MySqlMonitorExecuteStrategy {
+@Component
+public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy {
 }

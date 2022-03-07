@@ -1,6 +1,6 @@
 package cn.cocowwy.showdbcore.util;
 
-import cn.cocowwy.showdbcore.config.EndpointEnum;
+import cn.cocowwy.showdbcore.constants.EndpointEnum;
 import cn.cocowwy.showdbcore.config.GlobalContext;
 
 import java.util.Set;
