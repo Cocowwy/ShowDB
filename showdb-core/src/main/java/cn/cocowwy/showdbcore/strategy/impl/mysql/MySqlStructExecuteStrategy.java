@@ -2,11 +2,8 @@ package cn.cocowwy.showdbcore.strategy.impl.mysql;
 
 import cn.cocowwy.showdbcore.config.ShowDbFactory;
 import cn.cocowwy.showdbcore.strategy.StructExecuteStrategy;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -28,12 +25,8 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy {
      * @return
      */
     public List<String> tableNames() {
-        List<String> showTables = ShowDbFactory.getJdbcTemplate().query("show tables",
-                new RowMapper<String>() {
-                    public String mapRow(ResultSet resultSet, int i) throws SQLException {
-                        return resultSet.getObject(1, String.class);
-                    }
-                });
+        List<String> showTables = ShowDbFactory.getJdbcTemplate()
+                .query("show tables", (resultSet, i) -> resultSet.getObject(1, String.class));
         return showTables;
     }
 }
