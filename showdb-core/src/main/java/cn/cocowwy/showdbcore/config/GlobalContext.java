@@ -3,9 +3,7 @@ package cn.cocowwy.showdbcore.config;
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.constants.EndpointEnum;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author cocowwy.cn
@@ -18,6 +16,7 @@ public class GlobalContext {
     private static final Set<EndpointEnum> ENABLE_ENDPOINT = new HashSet<EndpointEnum>(1);
     private static DBEnum database;
     private static String databaseProductVersion;
+    private static final Map<String, Object> EXTEND = new HashMap<String, Object>(0);
 
     public static Set<EndpointEnum> getEnableEndpoint() {
         return ENABLE_ENDPOINT;
@@ -49,5 +48,10 @@ public class GlobalContext {
     public static void setDatabaseProductVersion(String databaseProductVersion) {
         GlobalContext.databaseProductVersion = databaseProductVersion;
     }
+
+    public static Map<String, Object> getEXTEND() {
+        return EXTEND;
+    }
+
 }
 

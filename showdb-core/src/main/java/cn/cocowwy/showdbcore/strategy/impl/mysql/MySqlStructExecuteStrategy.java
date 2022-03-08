@@ -1,7 +1,13 @@
 package cn.cocowwy.showdbcore.strategy.impl.mysql;
 
+import cn.cocowwy.showdbcore.config.ShowDbFactory;
 import cn.cocowwy.showdbcore.strategy.StructExecuteStrategy;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author Cocowwy
@@ -9,11 +15,25 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MySqlStructExecuteStrategy implements StructExecuteStrategy {
+    /**
+     * 表结构文档
+     * @param tableName
+     */
+    public void tableDoc(String tableName) {
+
+    }
 
     /**
-     * 所有表结构文档
+     * 表名集合
+     * @return
      */
-    public void tablesDoc() {
-        jdbcTemplate.execute("");
+    public List<String> tableNames() {
+        List<String> showTables = ShowDbFactory.getJdbcTemplate().query("show tables",
+                new RowMapper<String>() {
+                    public String mapRow(ResultSet resultSet, int i) throws SQLException {
+                        return resultSet.getObject(1, String.class);
+                    }
+                });
+        return showTables;
     }
 }

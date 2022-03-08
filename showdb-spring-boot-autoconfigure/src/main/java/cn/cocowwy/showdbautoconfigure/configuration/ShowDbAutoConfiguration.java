@@ -3,11 +3,15 @@ package cn.cocowwy.showdbautoconfigure.configuration;
 import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.config.ShowDbFactory;
 import cn.cocowwy.showdbcore.exception.ShowDbException;
+import cn.cocowwy.showdbcore.strategy.SqlExecuteStrategy;
 import cn.cocowwy.showdbcore.util.EndpointUtil;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,6 +30,7 @@ import java.util.Objects;
 @EnableConfigurationProperties({ShowDbProperties.class})
 @ComponentScan(basePackages = {"cn.cocowwy.showdbcore.strategy.impl.*"})
 @ConditionalOnProperty(name = "showdb.enable", havingValue = "true")
+@AutoConfigureBefore(SqlExecuteStrategy.class)
 public class ShowDbAutoConfiguration implements InitializingBean {
 
     private final DataSource dataSource;
