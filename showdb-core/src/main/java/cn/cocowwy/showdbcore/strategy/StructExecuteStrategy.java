@@ -12,10 +12,16 @@ public interface StructExecuteStrategy extends SqlExecuteStrategy {
      */
     void tableDoc(String tableName);
 
-
     /**
      * 表名集合
      * @return
      */
     List<String> tableNames();
+
+    /**
+     * 获取建表语句
+     * @param tableName
+     * @return
+     */
+    String createTableStatement(String tableName);
 }
