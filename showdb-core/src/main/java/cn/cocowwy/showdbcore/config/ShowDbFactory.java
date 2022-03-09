@@ -1,5 +1,7 @@
 package cn.cocowwy.showdbcore.config;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
@@ -10,6 +12,7 @@ import java.sql.SQLException;
  * @create 2022-03-03-23:36
  */
 public class ShowDbFactory {
+    private static final Log logger = LogFactory.getLog(ShowDbFactory.class);
     public static final ShowDbFactory INSTANCE = new ShowDbFactory();
     private static DataSource dataSource;
     private static JdbcTemplate jdbcTemplate;
