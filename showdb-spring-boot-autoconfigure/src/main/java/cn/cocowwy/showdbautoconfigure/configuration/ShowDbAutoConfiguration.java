@@ -6,7 +6,6 @@ import cn.cocowwy.showdbcore.exception.ShowDbException;
 import cn.cocowwy.showdbcore.strategy.SqlExecuteStrategy;
 import cn.cocowwy.showdbcore.util.EndpointUtil;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -14,10 +13,15 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.CollectionUtils;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.Objects;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * ShowDB 自动配置类
@@ -36,12 +40,18 @@ public class ShowDbAutoConfiguration implements InitializingBean {
     private final DataSource dataSource;
     private final ShowDbProperties properties;
 
-    public ShowDbAutoConfiguration(DataSource dataSource, ShowDbProperties properties) {
-        if (Objects.isNull(dataSource)) {
+    public ShowDbAutoConfiguration(ShowDbProperties properties, ApplicationContext applicationContext) {
+        List<String> dataSources = Arrays.asList(applicationContext.getBeanNamesForType(DataSource.class));
+        if (CollectionUtils.isEmpty(dataSources)) {
             throw new ShowDbException("cant find datasource (bean) ,please config it and restart");
         }
-        this.dataSource = dataSource;
+        String datasourceName = CollectionUtils.firstElement(dataSources);
+        this.dataSource = (DataSource) applicationContext.getBean(datasourceName);
         this.properties = properties;
+        ShowDbFactory.setPresentDatasourceName(datasourceName);
+        Map<String, DataSource> dataSourcesMap = dataSources.stream()
+                .collect(Collectors.toMap(Function.identity(), beanName -> (DataSource) applicationContext.getBean(beanName)));
+        ShowDbFactory.setDataSourcesMap(dataSourcesMap);
     }
 
     @Override
