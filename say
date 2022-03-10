@@ -1,0 +1,9 @@
+- showdb-spring-boot-autoconfigure  自动配置
+
+- showdb-web web相关
+
+- showdb-core 核心组件，功能实现
+
+- showdb-spring-boot-starter  start，聚合依赖
+
+- showdb-test  测试模块
