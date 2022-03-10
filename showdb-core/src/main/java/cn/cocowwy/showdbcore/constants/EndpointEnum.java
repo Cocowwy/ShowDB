@@ -17,11 +17,11 @@ public enum EndpointEnum {
      */
     STRUCTURE("structure"),
     /**
-     * 主从信息
+     * 主从信息监控
      */
     MONITOR_MASTER_SLAVE("monitor-master-slave"),
     /**
-     * 表信息
+     * 表信息监控
      */
     MONITOR_TABLE("monitor-table");
 

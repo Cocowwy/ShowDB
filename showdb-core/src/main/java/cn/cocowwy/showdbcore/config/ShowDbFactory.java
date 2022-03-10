@@ -74,6 +74,5 @@ public class ShowDbFactory {
 
     public static String getPresentDatasourceName() {
         return presentDatasourceName;
-import java.util.Map;
     }
 }
