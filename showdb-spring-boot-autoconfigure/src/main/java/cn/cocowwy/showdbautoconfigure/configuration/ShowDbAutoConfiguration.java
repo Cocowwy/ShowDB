@@ -32,7 +32,10 @@ import java.util.stream.Collectors;
 @ConditionalOnClass(DataSource.class)
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({ShowDbProperties.class})
-@ComponentScan(basePackages = {"cn.cocowwy.showdbcore.strategy.impl.*"})
+@ComponentScan(basePackages = {
+        "cn.cocowwy.showdbcore.strategy.impl",
+        "cn.cocowwy.showdbui.controller"
+})
 @ConditionalOnProperty(name = "showdb.enable", havingValue = "true")
 @AutoConfigureBefore(SqlExecuteStrategy.class)
 public class ShowDbAutoConfiguration implements InitializingBean {

@@ -14,11 +14,11 @@ import java.util.List;
 @Component
 public class MySqlStructExecuteStrategy implements StructExecuteStrategy {
     /**
-     * 表文档
+     * 表结构
      * @param tableName
      */
     @Override
-    public void tableDoc(String tableName) {
+    public void tableStructure(String tableName) {
 
     }
 
@@ -29,8 +29,8 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy {
     @Override
     public List<String> tableNames() {
         List<String> showTables = ShowDbFactory.getJdbcTemplate()
-                .query("show tables", (resultSet, i) ->
-                        resultSet.getObject(1, String.class));
+                .query("show tables", (rs, i) ->
+                        rs.getObject(1, String.class));
         return showTables;
     }
 

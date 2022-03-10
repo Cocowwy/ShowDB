@@ -1,6 +1,8 @@
 package cn.cocowwy.showdbcore.strategy;
 
-import java.util.Map;
+import cn.cocowwy.showdbcore.entities.IpCount;
+
+import java.util.List;
 
 /**
  * @author Cocowwy
@@ -11,5 +13,5 @@ public interface MonitorExecuteStrategy extends SqlExecuteStrategy {
      * 查询每个IP所占用的连接数
      * @return
      */
-    Map<String, Integer> ipConnectCount();
+    List<IpCount> ipConnectCount();
 }

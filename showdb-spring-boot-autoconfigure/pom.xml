@@ -40,5 +40,9 @@
             <groupId>cn.cocowwy</groupId>
             <artifactId>showdb-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.cocowwy</groupId>
+            <artifactId>showdb-web</artifactId>
+        </dependency>
     </dependencies>
 </project>

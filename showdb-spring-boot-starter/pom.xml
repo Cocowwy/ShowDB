@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>cn.cocowwy</groupId>
-            <artifactId>showdb-ui</artifactId>
+            <artifactId>showdb-core</artifactId>
         </dependency>
     </dependencies>
 </project>

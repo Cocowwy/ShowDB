@@ -55,6 +55,8 @@ public class Runner implements ApplicationRunner {
         System.out.println(ShowDbFactory.getPresentDatasourceName());
         DataSource dataSource2 = ShowDbFactory.getDataSource();
         System.out.println("测试数据源切换");;
+
+        mySqlMonitorExecuteStrategy.ipConnectCount();
     }
 
 

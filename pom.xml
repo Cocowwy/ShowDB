@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>showdb-spring-boot-autoconfigure</module>
-        <module>showdb-ui</module>
+        <module>showdb-web</module>
         <module>showdb-core</module>
         <module>showdb-spring-boot-starter</module>
         <module>showdb-test</module>

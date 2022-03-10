@@ -1,10 +1,11 @@
 package cn.cocowwy.showdbcore.strategy.impl.mysql;
 
 import cn.cocowwy.showdbcore.config.ShowDbFactory;
+import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.strategy.MonitorExecuteStrategy;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * @author Cocowwy
@@ -18,13 +19,17 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy {
      * @return
      */
     @Override
-    public Map<String, Integer> ipConnectCount() {
+    public List<IpCount> ipConnectCount() {
         String sql = "select SUBSTRING_INDEX(host, ':', 1) as ip, count(*) as count\n" +
                 "from information_schema.processlist as a\n" +
                 "group by ip\n" +
                 "order by count desc;\n";
-        ShowDbFactory.getJdbcTemplate()
-                .queryForMap(sql);
-        return null;
+        List<IpCount> ipCounts = ShowDbFactory.getJdbcTemplate().query(sql, (rs, i) -> {
+            IpCount ic = new IpCount();
+            ic.setIp(rs.getString("ip"));
+            ic.setCount(rs.getLong("count"));
+            return ic;
+        });
+        return ipCounts;
     }
 }
