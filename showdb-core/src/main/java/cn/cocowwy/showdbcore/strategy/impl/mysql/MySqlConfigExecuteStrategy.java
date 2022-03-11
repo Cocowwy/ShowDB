@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
  * @create 2022-03-03-20:40
  */
 @Component
-public class MySqlConfigExecuteStrategy implements ConfigExecuteStrategy {
+public class MySqlConfigExecuteStrategy implements ConfigExecuteStrategy,MySqlExecuteStrategy {
 
 }

@@ -12,7 +12,7 @@ import java.util.List;
  * @create 2022-03-03-21:57
  */
 @Component
-public class MySqlStructExecuteStrategy implements StructExecuteStrategy {
+public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlExecuteStrategy {
     /**
      * 表结构
      * @param tableName
