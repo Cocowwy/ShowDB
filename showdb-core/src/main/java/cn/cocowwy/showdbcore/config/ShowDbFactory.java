@@ -41,7 +41,7 @@ public class ShowDbFactory {
     }
 
     /**
-     * 环境中存在多数据源情况下，进行手切换
+     * 环境中存在多数据源情况下，进行切换
      * When there are multiple data sources in the environment, perform manual switching
      * @param dataSourceName
      */
