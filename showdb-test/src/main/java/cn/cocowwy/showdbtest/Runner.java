@@ -3,6 +3,7 @@ package cn.cocowwy.showdbtest;
 import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.config.ShowDbFactory;
 import cn.cocowwy.showdbcore.strategy.SqlExecuteStrategy;
+import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlMonitorExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlStructExecuteStrategy;
 import com.alibaba.druid.pool.DruidDataSource;
@@ -35,6 +36,8 @@ public class Runner implements ApplicationRunner {
     private MySqlStructExecuteStrategy mySqlStructExecuteStrategy;
     @Autowired
     private MySqlMonitorExecuteStrategy mySqlMonitorExecuteStrategy;
+    @Autowired
+    private List<MySqlExecuteStrategy> mySqlExecuteStrategies;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -54,9 +57,12 @@ public class Runner implements ApplicationRunner {
         ShowDbFactory.switchDataSource("slaveDataSource");
         System.out.println(ShowDbFactory.getPresentDatasourceName());
         DataSource dataSource2 = ShowDbFactory.getDataSource();
-        System.out.println("测试数据源切换");;
-
+        System.out.println("测试数据源切换");
+        ;
+        System.out.println("MySQL执行策略类：" + mySqlExecuteStrategies.size());
         mySqlMonitorExecuteStrategy.ipConnectCount();
+
+
     }
 
 
