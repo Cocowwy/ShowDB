@@ -34,7 +34,8 @@ import java.util.stream.Collectors;
 @EnableConfigurationProperties({ShowDbProperties.class})
 @ComponentScan(basePackages = {
         "cn.cocowwy.showdbcore.strategy.impl",
-        "cn.cocowwy.showdbui.controller"
+        "cn.cocowwy.showdbui.controller",
+        "cn.cocowwy.showdbcore.aspect"
 })
 @ConditionalOnProperty(name = "showdb.enable", havingValue = "true")
 @AutoConfigureBefore(SqlExecuteStrategy.class)
