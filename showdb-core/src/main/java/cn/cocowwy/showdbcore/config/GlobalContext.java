@@ -37,6 +37,10 @@ public class GlobalContext {
         return database.getName();
     }
 
+    public static DBEnum getDatabase() {
+        return database;
+    }
+
     public static void setDatabase(String databaseProductName) {
         GlobalContext.database = DBEnum.map.get(databaseProductName);
     }

@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/")
 public class RouteController {
+    /**
+     * 首页
+     * @return
+     */
     @GetMapping("/db")
     public String preview() {
         return "db";

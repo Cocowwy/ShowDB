@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @author Cocowwy
  * @create 2022-03-03-20:47
  */
-public class Result<T> implements Serializable {
+public class Res<T> implements Serializable {
     private static final long serialVersionUID = -1491499610244551029L;
 
     public static final int SUCCESS = 200;
@@ -27,37 +27,37 @@ public class Result<T> implements Serializable {
      */
     private T data;
 
-    public Result() {
+    public Res() {
     }
 
-    public Result(int code, String msg, T data) {
+    public Res(int code, String msg, T data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
     }
 
-    public static <T> Result<T> success() {
+    public static <T> Res<T> success() {
         return success(null);
     }
 
-    public static <T> Result<T> success(T data) {
+    public static <T> Res<T> success(T data) {
         return success("操作成功", data);
     }
 
-    public static <T> Result<T> successMsg(String msg) {
+    public static <T> Res<T> successMsg(String msg) {
         return success(msg, null);
     }
 
-    public static <T> Result<T> success(String msg, T data) {
-        return new Result<>(Result.SUCCESS, msg, data);
+    public static <T> Res<T> success(String msg, T data) {
+        return new Res<>(Res.SUCCESS, msg, data);
     }
 
-    public static <T> Result<T> error(String msg) {
-        return error(Result.ERROR, msg);
+    public static <T> Res<T> error(String msg) {
+        return error(Res.ERROR, msg);
     }
 
-    public static <T> Result<T> error(int code, String message) {
-        return new Result<>(code, message, null);
+    public static <T> Res<T> error(int code, String message) {
+        return new Res<>(code, message, null);
     }
 
     public boolean isOk() {

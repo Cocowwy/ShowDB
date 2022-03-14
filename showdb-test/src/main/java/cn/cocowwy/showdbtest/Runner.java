@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -41,7 +42,10 @@ public class Runner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-
+        // 测试基础信息
+        test1();
+    }
+    private void test1() throws SQLException {
         System.out.println("已注入策略：" + strategy.size());
         System.out.println("当前数据库源：" + GlobalContext.getDatabaseProductName());
         System.out.println("当前版本：" + GlobalContext.getDatabaseProductVersion());
@@ -61,7 +65,6 @@ public class Runner implements ApplicationRunner {
         ;
         System.out.println("MySQL执行策略类：" + mySqlExecuteStrategies.size());
         mySqlMonitorExecuteStrategy.ipConnectCount();
-
 
     }
 

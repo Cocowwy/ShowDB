@@ -1,7 +1,7 @@
 package cn.cocowwy.showdbcore.util;
 
-import cn.cocowwy.showdbcore.constants.EndpointEnum;
 import cn.cocowwy.showdbcore.config.GlobalContext;
+import cn.cocowwy.showdbcore.constants.EndpointEnum;
 
 import java.util.Set;
 
@@ -25,5 +25,15 @@ public class EndpointUtil {
                 enableEndpoint.add(ed);
             }
         }
+    }
+
+    /**
+     * 是否可以使用该端点功能
+     * @param ed
+     * @return
+     */
+    public static Boolean canPass(EndpointEnum ed) {
+        return GlobalContext.getEnableEndpoint().contains(ed)
+                || ed.equals(EndpointEnum.ALL) ? Boolean.TRUE : Boolean.FALSE;
     }
 }

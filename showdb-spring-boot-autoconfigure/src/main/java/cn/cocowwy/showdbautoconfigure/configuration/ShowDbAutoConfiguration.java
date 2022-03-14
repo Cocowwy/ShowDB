@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 @ComponentScan(basePackages = {
         "cn.cocowwy.showdbcore.strategy.impl",
         "cn.cocowwy.showdbui.controller",
+        "cn.cocowwy.showdbui.service",
         "cn.cocowwy.showdbcore.aspect"
 })
 @ConditionalOnProperty(name = "showdb.enable", havingValue = "true")

@@ -18,8 +18,11 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <showdb.version>1.0.0</showdb.version>
         <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <showdb.version>1.0.0</showdb.version>
         <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
         <skipTests>true</skipTests>
     </properties>
@@ -67,4 +70,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+
 </project>
