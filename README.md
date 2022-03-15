@@ -5,9 +5,11 @@
 如果你的项目是以SpringBoot启动，如果你的项目存在数据源（多数据源），那么ShowDB就能根据你预设开启的功能，来对当前数据库进行文档可视化
 你可以看所有的表结构，你可以看表的详细信息，以及数据库的监控信息，配置信息等，不需要使用额外的配置，只需要引入pom。
 
+```yml
 showdb:
   enable: true
   endpoint: structure,monitor-master-slave,monitor-table,'*'
+```
 
 jar版代码 https://github.com/Cocowwy/ShowDB
 
