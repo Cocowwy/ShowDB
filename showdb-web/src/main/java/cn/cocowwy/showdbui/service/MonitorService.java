@@ -22,7 +22,7 @@ public class MonitorService {
     @Autowired
     List<MonitorExecuteStrategy> monitorExecuteStrategy;
     /**
-     * 兼容切换数据源后（包含不同数据库之间的数据源切换），能切换监控策略
+     * 数据源类型所对应的执行策略
      */
     private static final Map<DBEnum, MonitorExecuteStrategy> MONITOR_STRATEGY = new HashMap(1);
 

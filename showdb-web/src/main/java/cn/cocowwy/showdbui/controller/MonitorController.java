@@ -33,7 +33,7 @@ public class MonitorController {
     }
 
     /**
-     * 当前数据源 IP客户端连接数
+     * 当前数据源所对应数据库的 IP客户端连接数
      * @return
      */
     @Endpoint(EndpointEnum.MONITOR_DATABASE)
