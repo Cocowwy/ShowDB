@@ -1,5 +1,7 @@
 package cn.cocowwy.showdbcore.entities;
 
+import cn.cocowwy.showdbcore.exception.Error;
+
 import java.io.Serializable;
 
 /**
@@ -54,6 +56,10 @@ public class Res<T> implements Serializable {
 
     public static <T> Res<T> error(String msg) {
         return error(Res.ERROR, msg);
+    }
+
+    public static <T> Res<T> error(Error error) {
+        return new Res(error.getCode(), error.getMessage(), null);
     }
 
     public static <T> Res<T> error(int code, String message) {

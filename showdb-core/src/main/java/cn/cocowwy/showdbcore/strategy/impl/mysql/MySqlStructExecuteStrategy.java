@@ -1,6 +1,7 @@
 package cn.cocowwy.showdbcore.strategy.impl.mysql;
 
 import cn.cocowwy.showdbcore.config.ShowDbFactory;
+import cn.cocowwy.showdbcore.entities.TableStruct;
 import cn.cocowwy.showdbcore.strategy.StructExecuteStrategy;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -18,8 +19,8 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
      * @param tableName
      */
     @Override
-    public void tableStructure(String tableName) {
-
+    public TableStruct tableStructure(String tableName) {
+        return null;
     }
 
     /**

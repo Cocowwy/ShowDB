@@ -2,8 +2,10 @@ package cn.cocowwy.showdbautoconfigure.configuration;
 
 import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.config.ShowDbFactory;
+import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.exception.ShowDbException;
 import cn.cocowwy.showdbcore.strategy.SqlExecuteStrategy;
+import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import cn.cocowwy.showdbcore.util.EndpointUtil;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -51,19 +53,28 @@ public class ShowDbAutoConfiguration implements InitializingBean {
             throw new ShowDbException("cant find datasource (bean) ,please config it and restart");
         }
         String datasourceName = CollectionUtils.firstElement(dataSources);
+        // Inject default data source
         this.dataSource = (DataSource) applicationContext.getBean(datasourceName);
         this.properties = properties;
-        ShowDbFactory.setPresentDatasourceName(datasourceName);
         Map<String, DataSource> dataSourcesMap = dataSources.stream()
                 .collect(Collectors.toMap(Function.identity(), beanName -> (DataSource) applicationContext.getBean(beanName)));
-        ShowDbFactory.setDataSourcesMap(dataSourcesMap);
+        Map<String, DBEnum> dataSourcesTypeMap = dataSources.stream().collect(Collectors.toMap(Function.identity(), ds -> {
+            DBEnum dbEnum = null;
+            try {
+                dbEnum = DataSourcePropUtil.dataSourceType((DataSource) applicationContext.getBean(ds));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return dbEnum;
+        }));
+        GlobalContext.setDataSourcesMap(dataSourcesMap);
+        GlobalContext.setDataSourcesTypeMap(dataSourcesTypeMap);
     }
 
     @Override
     public void afterPropertiesSet() throws SQLException {
         ShowDbFactory.INSTANCE.init(dataSource);
         EndpointUtil.setEnableSet(properties.getEndpoint());
-        GlobalContext.setDatabase(dataSource.getConnection().getMetaData().getDatabaseProductName());
-        GlobalContext.setDatabaseProductVersion(dataSource.getConnection().getMetaData().getDatabaseProductVersion());
+        GlobalContext.setDatabase(DataSourcePropUtil.dataSourceType(dataSource));
     }
 }

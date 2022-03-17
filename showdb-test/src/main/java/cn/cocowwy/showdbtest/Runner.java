@@ -46,25 +46,25 @@ public class Runner implements ApplicationRunner {
         test1();
     }
     private void test1() throws SQLException {
-        System.out.println("已注入策略：" + strategy.size());
-        System.out.println("当前数据库源：" + GlobalContext.getDatabaseProductName());
-        System.out.println("当前版本：" + GlobalContext.getDatabaseProductVersion());
-//        System.out.println("JDBCTemplate:"+ShowDbFactory.getJdbcTemplate());
-        mySqlStructExecuteStrategy.tableNames().forEach(System.out::println);
-        System.out.println("表集合");
-
-        System.out.println("建表语句：" + mySqlStructExecuteStrategy.createTableStatement("user_1"));
-        System.out.println(mySqlMonitorExecuteStrategy.ipConnectCount());
-//        测试数据源切换
-        System.out.println(ShowDbFactory.getPresentDatasourceName());
-        DataSource dataSource1 = ShowDbFactory.getDataSource();
-        ShowDbFactory.switchDataSource("slaveDataSource");
-        System.out.println(ShowDbFactory.getPresentDatasourceName());
-        DataSource dataSource2 = ShowDbFactory.getDataSource();
-        System.out.println("测试数据源切换");
-        ;
+//        System.out.println("已注入策略：" + strategy.size());
+//        System.out.println("当前数据库源：" + GlobalContext.getDatabaseProductName());
+//        System.out.println("当前版本：" + GlobalContext.getDatabaseProductVersion());
+////        System.out.println("JDBCTemplate:"+ShowDbFactory.getJdbcTemplate());
+//        mySqlStructExecuteStrategy.tableNames().forEach(System.out::println);
+//        System.out.println("表集合");
+//
+//        System.out.println("建表语句：" + mySqlStructExecuteStrategy.createTableStatement("user_1"));
+//        System.out.println(mySqlMonitorExecuteStrategy.ipConnectCount());
+////        测试数据源切换
+//        System.out.println(ShowDbFactory.getPresentDatasourceName());
+//        DataSource dataSource1 = ShowDbFactory.getDataSource();
+//        ShowDbFactory.switchDataSource("slaveDataSource");
+//        System.out.println(ShowDbFactory.getPresentDatasourceName());
+//        DataSource dataSource2 = ShowDbFactory.getDataSource();
+//        System.out.println("测试数据源切换");
+//        ;
         System.out.println("MySQL执行策略类：" + mySqlExecuteStrategies.size());
-        mySqlMonitorExecuteStrategy.ipConnectCount();
+//        mySqlMonitorExecuteStrategy.ipConnectCount();
 
     }
 

@@ -20,8 +20,7 @@ import java.util.Map;
 @Service
 public class MonitorService {
     @Autowired
-    private List<MonitorExecuteStrategy> monitorExecuteStrategy;
-
+    List<MonitorExecuteStrategy> monitorExecuteStrategy;
     /**
      * 兼容切换数据源后（包含不同数据库之间的数据源切换），能切换监控策略
      */
