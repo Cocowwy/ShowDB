@@ -7,6 +7,7 @@ import cn.cocowwy.showdbcore.entities.TableStruct;
 import cn.cocowwy.showdbui.service.StructService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -15,7 +16,8 @@ import java.util.List;
  * @author Cocowwy
  * @create 2022-03-03-18:58
  */
-@RestController("/showdb/struct")
+@RestController
+@RequestMapping("/showdb/struct")
 public class StructController {
     @Autowired
     private StructService structService;
@@ -27,7 +29,7 @@ public class StructController {
      */
     @Endpoint(EndpointEnum.STRUCTURE)
     @GetMapping("/all")
-    public Res<List<TableStruct>> allTableStruct() {
+    public Res<List<List<TableStruct>>> allTableStruct() {
         return Res.success(structService.allTableStruct());
     }
 }

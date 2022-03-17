@@ -6,6 +6,14 @@ package cn.cocowwy.showdbcore.entities;
  */
 public class TableStruct {
     /**
+     * table_schema
+     */
+    private String schema;
+    /**
+     * 表名
+     */
+    private String tableName;
+    /**
      * 字段名
      */
     private String fieldName;
@@ -22,6 +30,10 @@ public class TableStruct {
      */
     private Boolean autoIncrement;
     /**
+     * 默认值
+     */
+    private String columnDefault;
+    /**
      * 可否为空
      */
     private Boolean nullable;
@@ -29,4 +41,76 @@ public class TableStruct {
      * 字段描述
      */
     private String comment;
+
+    public String getSchema() {
+        return schema;
+    }
+
+    public void setSchema(String schema) {
+        this.schema = schema;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Boolean getPk() {
+        return pk;
+    }
+
+    public void setPk(Boolean pk) {
+        this.pk = pk;
+    }
+
+    public Boolean getAutoIncrement() {
+        return autoIncrement;
+    }
+
+    public void setAutoIncrement(Boolean autoIncrement) {
+        this.autoIncrement = autoIncrement;
+    }
+
+    public String getColumnDefault() {
+        return columnDefault;
+    }
+
+    public void setColumnDefault(String columnDefault) {
+        this.columnDefault = columnDefault;
+    }
+
+    public Boolean getNullable() {
+        return nullable;
+    }
+
+    public void setNullable(Boolean nullable) {
+        this.nullable = nullable;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }

@@ -27,7 +27,7 @@ public enum EndpointEnum {
     /**
      * 数据库监控
      */
-    MONITOR_DATABASE("monitor_database");
+    MONITOR_DATABASE("monitor-database");
 
     private String name;
     private static final Map<String, EndpointEnum> map = new HashMap<String, EndpointEnum>();

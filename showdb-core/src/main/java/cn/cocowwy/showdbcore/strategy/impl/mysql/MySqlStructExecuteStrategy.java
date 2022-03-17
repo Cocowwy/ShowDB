@@ -19,8 +19,32 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
      * @param tableName
      */
     @Override
-    public TableStruct tableStructure(String tableName) {
-        return null;
+    public List<TableStruct> tableStructure(String tableName) {
+        return ShowDbFactory.getJdbcTemplate()
+                .query(String.format("SELECT TABLE_SCHEMA,\n" +
+                                "       TABLE_NAME,\n" +
+                                "       COLUMN_NAME,\n" +
+                                "       COLUMN_TYPE,\n" +
+                                "       IS_NULLABLE,\n" +
+                                "       COLUMN_DEFAULT,\n" +
+                                "       COLUMN_COMMENT,\n" +
+                                "       COLUMN_KEY\n" +
+                                "FROM information_schema.COLUMNS\n" +
+                                "WHERE table_name = '%s' ORDER BY ORDINAL_POSITION ASC", tableName),
+                        (rs, i) -> {
+                            TableStruct ts = new TableStruct();
+                            ts.setSchema(rs.getString("TABLE_SCHEMA"));
+                            ts.setTableName(rs.getString("TABLE_NAME"));
+                            ts.setFieldName(rs.getString("COLUMN_NAME"));
+                            ts.setType(rs.getString("COLUMN_TYPE"));
+                            ts.setNullable(rs.getString("IS_NULLABLE").equals("YES")
+                                    ? Boolean.TRUE : Boolean.FALSE);
+                            ts.setColumnDefault(rs.getString("COLUMN_DEFAULT"));
+                            ts.setComment(rs.getString("COLUMN_COMMENT"));
+                            ts.setPk(rs.getString("COLUMN_KEY").equals("PRI")
+                                    ? Boolean.TRUE : Boolean.FALSE);
+                            return ts;
+                        });
     }
 
     /**
@@ -29,10 +53,9 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
      */
     @Override
     public List<String> tableNames() {
-        List<String> showTables = ShowDbFactory.getJdbcTemplate()
+        return ShowDbFactory.getJdbcTemplate()
                 .query("show tables", (rs, i) ->
                         rs.getObject(1, String.class));
-        return showTables;
     }
 
     /**

@@ -1,6 +1,8 @@
 package cn.cocowwy.showdbui.service;
 
+import cn.cocowwy.showdbcore.cache.ShowDbCache;
 import cn.cocowwy.showdbcore.config.GlobalContext;
+import cn.cocowwy.showdbcore.constants.CacheKey;
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.entities.TableStruct;
 import cn.cocowwy.showdbcore.strategy.StructExecuteStrategy;
@@ -23,9 +25,9 @@ public class StructService {
     @Autowired
     List<StructExecuteStrategy> structExecuteStrategies;
     /**
-     * 兼容切换数据源后（包含不同数据库之间的数据源切换）
+     * 数据源类型所对应的执行策略
      */
-    private static final Map<DBEnum, StructExecuteStrategy> MONITOR_STRATEGY = new HashMap(1);
+    private static final Map<DBEnum, StructExecuteStrategy> MONITOR_STRATEGY = new HashMap<>(1);
 
     @PostConstruct
     void init() {
@@ -36,11 +38,23 @@ public class StructService {
         });
     }
 
-    public List<TableStruct> allTableStruct() {
+    /**
+     * 获取所有表的结构
+     * Get the structure of all tables
+     * @return
+     */
+    public List<List<TableStruct>> allTableStruct() {
+        if (ShowDbCache.get(CacheKey.ALL_TABLE_STRUCT) != null) {
+            return (List<List<TableStruct>>) ShowDbCache.get(CacheKey.ALL_TABLE_STRUCT);
+        }
+
         List<String> tables = MONITOR_STRATEGY.get(GlobalContext.getDatabase()).tableNames();
-        List<TableStruct> rts = tables.stream()
+        List<List<TableStruct>> rts = tables.stream()
                 .map(t -> MONITOR_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(t))
                 .collect(Collectors.toList());
+
+        ShowDbCache.put(CacheKey.ALL_TABLE_STRUCT, rts);
+
         return rts;
     }
 }

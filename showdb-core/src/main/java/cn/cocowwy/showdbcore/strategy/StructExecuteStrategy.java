@@ -12,7 +12,7 @@ public interface StructExecuteStrategy extends SqlExecuteStrategy {
     /**
      * 表结构文档
      */
-    TableStruct tableStructure(String tableName);
+    List<TableStruct> tableStructure(String tableName);
 
     /**
      * 表名集合
