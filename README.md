@@ -26,6 +26,11 @@ showdb:
 | monitor-table  | 表监控 |
 | monitor-database  | 数据库监控 |  
 
+**当前支持数据源如下：**
+|  数据源   | 是否支持  |
+|  ----  | ----  |
+| MySQL | 支持 |
+
 
 
 jar版代码 https://github.com/Cocowwy/ShowDB
