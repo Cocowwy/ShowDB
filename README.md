@@ -17,14 +17,14 @@ showdb:
 ```
   
 **endpoint可选值如下：**
-
-|  endpoint   | 功能  |
+|  endpoint   | 说明  |
 |  ----  | ----  |
 | * | 所有 |
 | structure  | 表结构 |
 | monitor-master-slave  | 主从监控 |
 | monitor-table  | 表监控 |
 | monitor-database  | 数据库监控 |  
+
 
 **当前支持数据源如下：**
 |  数据源   | 是否支持  |
