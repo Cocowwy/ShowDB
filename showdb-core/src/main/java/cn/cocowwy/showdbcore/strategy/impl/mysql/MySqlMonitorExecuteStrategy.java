@@ -2,6 +2,7 @@ package cn.cocowwy.showdbcore.strategy.impl.mysql;
 
 import cn.cocowwy.showdbcore.config.ShowDbFactory;
 import cn.cocowwy.showdbcore.entities.IpCount;
+import cn.cocowwy.showdbcore.entities.SlaveStatus;
 import cn.cocowwy.showdbcore.strategy.MonitorExecuteStrategy;
 import org.springframework.stereotype.Component;
 
@@ -30,5 +31,16 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySq
             return ic;
         });
         return ipCounts;
+    }
+
+    /**
+     * 主从信息查询
+     *  - MySQL
+     * @return
+     */
+    @Override
+    public SlaveStatus slaveStatus() {
+        String sql = "show slave status";
+        return null;
     }
 }

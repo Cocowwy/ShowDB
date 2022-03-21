@@ -1,6 +1,7 @@
 package cn.cocowwy.showdbcore.strategy;
 
 import cn.cocowwy.showdbcore.entities.IpCount;
+import cn.cocowwy.showdbcore.entities.SlaveStatus;
 
 import java.util.List;
 
@@ -14,4 +15,11 @@ public interface MonitorExecuteStrategy extends SqlExecuteStrategy {
      * @return
      */
     List<IpCount> ipConnectCount();
+
+    /**
+     * 主从信息查询，当前支持MySQL
+     *  - MySQL
+     * @return
+     */
+    SlaveStatus slaveStatus();
 }
