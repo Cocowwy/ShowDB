@@ -2,13 +2,13 @@ package cn.cocowwy.showdbui.service;
 
 import cn.cocowwy.showdbcore.cache.ShowDbCache;
 import cn.cocowwy.showdbcore.config.GlobalContext;
-import cn.cocowwy.showdbcore.constants.CacheKey;
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.entities.TableStruct;
 import cn.cocowwy.showdbcore.strategy.StructExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -25,7 +25,7 @@ public class StructService {
     @Autowired
     List<StructExecuteStrategy> structExecuteStrategies;
     /**
-     * 数据源类型所对应的执行策略
+     * 数据源类型所对应的执行策略，适配切换数据源能路由到指定策略
      */
     private static final Map<DBEnum, StructExecuteStrategy> MONITOR_STRATEGY = new HashMap<>(1);
 
@@ -44,17 +44,42 @@ public class StructService {
      * @return
      */
     public List<List<TableStruct>> allTableStruct() {
-        if (ShowDbCache.get(CacheKey.ALL_TABLE_STRUCT) != null) {
-            return (List<List<TableStruct>>) ShowDbCache.get(CacheKey.ALL_TABLE_STRUCT);
+        String key = ShowDbCache.buildCacheKey(
+                GlobalContext.getDatabaseProductName(),
+                "tableStruct", "all");
+
+        List<List<TableStruct>> rs = (List<List<TableStruct>>) ShowDbCache.get(key);
+
+        if (rs == null) {
+            List<String> tables = MONITOR_STRATEGY.get(GlobalContext.getDatabase()).tableNames();
+            rs = tables.stream()
+                    .map(t -> MONITOR_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(t))
+                    .collect(Collectors.toList());
+
+            ShowDbCache.put(key, rs);
         }
+        return rs;
+    }
 
-        List<String> tables = MONITOR_STRATEGY.get(GlobalContext.getDatabase()).tableNames();
-        List<List<TableStruct>> rts = tables.stream()
-                .map(t -> MONITOR_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(t))
-                .collect(Collectors.toList());
+    /**
+     * 表创建语句
+     * Table creation statement
+     * @param table 表名
+     * @return
+     */
+    public String tableCreateStatement(String table) {
+        String key = ShowDbCache.buildCacheKey(
+                GlobalContext.getDatabaseProductName(),
+                "createStatement",
+                table);
+        String rs = (String) ShowDbCache.get(key);
 
-        ShowDbCache.put(CacheKey.ALL_TABLE_STRUCT, rts);
-
-        return rts;
+        if (rs == null) {
+            rs = MONITOR_STRATEGY.get(GlobalContext.getDatabase()).createTableStatement(table);
+            if (!StringUtils.isEmpty(rs)) {
+                ShowDbCache.put(key, rs);
+            }
+        }
+        return rs;
     }
 }
