@@ -1,12 +1,13 @@
 package cn.cocowwy.showdbcore.cache;
 
 import cn.cocowwy.showdbcore.config.GlobalContext;
+import cn.cocowwy.showdbcore.config.ShowDbFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 简易缓存工具
+ * ShowDB的简易缓存工具
  * Simple caching tool
  *
  * @author Cocowwy
@@ -14,27 +15,27 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ShowDbCache {
     /**
-     * ds#biz#label
+     * 通用key：ds#biz#label
      * ds 数据源类型
      * biz 业务标识
      * label 唯一标识
      */
-    private static final Map<String, Object> GRAINED_CACHE = new ConcurrentHashMap<>(16);
+    private static final Map<String, Object> CACHE = new ConcurrentHashMap<>(16);
 
     public static Object put(String key, Object value) {
-        return GRAINED_CACHE.put(key, value);
+        return CACHE.put(key, value);
     }
 
     public static Object rm(String key) {
-        return GRAINED_CACHE.remove(key);
+        return CACHE.remove(key);
     }
 
     public static Object get(String key) {
-        return GRAINED_CACHE.get(key);
+        return CACHE.get(key);
     }
 
     public static void clean() {
-        GRAINED_CACHE.clear();
+        CACHE.clear();
     }
 
     /**
@@ -47,5 +48,17 @@ public class ShowDbCache {
      */
     public static String buildCacheKey(String ds, String biz, String label) {
         return String.format("%s#%s#%s", ds, biz, label);
+    }
+
+
+    /**
+     * 缓存键构造
+     * Cache key construction
+     * @param biz 业务标识
+     * @param label 唯一标识
+     * @return
+     */
+    public static String buildCacheKey(String biz, String label) {
+        return String.format("%s#%s#%s",GlobalContext.getDatabaseProductName() , biz, label);
     }
 }

@@ -1,7 +1,11 @@
 package cn.cocowwy.showdbcore.strategy.impl.mysql;
 
+import cn.cocowwy.showdbcore.config.ShowDbFactory;
 import cn.cocowwy.showdbcore.strategy.ConfigExecuteStrategy;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 /**
  * @author Cocowwy
@@ -10,4 +14,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class MySqlConfigExecuteStrategy implements ConfigExecuteStrategy, MySqlExecuteStrategy {
 
+    /**
+     * 当前数据库的操作系统版本
+     * @return
+     */
+    @Override
+    public String OsEnv() {
+        String sql = "show variables like 'version_compile_os'";
+        List<String> rts = ShowDbFactory.getJdbcTemplate().query(sql, (rs, i) -> rs.getString("Value"));
+        return CollectionUtils.firstElement(rts);
+    }
+
+    /**
+     * 数据库版本号
+     * @return
+     */
+    @Override
+    public String DbVersion() {
+        String sql = "show variables like 'version'";
+        List<String> rts = ShowDbFactory.getJdbcTemplate().query(sql, (rs, i) -> rs.getString("Value"));
+        return CollectionUtils.firstElement(rts);
+    }
 }

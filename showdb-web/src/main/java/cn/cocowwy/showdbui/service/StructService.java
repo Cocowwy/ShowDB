@@ -27,13 +27,13 @@ public class StructService {
     /**
      * 数据源类型所对应的执行策略，适配切换数据源能路由到指定策略
      */
-    private static final Map<DBEnum, StructExecuteStrategy> MONITOR_STRATEGY = new HashMap<>(1);
+    private static final Map<DBEnum, StructExecuteStrategy> STRUCT_STRATEGY = new HashMap<>(1);
 
     @PostConstruct
     void init() {
         structExecuteStrategies.forEach(s -> {
             if (s instanceof MySqlExecuteStrategy) {
-                MONITOR_STRATEGY.put(DBEnum.MySQL, s);
+                STRUCT_STRATEGY.put(DBEnum.MySQL, s);
             }
         });
     }
@@ -51,9 +51,9 @@ public class StructService {
         List<List<TableStruct>> rs = (List<List<TableStruct>>) ShowDbCache.get(key);
 
         if (rs == null) {
-            List<String> tables = MONITOR_STRATEGY.get(GlobalContext.getDatabase()).tableNames();
+            List<String> tables = STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableNames();
             rs = tables.stream()
-                    .map(t -> MONITOR_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(t))
+                    .map(t -> STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(t))
                     .collect(Collectors.toList());
 
             ShowDbCache.put(key, rs);
@@ -75,7 +75,7 @@ public class StructService {
         String rs = (String) ShowDbCache.get(key);
 
         if (rs == null) {
-            rs = MONITOR_STRATEGY.get(GlobalContext.getDatabase()).createTableStatement(table);
+            rs = STRUCT_STRATEGY.get(GlobalContext.getDatabase()).createTableStatement(table);
             if (!StringUtils.isEmpty(rs)) {
                 ShowDbCache.put(key, rs);
             }
