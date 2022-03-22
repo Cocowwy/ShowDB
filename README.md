@@ -21,10 +21,10 @@ showdb:
 |  ----  | ----  |
 | * | 所有 |
 | structure  | 表结构 |
+| config  | 数据库配置 |
 | monitor-master-slave  | 主从监控 |
 | monitor-table  | 表监控 |
 | monitor-database  | 数据库监控 |  
-
 
 **当前支持数据源如下：**
 |  数据源   | 是否支持  |
