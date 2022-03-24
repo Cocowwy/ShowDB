@@ -69,6 +69,7 @@ public class ShowDbAutoConfiguration implements InitializingBean {
         }));
         GlobalContext.setDataSourcesMap(dataSourcesMap);
         GlobalContext.setDataSourcesTypeMap(dataSourcesTypeMap);
+        GlobalContext.setCurrentDataSourceBeanName(datasourceName);
     }
 
     @Override

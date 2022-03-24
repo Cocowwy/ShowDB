@@ -3,10 +3,14 @@ package cn.cocowwy.showdbcore.strategy.impl.mysql;
 import cn.cocowwy.showdbcore.config.ShowDbFactory;
 import cn.cocowwy.showdbcore.entities.TableStruct;
 import cn.cocowwy.showdbcore.strategy.StructExecuteStrategy;
+import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Cocowwy
@@ -14,6 +18,8 @@ import java.util.List;
  */
 @Component
 public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlExecuteStrategy {
+    private static final Map<DataSource,String> mapSchema = new HashMap<>(1);
+
     /**
      * 表结构
      * @param tableName
@@ -29,8 +35,9 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
                                 "       COLUMN_DEFAULT,\n" +
                                 "       COLUMN_COMMENT,\n" +
                                 "       COLUMN_KEY\n" +
-                                "FROM information_schema.COLUMNS\n" +
-                                "WHERE table_name = '%s' ORDER BY ORDINAL_POSITION ASC", tableName),
+                                "FROM information_schema.COLUMNS \n" +
+                                "WHERE table_name = '%s' AND TABLE_SCHEMA = '%s' ORDER BY ORDINAL_POSITION ASC", tableName,
+                        DataSourcePropUtil.getMysqlSchemaFromDataSource()),
                         (rs, i) -> {
                             TableStruct ts = new TableStruct();
                             ts.setSchema(rs.getString("TABLE_SCHEMA"));

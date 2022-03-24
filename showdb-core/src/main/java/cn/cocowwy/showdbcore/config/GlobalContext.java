@@ -31,6 +31,11 @@ public class GlobalContext {
     private static DBEnum database;
 
     /**
+     * 当前数据源Bean名称
+     */
+    private static String currentDataSourceBeanName;
+
+    /**
      * 数据源集合，适配多数据源情况下进行切换  beanName --> dataSource
      */
     private static Map<String, DataSource> dataSourcesMap;
@@ -52,6 +57,7 @@ public class GlobalContext {
         }
         ShowDbFactory.INSTANCE.init(ds);
         GlobalContext.setDatabase(DataSourcePropUtil.dataSourceType(ds));
+        currentDataSourceBeanName = dataSourceName;
         logger.info(String.format("switch datasource to [%s]", dataSourceName));
     }
 
@@ -100,6 +106,14 @@ public class GlobalContext {
 
     public static void setDataSourcesTypeMap(Map<String, DBEnum> dataSourcesTypeMap) {
         GlobalContext.dataSourcesTypeMap = dataSourcesTypeMap;
+    }
+
+    public static String getCurrentDataSourceBeanName() {
+        return currentDataSourceBeanName;
+    }
+
+    public static void setCurrentDataSourceBeanName(String currentDataSourceBeanName) {
+        GlobalContext.currentDataSourceBeanName = currentDataSourceBeanName;
     }
 }
 
