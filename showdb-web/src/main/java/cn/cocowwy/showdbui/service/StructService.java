@@ -8,7 +8,6 @@ import cn.cocowwy.showdbcore.strategy.StructExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -43,22 +42,43 @@ public class StructService {
      * Get the structure of all tables
      * @return
      */
-    public List<List<TableStruct>> allTableStruct() {
+    public List<List<TableStruct>> tableStruct(Integer pageSize, Integer pageNumber) {
         String key = ShowDbCache.buildCacheKey(
                 GlobalContext.getDatabaseProductName(),
-                "tableStruct", "all");
+                "tableStruct", pageSize + "@" + pageNumber);
 
-        List<List<TableStruct>> rs = (List<List<TableStruct>>) ShowDbCache.get(key);
-
-        if (rs == null) {
-            List<String> tables = STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableNames();
-            rs = tables.stream()
+        return (List<List<TableStruct>>) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
+            List<String> tables = page(tableNames(), pageSize, pageNumber);
+            return tables.stream()
                     .map(t -> STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(t))
                     .collect(Collectors.toList());
+        });
+    }
 
-            ShowDbCache.put(key, rs);
-        }
-        return rs;
+    /**
+     * 获取所有的表名称集合
+     * Get a collection of all table names
+     * @return
+     */
+    public List<String> tableNames() {
+        String tablesKey = ShowDbCache.buildCacheKey(
+                GlobalContext.getDatabaseProductName(),
+                "tableLists", "names");
+        return (List<String>) ShowDbCache.cache().computeIfAbsent(tablesKey,
+                (key) -> STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableNames());
+    }
+
+    /**
+     * 获取所有表的结构
+     * Get the structure of all tables
+     * @return
+     */
+    public List<TableStruct> tableStruct(String name) {
+        String key = ShowDbCache.buildCacheKey(
+                GlobalContext.getDatabaseProductName(),
+                "tableStruct", name);
+        return (List<TableStruct>) ShowDbCache.cache().computeIfAbsent(key, (k) ->
+                STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(name));
     }
 
     /**
@@ -72,14 +92,28 @@ public class StructService {
                 GlobalContext.getDatabaseProductName(),
                 "createStatement",
                 table);
-        String rs = (String) ShowDbCache.get(key);
+        return (String) ShowDbCache.cache()
+                .computeIfAbsent(key, (k) -> STRUCT_STRATEGY.get(GlobalContext.getDatabase()).createTableStatement(table));
 
-        if (rs == null) {
-            rs = STRUCT_STRATEGY.get(GlobalContext.getDatabase()).createTableStatement(table);
-            if (!StringUtils.isEmpty(rs)) {
-                ShowDbCache.put(key, rs);
-            }
+    }
+
+    private static <T> List<T> page(List<T> data, int size, int num) {
+        int totalNum = data.size();
+        // start 1
+        int pageNum = num;
+        int pageSize = size;
+        int totalPage = 0;
+        if (totalNum > 0) {
+            totalPage = totalNum % pageSize == 0 ? totalNum / pageSize : totalNum / pageSize + 1;
         }
-        return rs;
+        if (pageNum > totalPage) {
+            pageNum = totalPage;
+        }
+        int startPoint = (pageNum - 1) * pageSize;
+        int endPoint = startPoint + pageSize;
+        if (totalNum <= endPoint) {
+            endPoint = totalNum;
+        }
+        return data.subList(startPoint, endPoint);
     }
 }

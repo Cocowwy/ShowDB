@@ -2,12 +2,15 @@ package cn.cocowwy.showdbui.controller;
 
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.Res;
+import cn.cocowwy.showdbcore.exception.ErrorDefinition;
 import cn.cocowwy.showdbui.service.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -21,6 +24,20 @@ import java.util.List;
 public class ConfigController {
     @Autowired
     private ConfigService configService;
+
+    /**
+     * 修改当前数据源
+     * @return
+     */
+    @GetMapping("/switchDataSource/{name}")
+    public Res<Boolean> switchDataSource(@PathVariable("name") String name) {
+        try {
+            configService.switchDataSource(name);
+        } catch (SQLException throwables) {
+            return Res.error(ErrorDefinition.SWITCH_DATA_SOURCE_ERROR);
+        }
+        return Res.success(Boolean.TRUE);
+    }
 
     /**
      * DB所处环境

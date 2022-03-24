@@ -41,17 +41,21 @@ public class ConfigService {
     }
 
     /**
+     * 修改数据源
+     * @param name
+     * @return
+     */
+    public void switchDataSource(String name) throws SQLException {
+        GlobalContext.switchDataSource(name);
+    }
+
+    /**
      * DB所处环境
      * @return
      */
     public String getOsEnv() {
         String key = ShowDbCache.buildCacheKey("os", "env");
-        String env = (String) ShowDbCache.get(key);
-        if (null == env) {
-            env = CONFIG_STRATEGY.get(GlobalContext.getDatabase()).OsEnv();
-            ShowDbCache.put(key, env);
-        }
-        return env;
+        return (String) ShowDbCache.cache().computeIfAbsent(key, (k) -> CONFIG_STRATEGY.get(GlobalContext.getDatabase()).OsEnv());
     }
 
     /**
@@ -59,19 +63,15 @@ public class ConfigService {
      * @return
      */
     public String getDbVersion() {
-        String key = (String) ShowDbCache.buildCacheKey("db", "version");
-        String version = (String) ShowDbCache.get(key);
-        if (null == version) {
-            version = CONFIG_STRATEGY.get(GlobalContext.getDatabase()).DbVersion();
-            ShowDbCache.put(key, version);
-        }
-        return version;
+        String key = ShowDbCache.buildCacheKey("db", "version");
+        return (String) ShowDbCache.cache().computeIfAbsent(key, (k) -> CONFIG_STRATEGY.get(GlobalContext.getDatabase()).DbVersion());
     }
 
     /**
      * 获取数据源信息
      * @return
      */
+    // TODO
     public List<DsInfo> getDsInfo() {
         Map<String, DataSource> dsMap = GlobalContext.getDataSourcesMap();
 
@@ -84,7 +84,7 @@ public class ConfigService {
                 dsInfo.setBeanName(entry.getKey());
                 dsInfo.setDsProductName(masterDataSource.getDatabaseProductName());
                 dsInfo.setUrl(masterDataSource.getURL());
-                // TODO
+
                 return dsInfo;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

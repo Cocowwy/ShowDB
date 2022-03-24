@@ -29,9 +29,9 @@ public class StructController {
      * @return
      */
     @Endpoint(EndpointEnum.STRUCTURE)
-    @GetMapping("/all")
-    public Res<List<List<TableStruct>>> allTableStruct() {
-        return Res.success(structService.allTableStruct());
+    @GetMapping("/{pageNumber}/{pageSize}")
+    public Res<List<List<TableStruct>>> tableStruct(@PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber) {
+        return Res.success(structService.tableStruct(pageSize, pageNumber));
     }
 
     /**
@@ -41,8 +41,28 @@ public class StructController {
      * @return
      */
     @Endpoint(EndpointEnum.STRUCTURE)
-    @GetMapping("/{table}")
-    public Res<String> tableCreateStatement(@PathVariable("table")String table) {
+    @GetMapping("/create/{table}")
+    public Res<String> tableCreateStatement(@PathVariable("table") String table) {
         return Res.success(structService.tableCreateStatement(table));
+    }
+
+    /**
+     * 获取某表的结构
+     * @param table
+     * @return 表结构
+     */
+    @Endpoint(EndpointEnum.STRUCTURE)
+    @GetMapping("/{table}")
+    public Res<List<TableStruct>> tableStruct(@PathVariable("table") String table) {
+        return Res.success(structService.tableStruct(table));
+    }
+
+    /**
+     * 获取所有的表名称集合
+     * @return
+     */
+    @GetMapping("/all")
+    public Res<List<String>> tableNames() {
+        return Res.success(structService.tableNames());
     }
 }
