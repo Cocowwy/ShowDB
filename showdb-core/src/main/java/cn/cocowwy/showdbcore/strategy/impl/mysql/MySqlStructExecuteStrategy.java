@@ -37,7 +37,7 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
                                 "       COLUMN_KEY\n" +
                                 "FROM information_schema.COLUMNS \n" +
                                 "WHERE table_name = '%s' AND TABLE_SCHEMA = '%s' ORDER BY ORDINAL_POSITION ASC", tableName,
-                        DataSourcePropUtil.getMysqlSchemaFromDataSource()),
+                        DataSourcePropUtil.getMysqlSchemaFromCurrentDataSource()),
                         (rs, i) -> {
                             TableStruct ts = new TableStruct();
                             ts.setSchema(rs.getString("TABLE_SCHEMA"));

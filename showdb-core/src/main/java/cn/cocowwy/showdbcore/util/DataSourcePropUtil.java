@@ -39,10 +39,10 @@ public class DataSourcePropUtil {
     }
 
     /**
-     * 获取MySQL环境的数据源的库名，通过字符串截取，走缓存
+     * 获取MySQL环境的数据源的schema，通过字符串截取，走缓存
      * @return
      */
-    public static String getMysqlSchemaFromDataSource() {
+    public static String getMysqlSchemaFromCurrentDataSource() {
         return (String) ShowDbCache.cache().computeIfAbsent(
                 ShowDbCache.buildCacheKey(DBEnum.MySQL.getName(), "dataSourceSchema", GlobalContext.getCurrentDataSourceBeanName()),
                 (key) -> {
