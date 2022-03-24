@@ -9,14 +9,62 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-
+    <link rel="stylesheet" th:href="@{css/db.css}">
 </head>
 <body>
-<div id="ShowDB">
+<dev id="ShowDB">
     {{dataSorucesInfo}}
 
     {{tableStruct}}
-</div>
+    <el-header>Header</el-header>
+    <el-container>
+        <el-aside width="200px">数据源信息</el-aside>
+
+        <!--表结构信息-->
+        <el-main>
+
+            <el-card v-for="(item,index) in  tableStruct" class="box-card">
+                <div slot="header" class="clearfix">
+                    <span style="font-weight: bolder">{{item[0].tableName}}</span>
+                    <el-button style="float: right; padding: 3px 0" type="text">建表语句</el-button>
+                    <el-button style="float: right; padding: 3px 0" type="text">监控信息</el-button>
+                </div>
+                <div>
+                    <el-table :data="item" stripe style="width: 100%">
+                        <el-table-column property="fieldName" label="字段" width="180">
+                            <template slot-scope="scope">
+                                <span style="display: flex;align-items: center">
+                                    <span>{{ scope.row.fieldName }}</span>
+                                        <el-image v-if="scope.row.pk"
+                                                  style="width: 26px; height: 26px"
+                                                  th:src="@{img/pk.png}"></el-image>
+                                </span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column property="type" label="类型" width="180"></el-table-column>
+                        <el-table-column property="comment" label="字段描述" width="180"></el-table-column>
+                        <el-table-column property="columnDefault" label="默认值" width="180"></el-table-column>
+                        <el-table-column property="nullable" label="可否为空" width="180">
+                            <template slot-scope="scope">
+                            <span style="display: flex;align-items: center">
+                                        <el-image v-if="scope.row.nullable"
+                                                  style="width: 26px; height: 26px"
+                                                  th:src="@{img/true.png}"></el-image>
+                                </span>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </div>
+            </el-card>
+
+
+        </el-main>
+
+        <el-aside width="150px">主从信息</el-aside>
+    </el-container>
+
+
+</dev>
 
 
 </body>

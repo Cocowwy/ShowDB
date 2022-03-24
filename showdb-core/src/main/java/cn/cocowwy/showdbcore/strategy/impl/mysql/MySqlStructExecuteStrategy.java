@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @Component
 public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlExecuteStrategy {
-    private static final Map<DataSource,String> mapSchema = new HashMap<>(1);
+    private static final Map<DataSource, String> mapSchema = new HashMap<>(1);
 
     /**
      * 表结构

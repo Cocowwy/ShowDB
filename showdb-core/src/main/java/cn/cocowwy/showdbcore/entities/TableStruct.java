@@ -28,11 +28,20 @@ public class TableStruct {
     /**
      * 是否自增
      */
-    private Boolean autoIncrement;
+    private String autoIncrement;
     /**
      * 默认值
      */
     private String columnDefault;
+
+    public Boolean getNullable() {
+        return nullable;
+    }
+
+    public void setNullable(Boolean nullable) {
+        this.nullable = nullable;
+    }
+
     /**
      * 可否为空
      */
@@ -82,11 +91,11 @@ public class TableStruct {
         this.pk = pk;
     }
 
-    public Boolean getAutoIncrement() {
+    public String getAutoIncrement() {
         return autoIncrement;
     }
 
-    public void setAutoIncrement(Boolean autoIncrement) {
+    public void setAutoIncrement(String autoIncrement) {
         this.autoIncrement = autoIncrement;
     }
 
@@ -96,14 +105,6 @@ public class TableStruct {
 
     public void setColumnDefault(String columnDefault) {
         this.columnDefault = columnDefault;
-    }
-
-    public Boolean getNullable() {
-        return nullable;
-    }
-
-    public void setNullable(Boolean nullable) {
-        this.nullable = nullable;
     }
 
     public String getComment() {

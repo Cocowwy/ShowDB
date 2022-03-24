@@ -9,7 +9,7 @@ var app = new Vue({
         // 分页表结构
         tableStructSize: 1,
         tableStructPageNumber: 2,
-        tableStruct: []
+        tableStruct: null
 
     },
     methods: {
@@ -31,12 +31,12 @@ var app = new Vue({
         tableStructByPage(tableStructPageNumber, tableStructSize) {
             const that = this
             axios.get('/showdb/struct/' + tableStructPageNumber + '/' + tableStructSize).then(function (res) {
-                console.log(res)
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
                 }
-                that.tableStruct = res.data.data;
+                that.tableStruct = res.data.data
+                console.log( that.tableStruct)
             })
         }
     },
