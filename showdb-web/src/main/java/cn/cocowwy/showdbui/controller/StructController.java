@@ -31,7 +31,7 @@ public class StructController {
      */
     @Endpoint(EndpointEnum.STRUCTURE)
     @GetMapping("/{pageSize}/{pageNumber}")
-    public Res<List<TableStructVo>> tableStruct(@PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber) {
+    public Res<TableStructVo> tableStruct(@PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber) {
         return Res.success(structService.tableStruct(pageSize, pageNumber));
     }
 

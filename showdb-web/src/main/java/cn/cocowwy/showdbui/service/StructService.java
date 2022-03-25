@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,26 +45,31 @@ public class StructService {
      * Get the structure of all tables
      * @return
      */
-    public List<TableStructVo> tableStruct(Integer pageSize, Integer pageNumber) {
+    public TableStructVo tableStruct(Integer pageSize, Integer pageNumber) {
         String key = ShowDbCache.buildCacheKey(
                 GlobalContext.getDatabaseProductName(),
                 "tableStruct", pageSize + "@" + pageNumber);
 
-        List<TableStructVo> rts = (List<TableStructVo>) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
+        List<TableStructVo.TableStruct> rts = (List<TableStructVo.TableStruct>) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
             List<String> tables = page(tableNames(), pageSize, pageNumber);
-            List<TableStructVo> rt = tables.stream().map(table -> {
+            List<TableStructVo.TableStruct> rt = tables.stream().map(table -> {
                 List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(table);
                 TableInfo tableInfo = new TableInfo();
                 tableInfo.setTableName(table);
                 tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableInfo(table).getTableComment());
-                TableStructVo vo = new TableStructVo();
-                vo.setTableInfo(tableInfo);
-                vo.setTableFieldList(tableFields);
-                return vo;
+                TableStructVo.TableStruct tableStruct = new TableStructVo.TableStruct();
+                tableStruct.setTableInfo(tableInfo);
+                tableStruct.setTableFieldList(tableFields);
+                return tableStruct;
             }).collect(Collectors.toList());
             return rt;
         });
-        return rts;
+
+        TableStructVo tableStructVo = new TableStructVo();
+        tableStructVo.setTotal(tableNames().size());
+        tableStructVo.setTableStructs(rts);
+
+        return tableStructVo;
     }
 
     /**
@@ -82,7 +88,7 @@ public class StructService {
     }
 
     /**
-     * 获取所有表的结构
+     * 获取表结构
      * Get the structure of all tables
      * @return
      */
@@ -90,18 +96,22 @@ public class StructService {
         String key = ShowDbCache.buildCacheKey(
                 GlobalContext.getDatabaseProductName(),
                 "tableStruct", name);
-        TableStructVo rt = (TableStructVo) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
-                    List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(name);
-                    TableInfo tableInfo = new TableInfo();
-                    tableInfo.setTableName(name);
-                    tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableInfo(name).getTableComment());
-                    TableStructVo vo = new TableStructVo();
-                    vo.setTableInfo(tableInfo);
-                    vo.setTableFieldList(tableFields);
-                    return vo;
-                }
-        );
-        return rt;
+
+        TableStructVo.TableStruct rts = (TableStructVo.TableStruct) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
+            List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(name);
+            TableInfo tableInfo = new TableInfo();
+            tableInfo.setTableName(name);
+            tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableInfo(name).getTableComment());
+            TableStructVo.TableStruct tableStruct = new TableStructVo.TableStruct();
+            tableStruct.setTableInfo(tableInfo);
+            tableStruct.setTableFieldList(tableFields);
+            return tableStruct;
+        });
+
+        TableStructVo tableStructVo = new TableStructVo();
+        tableStructVo.setTotal(1);
+        tableStructVo.setTableStructs(Arrays.asList(rts));
+        return tableStructVo;
     }
 
     /**

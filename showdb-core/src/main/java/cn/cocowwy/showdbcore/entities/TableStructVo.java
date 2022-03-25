@@ -7,18 +7,30 @@ import java.util.List;
  * @create 2022-03-03-15:20
  */
 public class TableStructVo {
-    private List<TableField> tableFieldList;
-
     private Integer total;
 
-    private TableInfo tableInfo;
+    private List<TableStruct> tableStructs;
 
-    public List<TableField> getTableFieldList() {
-        return tableFieldList;
-    }
+    public static class TableStruct {
+        private List<TableField> tableFieldList;
 
-    public void setTableFieldList(List<TableField> tableFieldList) {
-        this.tableFieldList = tableFieldList;
+        private TableInfo tableInfo;
+
+        public List<TableField> getTableFieldList() {
+            return tableFieldList;
+        }
+
+        public void setTableFieldList(List<TableField> tableFieldList) {
+            this.tableFieldList = tableFieldList;
+        }
+
+        public TableInfo getTableInfo() {
+            return tableInfo;
+        }
+
+        public void setTableInfo(TableInfo tableInfo) {
+            this.tableInfo = tableInfo;
+        }
     }
 
     public Integer getTotal() {
@@ -29,11 +41,11 @@ public class TableStructVo {
         this.total = total;
     }
 
-    public TableInfo getTableInfo() {
-        return tableInfo;
+    public List<TableStruct> getTableStructs() {
+        return tableStructs;
     }
 
-    public void setTableInfo(TableInfo tableInfo) {
-        this.tableInfo = tableInfo;
+    public void setTableStructs(List<TableStruct> tableStructs) {
+        this.tableStructs = tableStructs;
     }
 }

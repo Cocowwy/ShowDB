@@ -36,7 +36,7 @@ var app = new Vue({
                     alert(res.data.msg);
                     return;
                 }
-                that.tableStruct = res.data.data
+                that.tableStruct = res.data.data.tableStructs
                 that.total = res.data.data.total
             })
         },
