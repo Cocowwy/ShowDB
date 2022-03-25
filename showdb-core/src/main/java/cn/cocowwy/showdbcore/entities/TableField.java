@@ -4,7 +4,7 @@ package cn.cocowwy.showdbcore.entities;
  * @author cocowwy.cn
  * @create 2022-03-03-11:09
  */
-public class TableStruct {
+public class TableField {
     /**
      * table_schema
      */

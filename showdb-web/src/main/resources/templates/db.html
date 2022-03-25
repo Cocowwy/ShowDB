@@ -13,9 +13,6 @@
 </head>
 <body>
 <dev id="ShowDB">
-    {{dataSorucesInfo}}
-
-    {{tableStruct}}
     <el-header>Header</el-header>
     <el-container>
         <el-aside width="200px">数据源信息</el-aside>
@@ -24,12 +21,12 @@
         <el-main>
             <el-card v-for="(item,index) in  tableStruct" class="box-card" style="width: 75%">
                 <div slot="header" class="clearfix">
-                    <span style="font-weight: bolder">{{item[0].tableName}}</span>
+                    <span style="font-weight: bolder">{{item.tableInfo.tableName}}&nbsp{{item.tableInfo.tableComment}}</span>
                     <el-button style="float: right; padding: 3px 0" type="text">建表语句</el-button>
                     <el-button style="float: right; padding: 3px 0" type="text">监控信息</el-button>
                 </div>
                 <div>
-                    <el-table :data="item" stripe style="width: 100%">
+                    <el-table :data="item.tableFieldList" stripe style="width: 100%">
                         <el-table-column property="fieldName" label="字段">
                             <template slot-scope="scope">
                                 <span style="display: flex;align-items: center">
@@ -55,6 +52,17 @@
                     </el-table>
                 </div>
             </el-card>
+
+            <div class="block">
+                <el-pagination
+                        @current-change="handleCurrentChange"
+                        :current-page.sync="tableStructPageNumber"
+                        :page-size="tableStructSize"
+                        layout="prev, pager, next, jumper"
+                        :total="total">
+                </el-pagination>
+            </div>
+
         </el-main>
 
         <el-aside width="150px">主从信息</el-aside>

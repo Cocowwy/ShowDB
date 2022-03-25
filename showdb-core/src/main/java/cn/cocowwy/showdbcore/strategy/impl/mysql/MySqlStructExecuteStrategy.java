@@ -1,7 +1,8 @@
 package cn.cocowwy.showdbcore.strategy.impl.mysql;
 
 import cn.cocowwy.showdbcore.config.ShowDbFactory;
-import cn.cocowwy.showdbcore.entities.TableStruct;
+import cn.cocowwy.showdbcore.entities.TableField;
+import cn.cocowwy.showdbcore.entities.TableInfo;
 import cn.cocowwy.showdbcore.strategy.StructExecuteStrategy;
 import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,7 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
      * @param tableName
      */
     @Override
-    public List<TableStruct> tableStructure(String tableName) {
+    public List<TableField> tableStructure(String tableName) {
         return ShowDbFactory.getJdbcTemplate()
                 .query(String.format("SELECT TABLE_SCHEMA,\n" +
                                 "       TABLE_NAME,\n" +
@@ -39,7 +40,7 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
                                 "WHERE table_name = '%s' AND TABLE_SCHEMA = '%s' ORDER BY ORDINAL_POSITION ASC", tableName,
                         DataSourcePropUtil.getMysqlSchemaFromCurrentDataSource()),
                         (rs, i) -> {
-                            TableStruct ts = new TableStruct();
+                            TableField ts = new TableField();
                             ts.setSchema(rs.getString("TABLE_SCHEMA"));
                             ts.setTableName(rs.getString("TABLE_NAME"));
                             ts.setFieldName(rs.getString("COLUMN_NAME"));
@@ -77,4 +78,25 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
                         resultSet.getObject(2, String.class));
         return CollectionUtils.lastElement(result);
     }
+
+    /**
+     * 表详细信息
+     * @return
+     */
+    @Override
+    public TableInfo tableInfo(String table) {
+        List<TableInfo> rts = ShowDbFactory.getJdbcTemplate()
+                .query(String.format("SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES  " +
+                                "WHERE TABLE_NAME = '%s' AND TABLE_SCHEMA = '%s'", table,
+                        DataSourcePropUtil.getMysqlSchemaFromCurrentDataSource()),
+                        (rs, i) -> {
+                            TableInfo ti = new TableInfo();
+                            ti.setTableComment(rs.getString("TABLE_COMMENT"));
+                            return ti;
+                        });
+
+        return CollectionUtils.firstElement(rts);
+    }
+
+
 }

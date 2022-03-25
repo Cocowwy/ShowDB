@@ -3,7 +3,9 @@ package cn.cocowwy.showdbui.service;
 import cn.cocowwy.showdbcore.cache.ShowDbCache;
 import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.constants.DBEnum;
-import cn.cocowwy.showdbcore.entities.TableStruct;
+import cn.cocowwy.showdbcore.entities.TableField;
+import cn.cocowwy.showdbcore.entities.TableInfo;
+import cn.cocowwy.showdbcore.entities.TableStructVo;
 import cn.cocowwy.showdbcore.strategy.StructExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,17 +44,26 @@ public class StructService {
      * Get the structure of all tables
      * @return
      */
-    public List<List<TableStruct>> tableStruct(Integer pageSize, Integer pageNumber) {
+    public List<TableStructVo> tableStruct(Integer pageSize, Integer pageNumber) {
         String key = ShowDbCache.buildCacheKey(
                 GlobalContext.getDatabaseProductName(),
                 "tableStruct", pageSize + "@" + pageNumber);
 
-        return (List<List<TableStruct>>) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
+        List<TableStructVo> rts = (List<TableStructVo>) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
             List<String> tables = page(tableNames(), pageSize, pageNumber);
-            return tables.stream()
-                    .map(t -> STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(t))
-                    .collect(Collectors.toList());
+            List<TableStructVo> rt = tables.stream().map(table -> {
+                List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(table);
+                TableInfo tableInfo = new TableInfo();
+                tableInfo.setTableName(table);
+                tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableInfo(table).getTableComment());
+                TableStructVo vo = new TableStructVo();
+                vo.setTableInfo(tableInfo);
+                vo.setTableFieldList(tableFields);
+                return vo;
+            }).collect(Collectors.toList());
+            return rt;
         });
+        return rts;
     }
 
     /**
@@ -64,8 +75,10 @@ public class StructService {
         String tablesKey = ShowDbCache.buildCacheKey(
                 GlobalContext.getDatabaseProductName(),
                 "tableLists", "names");
-        return (List<String>) ShowDbCache.cache().computeIfAbsent(tablesKey,
+
+        List<String> rts = (List<String>) ShowDbCache.cache().computeIfAbsent(tablesKey,
                 (key) -> STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableNames());
+        return rts;
     }
 
     /**
@@ -73,12 +86,22 @@ public class StructService {
      * Get the structure of all tables
      * @return
      */
-    public List<TableStruct> tableStruct(String name) {
+    public TableStructVo tableStruct(String name) {
         String key = ShowDbCache.buildCacheKey(
                 GlobalContext.getDatabaseProductName(),
                 "tableStruct", name);
-        return (List<TableStruct>) ShowDbCache.cache().computeIfAbsent(key, (k) ->
-                STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(name));
+        TableStructVo rt = (TableStructVo) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
+                    List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(name);
+                    TableInfo tableInfo = new TableInfo();
+                    tableInfo.setTableName(name);
+                    tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableInfo(name).getTableComment());
+                    TableStructVo vo = new TableStructVo();
+                    vo.setTableInfo(tableInfo);
+                    vo.setTableFieldList(tableFields);
+                    return vo;
+                }
+        );
+        return rt;
     }
 
     /**

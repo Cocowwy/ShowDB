@@ -9,7 +9,8 @@ var app = new Vue({
         // 分页表结构
         tableStructSize: 5,
         tableStructPageNumber: 1,
-        tableStruct: null
+        tableStruct: null,
+        total: 0,
 
     },
     methods: {
@@ -27,8 +28,8 @@ var app = new Vue({
                 currentDataSource = res[0].beanName;
             })
         },
-
-        tableStructByPage(tableStructPageNumber, tableStructSize) {
+        //分页查询表信息
+        tableStructByPage(tableStructSize, tableStructPageNumber) {
             const that = this
             axios.get('/showdb/struct/' + tableStructSize + '/' + tableStructPageNumber).then(function (res) {
                 if (res.data.code !== 200) {
@@ -36,8 +37,12 @@ var app = new Vue({
                     return;
                 }
                 that.tableStruct = res.data.data
-                console.log( that.tableStruct)
+                that.total = res.data.data.total
             })
+        },
+        handleCurrentChange(number) {
+            this.tableStructByPage(this.tableStructSize, number);
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
         }
     },
 

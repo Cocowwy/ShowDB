@@ -3,7 +3,8 @@ package cn.cocowwy.showdbui.controller;
 import cn.cocowwy.showdbcore.annotation.Endpoint;
 import cn.cocowwy.showdbcore.constants.EndpointEnum;
 import cn.cocowwy.showdbcore.entities.Res;
-import cn.cocowwy.showdbcore.entities.TableStruct;
+import cn.cocowwy.showdbcore.entities.TableField;
+import cn.cocowwy.showdbcore.entities.TableStructVo;
 import cn.cocowwy.showdbui.service.StructService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +30,8 @@ public class StructController {
      * @return
      */
     @Endpoint(EndpointEnum.STRUCTURE)
-    @GetMapping("/{pageNumber}/{pageSize}")
-    public Res<List<List<TableStruct>>> tableStruct(@PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber) {
+    @GetMapping("/{pageSize}/{pageNumber}")
+    public Res<List<TableStructVo>> tableStruct(@PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber) {
         return Res.success(structService.tableStruct(pageSize, pageNumber));
     }
 
@@ -53,7 +54,7 @@ public class StructController {
      */
     @Endpoint(EndpointEnum.STRUCTURE)
     @GetMapping("/{table}")
-    public Res<List<TableStruct>> tableStruct(@PathVariable("table") String table) {
+    public Res<TableStructVo> tableStruct(@PathVariable("table") String table) {
         return Res.success(structService.tableStruct(table));
     }
 

@@ -1,6 +1,7 @@
 package cn.cocowwy.showdbcore.strategy;
 
-import cn.cocowwy.showdbcore.entities.TableStruct;
+import cn.cocowwy.showdbcore.entities.TableField;
+import cn.cocowwy.showdbcore.entities.TableInfo;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface StructExecuteStrategy extends SqlExecuteStrategy {
     /**
      * 表结构文档
      */
-    List<TableStruct> tableStructure(String tableName);
+    List<TableField> tableStructure(String tableName);
 
     /**
      * 表名集合
@@ -26,4 +27,10 @@ public interface StructExecuteStrategy extends SqlExecuteStrategy {
      * @return
      */
     String createTableStatement(String tableName);
+
+    /**
+     * 表详细信息
+     * @return
+     */
+    TableInfo tableInfo(String table);
 }
