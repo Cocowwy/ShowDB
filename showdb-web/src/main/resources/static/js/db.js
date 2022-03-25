@@ -7,8 +7,8 @@ var app = new Vue({
         currentDataSource: '1',
 
         // 分页表结构
-        tableStructSize: 1,
-        tableStructPageNumber: 2,
+        tableStructSize: 5,
+        tableStructPageNumber: 1,
         tableStruct: null
 
     },
@@ -30,7 +30,7 @@ var app = new Vue({
 
         tableStructByPage(tableStructPageNumber, tableStructSize) {
             const that = this
-            axios.get('/showdb/struct/' + tableStructPageNumber + '/' + tableStructSize).then(function (res) {
+            axios.get('/showdb/struct/' + tableStructSize + '/' + tableStructPageNumber).then(function (res) {
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;

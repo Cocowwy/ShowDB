@@ -22,8 +22,7 @@
 
         <!--表结构信息-->
         <el-main>
-
-            <el-card v-for="(item,index) in  tableStruct" class="box-card">
+            <el-card v-for="(item,index) in  tableStruct" class="box-card" style="width: 75%">
                 <div slot="header" class="clearfix">
                     <span style="font-weight: bolder">{{item[0].tableName}}</span>
                     <el-button style="float: right; padding: 3px 0" type="text">建表语句</el-button>
@@ -31,7 +30,7 @@
                 </div>
                 <div>
                     <el-table :data="item" stripe style="width: 100%">
-                        <el-table-column property="fieldName" label="字段" width="180">
+                        <el-table-column property="fieldName" label="字段">
                             <template slot-scope="scope">
                                 <span style="display: flex;align-items: center">
                                     <span>{{ scope.row.fieldName }}</span>
@@ -41,10 +40,9 @@
                                 </span>
                             </template>
                         </el-table-column>
-                        <el-table-column property="type" label="类型" width="180"></el-table-column>
-                        <el-table-column property="comment" label="字段描述" width="180"></el-table-column>
-                        <el-table-column property="columnDefault" label="默认值" width="180"></el-table-column>
-                        <el-table-column property="nullable" label="可否为空" width="180">
+                        <el-table-column property="type" label="类型"></el-table-column>
+                        <el-table-column property="comment" label="字段描述"></el-table-column>
+                        <el-table-column property="nullable" label="可否为空">
                             <template slot-scope="scope">
                             <span style="display: flex;align-items: center">
                                         <el-image v-if="scope.row.nullable"
@@ -53,11 +51,10 @@
                                 </span>
                             </template>
                         </el-table-column>
+                        <el-table-column property="columnDefault" label="默认值"></el-table-column>
                     </el-table>
                 </div>
             </el-card>
-
-
         </el-main>
 
         <el-aside width="150px">主从信息</el-aside>
