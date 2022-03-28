@@ -79,6 +79,7 @@ var app = new Vue({
             this.loadingTables = true;
             if (this.queryTableName != '' || this.queryTableName != null) {
                 this.getByTableName(this.tableStructSize, number, this.queryTableName);
+                this.loadingTables = false;
                 return;
             }
             this.tableStructByPage(this.tableStructSize, number);
@@ -113,6 +114,7 @@ var app = new Vue({
         },
         // 数据源切换
         dataSourceChange(dsBeanName) {
+            console.log('切换数据源：' + dsBeanName)
             var that = this
             this.loadingDataSource = true;
             this.loadingTables = true;
@@ -121,6 +123,7 @@ var app = new Vue({
                     alert(res.data.msg);
                     return;
                 }
+                console.log('切换数据源：' + res.data)
                 that.currentDataSource = dsBeanName;
                 that.tableStructByPage(that.tableStructSize, that.tableStructPageNumber);
                 that.tableNames();

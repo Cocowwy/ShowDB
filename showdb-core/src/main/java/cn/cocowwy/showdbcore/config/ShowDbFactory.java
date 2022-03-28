@@ -29,6 +29,7 @@ public class ShowDbFactory {
         } catch (SQLException throwables) {
             // ignore..
         }
+        //fix：多次切换数据源 new JdbcTemplate 占用资源，需要改为map
         jdbcTemplate = new JdbcTemplate(ds);
         dataSource = ds;
     }

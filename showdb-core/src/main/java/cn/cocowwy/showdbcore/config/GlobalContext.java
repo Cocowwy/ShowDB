@@ -53,13 +53,13 @@ public class GlobalContext {
     public static void switchDataSource(String dataSourceName) throws SQLException {
         DataSource ds = dataSourcesMap.get(dataSourceName);
         if (ds == null) {
-            throw new ShowDbException("a data source with the current name does not exist");
+            throw new ShowDbException("A data source with the current name does not exist");
         }
         ShowDbFactory.INSTANCE.init(ds);
         GlobalContext.setDatabase(DataSourcePropUtil.dataSourceType(ds));
         currentDataSourceBeanName = dataSourceName;
         database = DataSourcePropUtil.dataSourceType(ds);
-        logger.info(String.format("switch datasource to [%s]", dataSourceName));
+        logger.info(String.format("Switch datasource to [%s]", dataSourceName));
     }
 
     /**
