@@ -24,6 +24,7 @@ public class ShowDbFactory {
     }
 
     public void init(DataSource ds) {
+        //todo 这里fix得时候需要直接初始化两个jdbctemplate 放在map里面处处
         try {
             logger.info(String.format("current dbshow datasource switch to %s", DataSourcePropUtil.getBeanName(ds)));
         } catch (SQLException throwables) {
