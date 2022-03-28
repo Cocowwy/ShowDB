@@ -24,14 +24,12 @@ var app = new Vue({
         dsInfo() {
             const that = this
             axios.get('/showdb/config/dsInfo').then(function (res) {
-                console.log(res)
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
                 }
                 var res = res.data.data;
                 that.dataSorucesInfo = res;
-
                 for (i = 0; i < that.dataSorucesInfo.length; i++) {
                     if (that.dataSorucesInfo[i].use == true) {
                         that.currentDataSource = that.dataSorucesInfo[i].beanName
@@ -53,10 +51,8 @@ var app = new Vue({
         },
         // 获取单表信息-模糊查询-分页
         getByTableName(tableStructSize, tableStructPageNumber, table) {
-            this.loadingTables = true;
             const that = this
             axios.get('/showdb/struct/' + this.tableStructSize + '/' + this.tableStructPageNumber + '/' + table).then(function (res) {
-                that.loadingTables = false;
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
@@ -69,10 +65,8 @@ var app = new Vue({
 
         //=========================分页查询表信息==================
         tableStructByPage(tableStructSize, tableStructPageNumber) {
-            this.loadingTables = true;
             const that = this
             axios.get('/showdb/struct/' + tableStructSize + '/' + tableStructPageNumber).then(function (res) {
-                that.loadingTables = false;
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
@@ -82,11 +76,13 @@ var app = new Vue({
             })
         },
         handleCurrentChange(number) {
+            this.loadingTables = true;
             if (this.queryTableName != '' || this.queryTableName != null) {
                 this.getByTableName(this.tableStructSize, number, this.queryTableName);
                 return;
             }
             this.tableStructByPage(this.tableStructSize, number);
+            this.loadingTables = false;
             document.body.scrollTop = document.documentElement.scrollTop = 0;
         },
 
@@ -119,6 +115,7 @@ var app = new Vue({
         dataSourceChange(dsBeanName) {
             var that = this
             this.loadingDataSource = true;
+            this.loadingTables = true;
             axios.get('/showdb/config/switchDataSource/' + dsBeanName).then(function (res) {
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
@@ -127,16 +124,22 @@ var app = new Vue({
                 that.currentDataSource = dsBeanName;
                 that.tableStructByPage(that.tableStructSize, that.tableStructPageNumber);
                 that.tableNames();
-
             })
-            this.loadingDataSource = false;
+            that.loadingDataSource = false;
+            that.loadingTables = false;
         }
     },
 
     // 加载页面初始化数据
     mounted: function () {
+        this.loadingTables = true;
+        this.loadingDataSource = true;
+
         this.dsInfo();
         this.tableStructByPage(this.tableStructSize, this.tableStructPageNumber);
         this.tableNames();
+
+        this.loadingTables = false;
+        this.loadingDataSource = false;
     }
 })
