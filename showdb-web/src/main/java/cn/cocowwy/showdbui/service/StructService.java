@@ -47,7 +47,7 @@ public class StructService {
      */
     public TableStructVo tableStruct(Integer pageSize, Integer pageNumber) {
         String key = ShowDbCache.buildCacheKey(
-                GlobalContext.getDatabaseProductName(),
+                GlobalContext.getCurrentDataSourceBeanName(),
                 "tableStruct", pageSize + "@" + pageNumber);
 
         List<TableStructVo.TableStruct> rts = (List<TableStructVo.TableStruct>) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
@@ -79,7 +79,7 @@ public class StructService {
      */
     public List<String> tableNames() {
         String tablesKey = ShowDbCache.buildCacheKey(
-                GlobalContext.getDatabaseProductName(),
+                GlobalContext.getCurrentDataSourceBeanName(),
                 "tableLists", "names");
 
         List<String> rts = (List<String>) ShowDbCache.cache().computeIfAbsent(tablesKey,
@@ -95,7 +95,7 @@ public class StructService {
     public TableStructVo tableStruct(Integer pageSize, Integer pageNumber, String name) {
 
         String key = ShowDbCache.buildCacheKey(
-                GlobalContext.getDatabaseProductName(),
+                GlobalContext.getCurrentDataSourceBeanName(),
                 "tableStruct", name + "#" + pageSize + "#" + pageNumber);
 
         List<String> tabkes = tableNames().stream().filter(it -> it.contains(name)).collect(Collectors.toList());
@@ -128,7 +128,7 @@ public class StructService {
      */
     public String tableCreateStatement(String table) {
         String key = ShowDbCache.buildCacheKey(
-                GlobalContext.getDatabaseProductName(),
+                GlobalContext.getCurrentDataSourceBeanName(),
                 "createStatement",
                 table);
         return (String) ShowDbCache.cache()

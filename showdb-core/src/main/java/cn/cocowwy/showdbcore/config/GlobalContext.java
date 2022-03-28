@@ -58,6 +58,7 @@ public class GlobalContext {
         ShowDbFactory.INSTANCE.init(ds);
         GlobalContext.setDatabase(DataSourcePropUtil.dataSourceType(ds));
         currentDataSourceBeanName = dataSourceName;
+        database = DataSourcePropUtil.dataSourceType(ds);
         logger.info(String.format("switch datasource to [%s]", dataSourceName));
     }
 

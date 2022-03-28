@@ -15,7 +15,10 @@
 <dev id="ShowDB">
 
     <el-header>
-
+        <div v-loading="loadingDataSource">
+            <el-radio v-model="currentDataSource" @change="dataSourceChange" v-for="(item,index) in dataSorucesInfo"
+                      :label="item.beanName" border>{{item.beanName}}</el-radio>
+        </div>
     </el-header>
 
     <el-container>
@@ -77,7 +80,6 @@
                         :total="total">
                 </el-pagination>
             </div>
-
         </el-main>
 
 

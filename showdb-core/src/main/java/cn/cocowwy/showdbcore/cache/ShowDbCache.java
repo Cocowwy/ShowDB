@@ -41,7 +41,7 @@ public class ShowDbCache {
     /**
      * 缓存键构造
      * Cache key construction
-     * @param ds 数据源类型
+     * @param ds 数据源
      * @param biz 业务标识
      * @param label 唯一标识
      * @return

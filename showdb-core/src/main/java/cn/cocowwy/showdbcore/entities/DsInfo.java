@@ -41,6 +41,11 @@ public class DsInfo {
      */
     private transient String password;
 
+    /**
+     * 当前数据源是否在使用
+     */
+    private Boolean use = Boolean.FALSE;
+
     public String getBeanName() {
         return beanName;
     }
@@ -95,5 +100,13 @@ public class DsInfo {
 
     public void setDsProductName(String dsProductName) {
         this.dsProductName = dsProductName;
+    }
+
+    public Boolean getUse() {
+        return use;
+    }
+
+    public void setUse(Boolean use) {
+        this.use = use;
     }
 }

@@ -4,13 +4,14 @@ var app = new Vue({
         // 数据源信息
         dataSorucesInfo: [],
         // 当前选择的数据源
-        currentDataSource: '1',
+        currentDataSource: null,
         // 当前数据源所有表名称集合
         tableNameList: [],
         // 搜索框选择值
         queryTableName: '',
         // loadiong..
         loadingTables: true,
+        loadingDataSource: false,
 
         // 分页表结构
         tableStructSize: 5,
@@ -30,7 +31,12 @@ var app = new Vue({
                 }
                 var res = res.data.data;
                 that.dataSorucesInfo = res;
-                currentDataSource = res[0].beanName;
+
+                for (i = 0; i < that.dataSorucesInfo.length; i++) {
+                    if (that.dataSorucesInfo[i].use == true) {
+                        that.currentDataSource = that.dataSorucesInfo[i].beanName
+                    }
+                }
             })
         },
         // 查询表集合名称
@@ -57,6 +63,7 @@ var app = new Vue({
                 }
                 that.tableStruct = res.data.data.tableStructs
                 that.total = res.data.data.total
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
             })
         },
 
@@ -107,6 +114,22 @@ var app = new Vue({
             return (i) => {
                 return (i.indexOf(queryString) >= 0);
             };
+        },
+        // 数据源切换
+        dataSourceChange(dsBeanName) {
+            var that = this
+            this.loadingDataSource = true;
+            axios.get('/showdb/config/switchDataSource/' + dsBeanName).then(function (res) {
+                if (res.data.code !== 200) {
+                    alert(res.data.msg);
+                    return;
+                }
+                that.currentDataSource = dsBeanName;
+                that.tableStructByPage(that.tableStructSize, that.tableStructPageNumber);
+                that.tableNames();
+
+            })
+            this.loadingDataSource = false;
         }
     },
 

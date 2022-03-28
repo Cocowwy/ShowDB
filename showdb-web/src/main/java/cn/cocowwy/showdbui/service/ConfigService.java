@@ -71,7 +71,7 @@ public class ConfigService {
      * 获取数据源信息
      * @return
      */
-    // TODO
+    //TODO
     public List<DsInfo> getDsInfo() {
         Map<String, DataSource> dsMap = GlobalContext.getDataSourcesMap();
 
@@ -84,6 +84,10 @@ public class ConfigService {
                 dsInfo.setBeanName(entry.getKey());
                 dsInfo.setDsProductName(masterDataSource.getDatabaseProductName());
                 dsInfo.setUrl(masterDataSource.getURL());
+
+                if (GlobalContext.getCurrentDataSourceBeanName().equals(dsInfo.getBeanName())) {
+                    dsInfo.setUse(Boolean.TRUE);
+                }
 
                 return dsInfo;
             } catch (SQLException throwables) {
