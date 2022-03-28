@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,25 +92,31 @@ public class StructService {
      * Get the structure of all tables
      * @return
      */
-    public TableStructVo tableStruct(String name) {
+    public TableStructVo tableStruct(Integer pageSize, Integer pageNumber, String name) {
+
         String key = ShowDbCache.buildCacheKey(
                 GlobalContext.getDatabaseProductName(),
-                "tableStruct", name);
+                "tableStruct", name + "#" + pageSize + "#" + pageNumber);
 
-        TableStructVo.TableStruct rts = (TableStructVo.TableStruct) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
-            List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(name);
-            TableInfo tableInfo = new TableInfo();
-            tableInfo.setTableName(name);
-            tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableInfo(name).getTableComment());
-            TableStructVo.TableStruct tableStruct = new TableStructVo.TableStruct();
-            tableStruct.setTableInfo(tableInfo);
-            tableStruct.setTableFieldList(tableFields);
-            return tableStruct;
+        List<String> tabkes = tableNames().stream().filter(it -> it.contains(name)).collect(Collectors.toList());
+        List<TableStructVo.TableStruct> rts = (List<TableStructVo.TableStruct>) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
+            List<String> likeTale = page(tabkes, pageSize, pageNumber);
+            List<TableStructVo.TableStruct> rt = likeTale.stream().map(table -> {
+                List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(table);
+                TableInfo tableInfo = new TableInfo();
+                tableInfo.setTableName(table);
+                tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableInfo(table).getTableComment());
+                TableStructVo.TableStruct tableStruct = new TableStructVo.TableStruct();
+                tableStruct.setTableInfo(tableInfo);
+                tableStruct.setTableFieldList(tableFields);
+                return tableStruct;
+            }).collect(Collectors.toList());
+            return rt;
         });
 
         TableStructVo tableStructVo = new TableStructVo();
-        tableStructVo.setTotal(1);
-        tableStructVo.setTableStructs(Arrays.asList(rts));
+        tableStructVo.setTotal(tabkes.size());
+        tableStructVo.setTableStructs(rts);
         return tableStructVo;
     }
 
@@ -131,6 +137,9 @@ public class StructService {
     }
 
     private static <T> List<T> page(List<T> data, int size, int num) {
+        if (data.size() < 1) {
+            return new ArrayList<>(0);
+        }
         int totalNum = data.size();
         // start 1
         int pageNum = num;

@@ -25,7 +25,7 @@ public class StructController {
     private StructService structService;
 
     /**
-     * 获取所有表的结构
+     * 获取表的结构-分页
      * Get the structure of all tables
      * @return
      */
@@ -53,9 +53,9 @@ public class StructController {
      * @return 表结构
      */
     @Endpoint(EndpointEnum.STRUCTURE)
-    @GetMapping("/{table}")
-    public Res<TableStructVo> tableStruct(@PathVariable("table") String table) {
-        return Res.success(structService.tableStruct(table));
+    @GetMapping("/{pageSize}/{pageNumber}/{table}")
+    public Res<TableStructVo> tableStruct(@PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber, @PathVariable("table") String table) {
+        return Res.success(structService.tableStruct(pageSize, pageNumber, table));
     }
 
     /**

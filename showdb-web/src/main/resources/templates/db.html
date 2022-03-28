@@ -13,17 +13,31 @@
 </head>
 <body>
 <dev id="ShowDB">
-    <el-header>Header</el-header>
-    <el-container>
-        <el-aside width="200px">数据源信息</el-aside>
 
+    <el-header>
+
+    </el-header>
+
+    <el-container>
+        <el-aside width="200px">主从信息</el-aside>
         <!--表结构信息-->
-        <el-main>
-            <el-card v-for="(item,index) in  tableStruct" class="box-card" style="width: 75%">
+        <el-main v-loading="loadingTables">
+            <el-autocomplete size="large"
+                             v-model="queryTableName"
+                             :fetch-suggestions="querySearch"
+                             placeholder="表名模糊查询，回车确认"
+                             select-when-unmatched="true"
+                             prefix-icon="el-icon-search"
+                             @select="handleSelect">
+                <template slot-scope="{ item }">
+                    <div class="name">{{ item}}</div>
+                </template>
+            </el-autocomplete>
+            <el-card v-for="(item,index) in  tableStruct" class="box-card" style="width: 75%;margin-top: 18px">
                 <div slot="header" class="clearfix">
                     <span style="font-weight: bolder">{{item.tableInfo.tableName}}&nbsp{{item.tableInfo.tableComment}}</span>
                     <el-button style="float: right; padding: 3px 0" type="text">建表语句</el-button>
-                    <el-button style="float: right; padding: 3px 0" type="text">监控信息</el-button>
+                    <el-button style="float: right; padding: 3px 6px" type="text">监控信息</el-button>
                 </div>
                 <div>
                     <el-table :data="item.tableFieldList" stripe style="width: 100%">
@@ -39,10 +53,10 @@
                         </el-table-column>
                         <el-table-column property="type" label="类型"></el-table-column>
                         <el-table-column property="comment" label="字段描述"></el-table-column>
-                        <el-table-column property="nullable" label="可否为空">
+                        <el-table-column property="nullable" label="不为空">
                             <template slot-scope="scope">
                             <span style="display: flex;align-items: center">
-                                        <el-image v-if="scope.row.nullable"
+                                        <el-image v-if="!scope.row.nullable"
                                                   style="width: 26px; height: 26px"
                                                   th:src="@{img/isTrue.png}"></el-image>
                                 </span>
@@ -53,7 +67,8 @@
                 </div>
             </el-card>
 
-            <div class="block">
+            <!--分页-->
+            <div class="block" style="margin-top: 30px;text-align: center">
                 <el-pagination
                         @current-change="handleCurrentChange"
                         :current-page.sync="tableStructPageNumber"
@@ -65,7 +80,8 @@
 
         </el-main>
 
-        <el-aside width="150px">主从信息</el-aside>
+
+        <el-aside width="150px">数据源信息</el-aside>
     </el-container>
 
 
