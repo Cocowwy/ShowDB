@@ -63,29 +63,8 @@ public class Runner implements ApplicationRunner {
 //        DataSource dataSource2 = ShowDbFactory.getDataSource();
 //        System.out.println("测试数据源切换");
 //        ;
-        System.out.println("MySQL执行策略类：" + mySqlExecuteStrategies.size());
+//        System.out.println("MySQL执行策略类：" + mySqlExecuteStrategies.size());
 //        mySqlMonitorExecuteStrategy.ipConnectCount();
 
     }
-
-
-    /**
-     * 主库配置
-     */
-    @Bean(name = "masterDataSource", destroyMethod = "close", initMethod = "init")
-    @ConfigurationProperties(prefix = "spring.datasource.master")
-    @Primary
-    public DruidDataSource createMasterSource() {
-        return DruidDataSourceBuilder.create().build();
-    }
-
-    /**
-     * 从库配置
-     */
-    @Bean(name = "slaveDataSource", destroyMethod = "close", initMethod = "init")
-    @ConfigurationProperties(prefix = "spring.datasource.slave")
-    public DruidDataSource createSlaveSource() {
-        return DruidDataSourceBuilder.create().build();
-    }
-
 }

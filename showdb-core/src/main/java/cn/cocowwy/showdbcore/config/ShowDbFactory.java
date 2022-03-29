@@ -1,12 +1,11 @@
 package cn.cocowwy.showdbcore.config;
 
-import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 数据源连接工厂
@@ -17,29 +16,26 @@ import java.sql.SQLException;
 public class ShowDbFactory {
     private static final Log logger = LogFactory.getLog(ShowDbFactory.class);
     public static final ShowDbFactory INSTANCE = new ShowDbFactory();
-    private static DataSource dataSource;
     private static JdbcTemplate jdbcTemplate;
+    private static Map<String, JdbcTemplate> jdbcTemplatePool = new HashMap<>(1);
 
     private ShowDbFactory() {
     }
 
-    public void init(DataSource ds) {
-        //todo 这里fix得时候需要直接初始化两个jdbctemplate 放在map里面处处
-        try {
-            logger.info(String.format("current dbshow datasource switch to %s", DataSourcePropUtil.getBeanName(ds)));
-        } catch (SQLException throwables) {
-            // ignore..
-        }
+    public void init() {
         //fix：多次切换数据源 new JdbcTemplate 占用资源，需要改为map
-        jdbcTemplate = new JdbcTemplate(ds);
-        dataSource = ds;
+        GlobalContext.getDataSourcesMap().entrySet().forEach(e -> {
+            jdbcTemplatePool.put(e.getKey(), new JdbcTemplate(e.getValue()));
+            logger.info(String.format("ShowDB register DataSource [%s]", e.getKey()));
+
+        });
     }
 
-    public static DataSource getDataSource() {
-        return dataSource;
-    }
-
+    /**
+     * 获取当前所选择数据源的JdbcTemplate对象
+     * @return
+     */
     public static JdbcTemplate getJdbcTemplate() {
-        return jdbcTemplate;
+        return jdbcTemplatePool.get(GlobalContext.getCurrentDataSourceBeanName());
     }
 }

@@ -2,11 +2,11 @@ package cn.cocowwy.showdbcore.util;
 
 import cn.cocowwy.showdbcore.cache.ShowDbCache;
 import cn.cocowwy.showdbcore.config.GlobalContext;
-import cn.cocowwy.showdbcore.config.ShowDbFactory;
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.exception.ShowDbException;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
 
@@ -16,17 +16,58 @@ import java.util.Map;
  * @create 2022-03-03-10:03
  */
 public class DataSourcePropUtil {
+    @Deprecated
     public static DBEnum dataSourceType(DataSource dataSource) throws SQLException {
         DBEnum type = null;
-        String name = dataSource.getConnection().getMetaData().getDatabaseProductName();
-        switch (name) {
-            case "MySQL":
-                type = DBEnum.MySQL;
-                break;
-            default:
-                throw new ShowDbException("The data source is not supported");
+        Connection connection = dataSource.getConnection();
+        String name = connection.getMetaData().getDatabaseProductName();
+        try {
+            switch (name) {
+                case "MySQL":
+                    type = DBEnum.MySQL;
+                    break;
+                default:
+                    throw new ShowDbException("The data source is not supported");
+            }
+        } finally {
+            connection.close();
+
         }
         return type;
+    }
+
+    /**
+     * 根据当前数据源的bean名称，获取到数据源枚举
+     * @param dataSourceBeanName
+     * @return
+     */
+    public static DBEnum dataSourceTypeByBeanName(String dataSourceBeanName) {
+        return (DBEnum) ShowDbCache.cache().computeIfAbsent(ShowDbCache.buildCacheKey(dataSourceBeanName, "dataSourceTypeByBeanName", dataSourceBeanName),
+                (k) -> {
+                    DBEnum type = null;
+                    Connection connection = null;
+                    try {
+                        connection = GlobalContext.getDataSourcesMap().get(dataSourceBeanName).getConnection();
+                        String name = connection.getMetaData().getDatabaseProductName();
+                        switch (name) {
+                            case "MySQL":
+                                type = DBEnum.MySQL;
+                                break;
+                            default:
+                                throw new ShowDbException("The data source is not supported");
+                        }
+                    } catch (Exception throwables) {
+                        throwables.printStackTrace();
+                    } finally {
+                        try {
+                            // fix：修复不释放连接的bug
+                            connection.close();
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+                    }
+                    return type;
+                });
     }
 
     public static String getBeanName(DataSource dataSource) throws SQLException {
@@ -48,7 +89,9 @@ public class DataSourcePropUtil {
                 (key) -> {
                     String mysqlSchema = null;
                     try {
-                        mysqlSchema = ShowDbFactory.getDataSource().getConnection().getMetaData().getURL();
+                        mysqlSchema = GlobalContext.getDataSourcesMap()
+                                .get(GlobalContext.getCurrentDataSourceBeanName())
+                                .getConnection().getMetaData().getURL();
                     } catch (SQLException throwables) {
                         return "";
                     }

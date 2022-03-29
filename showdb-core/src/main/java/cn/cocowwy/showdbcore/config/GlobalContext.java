@@ -55,10 +55,8 @@ public class GlobalContext {
         if (ds == null) {
             throw new ShowDbException("A data source with the current name does not exist");
         }
-        ShowDbFactory.INSTANCE.init(ds);
-        GlobalContext.setDatabase(DataSourcePropUtil.dataSourceType(ds));
         currentDataSourceBeanName = dataSourceName;
-        database = DataSourcePropUtil.dataSourceType(ds);
+        database = DataSourcePropUtil.dataSourceTypeByBeanName(currentDataSourceBeanName);
         logger.info(String.format("Switch datasource to [%s]", dataSourceName));
     }
 

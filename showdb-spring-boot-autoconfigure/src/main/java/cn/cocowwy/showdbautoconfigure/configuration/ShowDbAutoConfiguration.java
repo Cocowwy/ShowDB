@@ -58,24 +58,21 @@ public class ShowDbAutoConfiguration implements InitializingBean {
         this.properties = properties;
         Map<String, DataSource> dataSourcesMap = dataSources.stream()
                 .collect(Collectors.toMap(Function.identity(), beanName -> (DataSource) applicationContext.getBean(beanName)));
-        Map<String, DBEnum> dataSourcesTypeMap = dataSources.stream().collect(Collectors.toMap(Function.identity(), ds -> {
-            DBEnum dbEnum = null;
-            try {
-                dbEnum = DataSourcePropUtil.dataSourceType((DataSource) applicationContext.getBean(ds));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return dbEnum;
-        }));
-        GlobalContext.setDataSourcesMap(dataSourcesMap);
-        GlobalContext.setDataSourcesTypeMap(dataSourcesTypeMap);
+
         GlobalContext.setCurrentDataSourceBeanName(datasourceName);
+        GlobalContext.setDataSourcesMap(dataSourcesMap);
+
+        Map<String, DBEnum> dataSourcesTypeMap = dataSources.stream().collect(Collectors.toMap(Function.identity(),
+                ds -> DataSourcePropUtil.dataSourceTypeByBeanName(GlobalContext.getCurrentDataSourceBeanName())));
+        GlobalContext.setDatabase(dataSourcesTypeMap.get(datasourceName));
+        GlobalContext.setDataSourcesTypeMap(dataSourcesTypeMap);
+
+        ShowDbFactory.INSTANCE.init();
     }
 
     @Override
     public void afterPropertiesSet() throws SQLException {
-        ShowDbFactory.INSTANCE.init(dataSource);
         EndpointUtil.setEnableSet(properties.getEndpoint());
-        GlobalContext.setDatabase(DataSourcePropUtil.dataSourceType(dataSource));
+        GlobalContext.setDatabase(DataSourcePropUtil.dataSourceTypeByBeanName(GlobalContext.getCurrentDataSourceBeanName()));
     }
 }

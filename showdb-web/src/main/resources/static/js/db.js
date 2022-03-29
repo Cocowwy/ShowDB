@@ -114,7 +114,6 @@ var app = new Vue({
         },
         // 数据源切换
         dataSourceChange(dsBeanName) {
-            console.log('切换数据源：' + dsBeanName)
             var that = this
             this.loadingDataSource = true;
             this.loadingTables = true;
@@ -123,13 +122,12 @@ var app = new Vue({
                     alert(res.data.msg);
                     return;
                 }
-                console.log('切换数据源：' + res.data)
                 that.currentDataSource = dsBeanName;
                 that.tableStructByPage(that.tableStructSize, that.tableStructPageNumber);
                 that.tableNames();
             })
-            that.loadingDataSource = false;
-            that.loadingTables = false;
+            this.loadingDataSource = false;
+            this.loadingTables = false;
         }
     },
 
