@@ -133,6 +133,23 @@ var app = new Vue({
             this.loadingTables = false;
         },
 
+        /**
+         * 缓存清理
+         */
+        cleanCache() {
+            this.loadingTables = true;
+            this.loadingDataSource = true;
+            var that = this;
+            axios.delete('/showdb/config/cleanCache').then(function (res) {
+                if (res.data.code !== 200) {
+                    alert(res.data.msg);
+                    return;
+                }
+                that.loadingTables = true;
+                that.loadingDataSource = true;
+            })
+        },
+
         starIt() {
             window.open("https://github.com/Cocowwy/ShowDB");
         }

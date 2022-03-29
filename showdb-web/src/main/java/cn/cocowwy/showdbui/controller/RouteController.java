@@ -1,7 +1,5 @@
 package cn.cocowwy.showdbui.controller;
 
-import cn.cocowwy.showdbcore.annotation.Endpoint;
-import cn.cocowwy.showdbcore.constants.EndpointEnum;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
