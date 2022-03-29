@@ -6,11 +6,13 @@ import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.strategy.ConfigExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
+import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -25,7 +27,9 @@ import java.util.stream.Collectors;
 @Service
 public class ConfigService {
     @Autowired
-    List<ConfigExecuteStrategy> configExecuteStrategies;
+    private List<ConfigExecuteStrategy> configExecuteStrategies;
+    @Autowired
+    private MonitorService monitorService;
     /**
      * 数据源类型所对应的执行策略，适配切换数据源能路由到指定策略
      */
@@ -67,35 +71,55 @@ public class ConfigService {
         return (String) ShowDbCache.cache().computeIfAbsent(key, (k) -> CONFIG_STRATEGY.get(GlobalContext.getDatabase()).DbVersion());
     }
 
+    private String getBaseDir(){
+        String key = ShowDbCache.buildCacheKey("db", "baseDir");
+        return (String) ShowDbCache.cache().computeIfAbsent(key, (k) -> CONFIG_STRATEGY.get(GlobalContext.getDatabase()).baseDir());
+    }
+
     /**
      * 获取数据源信息
      * @return
      */
-    //TODO
     public List<DsInfo> getDsInfo() {
         Map<String, DataSource> dsMap = GlobalContext.getDataSourcesMap();
 
         List<DsInfo> dsInfos = dsMap.entrySet().stream().map(entry -> {
             DsInfo dsInfo = new DsInfo();
+            Connection connection = null;
+            DatabaseMetaData masterDataSource = null;
             try {
-                DatabaseMetaData masterDataSource = null;
-                masterDataSource = dsMap.get(entry.getKey()).getConnection().getMetaData();
+                connection = dsMap.get(entry.getKey()).getConnection();
+                masterDataSource = connection.getMetaData();
 
                 dsInfo.setBeanName(entry.getKey());
                 dsInfo.setDsProductName(masterDataSource.getDatabaseProductName());
                 dsInfo.setUrl(masterDataSource.getURL());
+                dsInfo.setUsername(connection.getMetaData().getUserName());
+                dsInfo.setDbVersion(getDbVersion());
+                dsInfo.setDataSize(monitorService.dsInfo().getDataSize());
+                dsInfo.setIndexSize(monitorService.dsInfo().getIndexSize());
+                dsInfo.setRecords(monitorService.dsInfo().getRecords());
+                dsInfo.setOsEnv(getDbVersion());
+                dsInfo.setOsEnv(getOsEnv());
+                dsInfo.setTableSchema(DataSourcePropUtil.getMysqlSchemaFromCurrentDataSource());
+                dsInfo.setBaseDir(this.getBaseDir());
+                dsInfo.setIpConCounts(monitorService.ipCountInfo());
 
                 if (GlobalContext.getCurrentDataSourceBeanName().equals(dsInfo.getBeanName())) {
                     dsInfo.setUse(Boolean.TRUE);
                 }
-
                 return dsInfo;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
+            } finally {
+                try {
+                    connection.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
             return dsInfo;
         }).collect(Collectors.toList());
-
         return dsInfos;
     }
 }

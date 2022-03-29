@@ -7,6 +7,9 @@ package cn.cocowwy.showdbcore.entities;
 public class TableInfo {
     private String tableName;
     private String tableComment;
+    private Long dataSize;
+    private Long indexSize;
+    private Long records;
 
     public String getTableName() {
         return tableName;
@@ -22,5 +25,29 @@ public class TableInfo {
 
     public void setTableComment(String tableComment) {
         this.tableComment = tableComment;
+    }
+
+    public Long getDataSize() {
+        return dataSize;
+    }
+
+    public void setDataSize(Long dataSize) {
+        this.dataSize = dataSize;
+    }
+
+    public Long getIndexSize() {
+        return indexSize;
+    }
+
+    public void setIndexSize(Long indexSize) {
+        this.indexSize = indexSize;
+    }
+
+    public Long getRecords() {
+        return records;
+    }
+
+    public void setRecords(Long records) {
+        this.records = records;
     }
 }

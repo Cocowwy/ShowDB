@@ -13,30 +13,42 @@
 </head>
 <body>
 <dev id="ShowDB">
-
-    <el-header>
-        <div v-loading="loadingDataSource">
-            <el-radio v-model="currentDataSource" @change="dataSourceChange" v-for="(item,index) in dataSorucesInfo"
-                      :label="item.beanName" border>{{item.beanName}}</el-radio>
-        </div>
-    </el-header>
-
+    <el-alert title="拆箱即用的数据库文档开源工具，会自动根据SpringBoot项目中已存在的数据源（多数据源），生成文档以及数据库监控信息等"
+              type="success"
+              @close="starIt" center>
+    </el-alert>
     <el-container>
-        <el-aside width="200px">主从信息</el-aside>
+        <el-aside width="20%">主从信息</el-aside>
         <!--表结构信息-->
-        <el-main v-loading="loadingTables">
-            <el-autocomplete size="large"
-                             v-model="queryTableName"
-                             :fetch-suggestions="querySearch"
-                             placeholder="表名模糊查询，回车确认"
-                             select-when-unmatched="true"
-                             prefix-icon="el-icon-search"
-                             @select="handleSelect">
-                <template slot-scope="{ item }">
-                    <div class="name">{{ item}}</div>
-                </template>
-            </el-autocomplete>
-            <el-card v-for="(item,index) in  tableStruct" class="box-card" style="width: 75%;margin-top: 18px">
+        <el-main v-loading="loadingTables" width="20%">
+            <div v-loading="loadingDataSource">
+                <el-radio v-model="currentDataSource" @change="dataSourceChange" v-for="(item,index) in dataSorucesInfo"
+                          :label="item.beanName" border>{{item.beanName}}
+                </el-radio>
+            </div>
+
+            <div style="margin-top: 18px">
+                <el-button type="info">清理缓存</el-button>
+                <el-button type="primary">PDF文档生成</el-button>
+                <el-button type="primary">数据库结构导出</el-button>
+            </div>
+
+            <div style="display: flex;align-items: center">
+                <el-autocomplete size="large"
+                                 v-model="queryTableName"
+                                 :fetch-suggestions="querySearch"
+                                 placeholder="表名模糊查询，回车确认"
+                                 select-when-unmatched="true"
+                                 prefix-icon="el-icon-search"
+                                 @select="handleSelect" style="margin-top: 18px;">
+                    <template slot-scope="{ item }">
+                        <div class="name">{{ item}}</div>
+                    </template>
+                </el-autocomplete>
+            </div>
+
+
+            <el-card v-for="(item,index) in  tableStruct" class="box-card" style="margin-top: 18px">
                 <div slot="header" class="clearfix">
                     <span style="font-weight: bolder">{{item.tableInfo.tableName}}&nbsp{{item.tableInfo.tableComment}}</span>
                     <el-button style="float: right; padding: 3px 0" type="text">建表语句</el-button>
@@ -83,10 +95,40 @@
         </el-main>
 
 
-        <el-aside width="150px">数据源信息</el-aside>
+        <!--右侧数据源相关-->
+        <el-aside width="35%" style="margin-top: 128px;">
+
+            <el-image v-if="currentDataSourceInfo!=null&&currentDataSourceInfo.dsProductName==='MySQL'"
+                      style="width: 228px; height: 228px" th:src="@{img/mysql.png}"></el-image>
+
+            <!--数据源信息-->
+            <el-descriptions v-if="currentDataSourceInfo!=null" :title="currentDataSourceInfo.beanName"
+                             column="1">
+                <el-descriptions-item label="类型">
+                    <el-tag size="small" type="info">{{currentDataSourceInfo.dsProductName}}</el-tag>
+                </el-descriptions-item>
+                <el-descriptions-item label="版本号">
+                    <el-tag size="small" type="success"> {{currentDataSourceInfo.dbVersion}}</el-tag>
+                </el-descriptions-item>
+                <el-descriptions-item label="数据库">{{currentDataSourceInfo.tableSchema}}</el-descriptions-item>
+                <el-descriptions-item label="系统">{{currentDataSourceInfo.osEnv}}</el-descriptions-item>
+                <el-descriptions-item label="用户">{{currentDataSourceInfo.username}}</el-descriptions-item>
+                <el-descriptions-item label="记录数">{{currentDataSourceInfo.records}}行</el-descriptions-item>
+                <el-descriptions-item label="数据量">{{currentDataSourceInfo.dataSize}}MB</el-descriptions-item>
+                <el-descriptions-item label="索引量">{{currentDataSourceInfo.indexSize}}MB</el-descriptions-item>
+                <el-descriptions-item label="路径">{{currentDataSourceInfo.baseDir}}</el-descriptions-item>
+                <el-descriptions-item label="URL">{{currentDataSourceInfo.url}}</el-descriptions-item>
+            </el-descriptions>
+
+            <!--IP客户端信息-->
+            <el-table v-if="currentDataSourceInfo!=null" :data="currentDataSourceInfo.ipConCounts" border
+                      style="margin-top: 12px;width:50%">
+                <el-table-column prop="ip" label="IP"></el-table-column>
+                <el-table-column prop="count" label="连接数量"></el-table-column>
+            </el-table>
+        </el-aside>
+
     </el-container>
-
-
 </dev>
 
 

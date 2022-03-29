@@ -1,11 +1,14 @@
 package cn.cocowwy.showdbui.service;
 
+import cn.cocowwy.showdbcore.cache.ShowDbCache;
 import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.constants.DBEnum;
+import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
 import cn.cocowwy.showdbcore.strategy.MonitorExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
+import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,5 +57,15 @@ public class MonitorService {
             return null;
         }
         return MONITOR_STRATEGY.get(GlobalContext.getDatabase()).slaveStatus();
+    }
+
+    /**
+     * 数据库大小
+     * @return
+     */
+    public DsInfo dsInfo() {
+        return (DsInfo) ShowDbCache.cache()
+                .computeIfAbsent(ShowDbCache.buildCacheKey("dsInfo", DataSourcePropUtil.getMysqlSchemaFromCurrentDataSource()),
+                        (key) -> MONITOR_STRATEGY.get(GlobalContext.getDatabase()).dsInfo());
     }
 }

@@ -1,10 +1,14 @@
 package cn.cocowwy.showdbcore.strategy.impl.mysql;
 
 import cn.cocowwy.showdbcore.config.ShowDbFactory;
+import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
+import cn.cocowwy.showdbcore.entities.TableInfo;
 import cn.cocowwy.showdbcore.strategy.MonitorExecuteStrategy;
+import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -42,5 +46,58 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySq
     public SlaveStatus slaveStatus() {
         String sql = "show slave status";
         return null;
+    }
+
+    /**
+     * 监控表大小
+     * @return
+     */
+    @Override
+    public List<TableInfo> tableMonitor() {
+        String sql = "select\n" +
+                "table_schema as 'ds',\n" +
+                "table_name as 'tableName',\n" +
+                "table_rows as 'records',\n" +
+                "truncate(data_length/1024/1024, 2) as 'data_size_MB',\n" +
+                "truncate(index_length/1024/1024, 2) as 'index_size_MB'\n" +
+                "from information_schema.tables\n" +
+                "where table_schema='%s'\n" +
+                "order by data_length desc, index_length desc;";
+        List<TableInfo> tableInfos = ShowDbFactory.getJdbcTemplate().query(String.format(sql,
+                DataSourcePropUtil.getMysqlSchemaFromCurrentDataSource()), (rs, i) -> {
+            TableInfo tableInfo = new TableInfo();
+            tableInfo.setTableName(rs.getString("tableName"));
+            tableInfo.setDataSize(rs.getLong("data_size_MB"));
+            tableInfo.setIndexSize(rs.getLong("index_size_MB"));
+            tableInfo.setRecords(rs.getLong("records"));
+            return tableInfo;
+        });
+        return tableInfos;
+    }
+
+    /**
+     * 数据
+     * @return
+     */
+    @Override
+    public DsInfo dsInfo() {
+        String sql = "select\n" +
+                "table_schema as 'ds',\n" +
+                "sum(table_rows) as 'records',\n" +
+                "sum(truncate(data_length/1024/1024, 2)) as 'data_size_MB',\n" +
+                "sum(truncate(index_length/1024/1024, 2)) as 'index_size_MB'\n" +
+                "from information_schema.tables\n" +
+                "where table_schema='%s'";
+        List<DsInfo> tableInfos = ShowDbFactory.getJdbcTemplate().query(String.format(sql,
+                DataSourcePropUtil.getMysqlSchemaFromCurrentDataSource()), (rs, i) -> {
+            DsInfo dsInfo = new DsInfo();
+            dsInfo.setDataSize(rs.getString("data_size_MB"));
+            dsInfo.setIndexSize(rs.getString("index_size_MB"));
+            dsInfo.setRecords(rs.getLong("records"));
+            return dsInfo;
+        });
+
+
+        return CollectionUtils.firstElement(tableInfos);
     }
 }

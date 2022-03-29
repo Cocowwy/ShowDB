@@ -5,6 +5,7 @@ var app = new Vue({
         dataSorucesInfo: [],
         // 当前选择的数据源
         currentDataSource: null,
+        currentDataSourceInfo: null,
         // 当前数据源所有表名称集合
         tableNameList: [],
         // 搜索框选择值
@@ -33,6 +34,7 @@ var app = new Vue({
                 for (i = 0; i < that.dataSorucesInfo.length; i++) {
                     if (that.dataSorucesInfo[i].use == true) {
                         that.currentDataSource = that.dataSorucesInfo[i].beanName
+                        that.currentDataSourceInfo = that.dataSorucesInfo[i]
                     }
                 }
             })
@@ -83,8 +85,8 @@ var app = new Vue({
                 return;
             }
             this.tableStructByPage(this.tableStructSize, number);
-            this.loadingTables = false;
             document.body.scrollTop = document.documentElement.scrollTop = 0;
+            this.loadingTables = false;
         },
 
         // ===========================搜索框=======================
@@ -125,9 +127,14 @@ var app = new Vue({
                 that.currentDataSource = dsBeanName;
                 that.tableStructByPage(that.tableStructSize, that.tableStructPageNumber);
                 that.tableNames();
+                that.dsInfo();
             })
             this.loadingDataSource = false;
             this.loadingTables = false;
+        },
+
+        starIt() {
+            window.open("https://github.com/Cocowwy/ShowDB");
         }
     },
 
@@ -142,5 +149,7 @@ var app = new Vue({
 
         this.loadingTables = false;
         this.loadingDataSource = false;
+
+        console.log('作者：Cocowwy  Github:https://github.com/Cocowwy/ShowDB')
     }
 })

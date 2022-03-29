@@ -1,7 +1,9 @@
 package cn.cocowwy.showdbcore.strategy;
 
+import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
+import cn.cocowwy.showdbcore.entities.TableInfo;
 
 import java.util.List;
 
@@ -22,4 +24,16 @@ public interface MonitorExecuteStrategy extends SqlExecuteStrategy {
      * @return
      */
     SlaveStatus slaveStatus();
+
+    /**
+     * 监控表大小
+     * @return
+     */
+    List<TableInfo> tableMonitor();
+
+    /**
+     * 数据库大小
+     * @return
+     */
+    DsInfo dsInfo();
 }

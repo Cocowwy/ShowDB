@@ -15,24 +15,33 @@ public class ShowdbTestApplication {
         SpringApplication.run(ShowdbTestApplication.class, args);
     }
 
-    //=========多数据源测试============
+    //=========模拟多数据源测试============
 
     /**
-     * 主库配置
+     * 数据源1配置
      */
-    @Bean(name = "masterDataSource", destroyMethod = "close", initMethod = "init")
-    @ConfigurationProperties(prefix = "spring.datasource.master")
+    @Bean(name = "dataSource1", destroyMethod = "close", initMethod = "init")
+    @ConfigurationProperties(prefix = "spring.datasource.data-source1")
     @Primary
-    public DruidDataSource createMasterSource() {
+    public DruidDataSource createDataSource1Source() {
         return DruidDataSourceBuilder.create().build();
     }
 
     /**
-     * 从库配置
+     * 数据源2配置
      */
-    @Bean(name = "slaveDataSource", destroyMethod = "close", initMethod = "init")
-    @ConfigurationProperties(prefix = "spring.datasource.slave")
-    public DruidDataSource createSlaveSource() {
+    @Bean(name = "dataSource2", destroyMethod = "close", initMethod = "init")
+    @ConfigurationProperties(prefix = "spring.datasource.data-source2")
+    public DruidDataSource createDataSource2Source() {
+        return DruidDataSourceBuilder.create().build();
+    }
+
+    /**
+     * 数据源3配置
+     */
+    @Bean(name = "dataSource3", destroyMethod = "close", initMethod = "init")
+    @ConfigurationProperties(prefix = "spring.datasource.data-source3")
+    public DruidDataSource createDataSource3Source() {
         return DruidDataSourceBuilder.create().build();
     }
 }

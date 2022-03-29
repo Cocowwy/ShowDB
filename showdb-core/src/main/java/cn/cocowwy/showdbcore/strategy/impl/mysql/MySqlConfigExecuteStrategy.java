@@ -35,4 +35,15 @@ public class MySqlConfigExecuteStrategy implements ConfigExecuteStrategy, MySqlE
         List<String> rts = ShowDbFactory.getJdbcTemplate().query(sql, (rs, i) -> rs.getString("Value"));
         return CollectionUtils.firstElement(rts);
     }
+
+    /**
+     * 路径
+     * @return
+     */
+    @Override
+    public String baseDir() {
+        String sql = "show variables like 'basedir'";
+        List<String> rts = ShowDbFactory.getJdbcTemplate().query(sql, (rs, i) -> rs.getString("Value"));
+        return CollectionUtils.firstElement(rts);
+    }
 }

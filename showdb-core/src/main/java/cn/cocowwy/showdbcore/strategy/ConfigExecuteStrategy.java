@@ -16,4 +16,10 @@ public interface ConfigExecuteStrategy extends SqlExecuteStrategy {
      * @return
      */
     String DbVersion();
+
+    /**
+     * 路径
+     * @return
+     */
+    String baseDir();
 }

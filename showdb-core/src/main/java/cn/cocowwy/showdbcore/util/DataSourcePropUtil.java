@@ -88,12 +88,20 @@ public class DataSourcePropUtil {
                 ShowDbCache.buildCacheKey(DBEnum.MySQL.getName(), "dataSourceSchema", GlobalContext.getCurrentDataSourceBeanName()),
                 (key) -> {
                     String mysqlSchema = null;
+                    Connection connection = null;
                     try {
-                        mysqlSchema = GlobalContext.getDataSourcesMap()
+                        connection = GlobalContext.getDataSourcesMap()
                                 .get(GlobalContext.getCurrentDataSourceBeanName())
-                                .getConnection().getMetaData().getURL();
+                                .getConnection();
+                        mysqlSchema = connection.getMetaData().getURL();
                     } catch (SQLException throwables) {
                         return "";
+                    }finally {
+                        try {
+                            connection.close();
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
                     }
                     int begin = 0;
                     int end = 0;

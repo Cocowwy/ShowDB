@@ -1,5 +1,8 @@
 package cn.cocowwy.showdbcore.entities;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 数据源信息
  * @author Cocowwy
@@ -12,19 +15,14 @@ public class DsInfo {
     private String beanName;
 
     /**
+     * 数据库名
+     */
+    private String tableSchema;
+
+    /**
      * URL
      */
     private String url;
-
-    /**
-     * 连接 地址
-     */
-    private String host;
-
-    /**
-     * 连接 端口
-     */
-    private String port;
 
     /**
      * 账号名
@@ -37,14 +35,44 @@ public class DsInfo {
     private String dsProductName;
 
     /**
-     * 密码
-     */
-    private transient String password;
-
-    /**
      * 当前数据源是否在使用
      */
     private Boolean use = Boolean.FALSE;
+
+    /**
+     * 数据大小
+     */
+    private String dataSize;
+
+    /**
+     * 索引代销
+     */
+    private String indexSize;
+
+    /**
+     * 记录数
+     */
+    private Long records;
+
+    /**
+     * 操作系统环境
+     */
+    private String osEnv;
+
+    /**
+     * 数据库版本号
+     */
+    private String dbVersion;
+
+    /**
+     * 路径
+     */
+    private String baseDir;
+
+    /**
+     * 客户端连接数
+     */
+    private List<IpCount> ipConCounts;
 
     public String getBeanName() {
         return beanName;
@@ -52,6 +80,14 @@ public class DsInfo {
 
     public void setBeanName(String beanName) {
         this.beanName = beanName;
+    }
+
+    public String getTableSchema() {
+        return tableSchema;
+    }
+
+    public void setTableSchema(String tableSchema) {
+        this.tableSchema = tableSchema;
     }
 
     public String getUrl() {
@@ -62,36 +98,12 @@ public class DsInfo {
         this.url = url;
     }
 
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public String getPort() {
-        return port;
-    }
-
-    public void setPort(String port) {
-        this.port = port;
-    }
-
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getDsProductName() {
@@ -108,5 +120,61 @@ public class DsInfo {
 
     public void setUse(Boolean use) {
         this.use = use;
+    }
+
+    public String getDataSize() {
+        return dataSize;
+    }
+
+    public void setDataSize(String dataSize) {
+        this.dataSize = dataSize;
+    }
+
+    public String getIndexSize() {
+        return indexSize;
+    }
+
+    public void setIndexSize(String indexSize) {
+        this.indexSize = indexSize;
+    }
+
+    public Long getRecords() {
+        return records;
+    }
+
+    public void setRecords(Long records) {
+        this.records = records;
+    }
+
+    public String getOsEnv() {
+        return osEnv;
+    }
+
+    public void setOsEnv(String osEnv) {
+        this.osEnv = osEnv;
+    }
+
+    public String getDbVersion() {
+        return dbVersion;
+    }
+
+    public void setDbVersion(String dbVersion) {
+        this.dbVersion = dbVersion;
+    }
+
+    public String getBaseDir() {
+        return baseDir;
+    }
+
+    public void setBaseDir(String baseDir) {
+        this.baseDir = baseDir;
+    }
+
+    public List<IpCount> getIpConCounts() {
+        return ipConCounts;
+    }
+
+    public void setIpConCounts(List<IpCount> ipConCounts) {
+        this.ipConCounts = ipConCounts;
     }
 }
