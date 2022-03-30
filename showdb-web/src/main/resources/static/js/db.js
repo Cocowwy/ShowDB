@@ -137,17 +137,18 @@ var app = new Vue({
          * 缓存清理
          */
         cleanCache() {
-            this.loadingTables = true;
-            this.loadingDataSource = true;
-            var that = this;
-            axios.delete('/showdb/config/cleanCache').then(function (res) {
-                if (res.data.code !== 200) {
-                    alert(res.data.msg);
-                    return;
-                }
-                that.loadingTables = true;
-                that.loadingDataSource = true;
-            })
+            console.log("111")
+            // this.loadingTables = true;
+            // this.loadingDataSource = true;
+            // var that = this;
+            // axios.delete('/showdb/config/cleanCache').then(function (res) {
+            //     if (res.data.code !== 200) {
+            //         alert(res.data.msg);
+            //         return;
+            //     }
+            //     that.loadingTables = true;
+            //     that.loadingDataSource = true;
+            // })
         },
 
         starIt() {

@@ -13,7 +13,7 @@
 </head>
 <body>
 <dev id="ShowDB">
-    <el-alert title="拆箱即用的数据库文档开源工具，会自动根据SpringBoot项目中已存在的数据源（多数据源），生成文档以及数据库监控信息等"
+    <el-alert title="拆箱即用的数据库文档开源工具，会自动根据SpringBoot项目中已存在的数据源（多数据源），生成文档以及数据库监控信息等 v1.0.0"
               type="success"
               @close="starIt" center>
     </el-alert>
@@ -28,9 +28,15 @@
             </div>
 
             <div style="margin-top: 18px">
-                <el-button type="info">清理缓存</el-button>
-                <el-button type="primary">PDF文档生成</el-button>
-                <el-button type="primary">数据库结构导出</el-button>
+                <el-popconfirm title="确定清理缓存嘛？">
+                    <el-button type="info" slot="reference">清理缓存</el-button>
+                </el-popconfirm>
+                <el-popconfirm title="是否生成当前数据源所有表结构PDF？">
+                    <el-button type="primary" slot="reference">PDF文档生成</el-button>
+                </el-popconfirm>
+                <el-popconfirm title="是否导出当前数据源所有表SQL创建语句？">
+                    <el-button type="primary" slot="reference">建表语句导出</el-button>
+                </el-popconfirm>
             </div>
 
             <div style="display: flex;align-items: center">
@@ -96,7 +102,7 @@
 
 
         <!--右侧数据源相关-->
-        <el-aside width="35%" style="margin-top: 128px;">
+        <el-aside width="35%" style="margin-top: 58px;">
 
             <el-image v-if="currentDataSourceInfo!=null&&currentDataSourceInfo.dsProductName==='MySQL'"
                       style="width: 228px; height: 228px" th:src="@{img/mysql.png}"></el-image>
