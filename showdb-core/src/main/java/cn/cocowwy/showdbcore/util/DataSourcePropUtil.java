@@ -83,20 +83,20 @@ public class DataSourcePropUtil {
      * 获取MySQL环境的数据源的schema，通过字符串截取，走缓存
      * @return
      */
-    public static String getMysqlSchemaFromCurrentDataSource() {
+    public static String getMysqlSchemaFromDataSourceBeanName(String beanName) {
         return (String) ShowDbCache.cache().computeIfAbsent(
-                ShowDbCache.buildCacheKey(DBEnum.MySQL.getName(), "dataSourceSchema", GlobalContext.getCurrentDataSourceBeanName()),
+                ShowDbCache.buildCacheKey(beanName, "dataSourceSchema", beanName),
                 (key) -> {
                     String mysqlSchema = null;
                     Connection connection = null;
                     try {
                         connection = GlobalContext.getDataSourcesMap()
-                                .get(GlobalContext.getCurrentDataSourceBeanName())
+                                .get(beanName)
                                 .getConnection();
                         mysqlSchema = connection.getMetaData().getURL();
                     } catch (SQLException throwables) {
                         return "";
-                    }finally {
+                    } finally {
                         try {
                             connection.close();
                         } catch (SQLException throwables) {

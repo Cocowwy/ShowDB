@@ -2,13 +2,10 @@ package cn.cocowwy.showdbcore.config;
 
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.constants.EndpointEnum;
-import cn.cocowwy.showdbcore.exception.ShowDbException;
-import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
@@ -25,15 +22,15 @@ public class GlobalContext {
      */
     private static final Set<EndpointEnum> ENABLE_ENDPOINT = new HashSet<EndpointEnum>(1);
 
-    /**
-     * 当前使用的数据源类型
-     */
-    private static DBEnum database;
-
-    /**
-     * 当前数据源Bean名称
-     */
-    private static String currentDataSourceBeanName;
+//    /**
+//     * 当前使用的数据源类型
+//     */
+//    private static DBEnum database;
+//
+//    /**
+//     * 当前数据源Bean名称
+//     */
+//    private static String currentDataSourceBeanName;
 
     /**
      * 数据源集合，适配多数据源情况下进行切换  beanName --> dataSource
@@ -45,20 +42,20 @@ public class GlobalContext {
      */
     private static Map<String, DBEnum> dataSourcesTypeMap;
 
-    /**
-     * 环境中存在多数据源情况下，JdbcTemplate进行切换数据源
-     * When there are multiple data sources in the environment, perform manual switching
-     * @param dataSourceName
-     */
-    public static void switchDataSource(String dataSourceName) throws SQLException {
-        DataSource ds = dataSourcesMap.get(dataSourceName);
-        if (ds == null) {
-            throw new ShowDbException("A data source with the current name does not exist");
-        }
-        currentDataSourceBeanName = dataSourceName;
-        database = DataSourcePropUtil.dataSourceTypeByBeanName(currentDataSourceBeanName);
-        logger.info(String.format("Switch datasource to [%s]", dataSourceName));
-    }
+//    /**
+//     * 环境中存在多数据源情况下，JdbcTemplate进行切换数据源
+//     * When there are multiple data sources in the environment, perform manual switching
+//     * @param dataSourceName
+//     */
+//    public static void switchDataSource(String dataSourceName) throws SQLException {
+//        DataSource ds = dataSourcesMap.get(dataSourceName);
+//        if (ds == null) {
+//            throw new ShowDbException("A data source with the current name does not exist");
+//        }
+//        currentDataSourceBeanName = dataSourceName;
+//        database = DataSourcePropUtil.dataSourceTypeByBeanName(currentDataSourceBeanName);
+//        logger.info(String.format("Switch datasource to [%s]", dataSourceName));
+//    }
 
     /**
      * 设置数据源集合，兼容多数据源场景
@@ -86,18 +83,18 @@ public class GlobalContext {
     public static Boolean isEnable(EndpointEnum endpoint) {
         return ENABLE_ENDPOINT.contains(endpoint);
     }
-
-    public static String getDatabaseProductName() {
-        return database.getName();
-    }
-
-    public static DBEnum getDatabase() {
-        return database;
-    }
-
-    public static void setDatabase(DBEnum db) {
-        GlobalContext.database = db;
-    }
+//
+//    public static String getDatabaseProductName() {
+//        return database.getName();
+//    }
+//
+//    public static DBEnum getDatabase() {
+//        return database;
+//    }
+//
+//    public static void setDatabase(DBEnum db) {
+//        GlobalContext.database = db;
+//    }
 
     public static Map<String, DBEnum> getDataSourcesTypeMap() {
         return dataSourcesTypeMap;
@@ -107,12 +104,16 @@ public class GlobalContext {
         GlobalContext.dataSourcesTypeMap = dataSourcesTypeMap;
     }
 
-    public static String getCurrentDataSourceBeanName() {
-        return currentDataSourceBeanName;
+    public static DBEnum mapDs2DbType(String ds) {
+        return dataSourcesTypeMap.get(ds);
     }
-
-    public static void setCurrentDataSourceBeanName(String currentDataSourceBeanName) {
-        GlobalContext.currentDataSourceBeanName = currentDataSourceBeanName;
-    }
+//
+//    public static String getCurrentDataSourceBeanName() {
+//        return currentDataSourceBeanName;
+//    }
+//
+//    public static void setCurrentDataSourceBeanName(String currentDataSourceBeanName) {
+//        GlobalContext.currentDataSourceBeanName = currentDataSourceBeanName;
+//    }
 }
 

@@ -59,12 +59,10 @@ public class ShowDbAutoConfiguration implements InitializingBean {
         Map<String, DataSource> dataSourcesMap = dataSources.stream()
                 .collect(Collectors.toMap(Function.identity(), beanName -> (DataSource) applicationContext.getBean(beanName)));
 
-        GlobalContext.setCurrentDataSourceBeanName(datasourceName);
         GlobalContext.setDataSourcesMap(dataSourcesMap);
 
-        Map<String, DBEnum> dataSourcesTypeMap = dataSources.stream().collect(Collectors.toMap(Function.identity(),
-                ds -> DataSourcePropUtil.dataSourceTypeByBeanName(GlobalContext.getCurrentDataSourceBeanName())));
-        GlobalContext.setDatabase(dataSourcesTypeMap.get(datasourceName));
+        Map<String, DBEnum> dataSourcesTypeMap = dataSources.stream()
+                .collect(Collectors.toMap(Function.identity(), DataSourcePropUtil::dataSourceTypeByBeanName));
         GlobalContext.setDataSourcesTypeMap(dataSourcesTypeMap);
 
         ShowDbFactory.INSTANCE.init();
@@ -73,6 +71,5 @@ public class ShowDbAutoConfiguration implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws SQLException {
         EndpointUtil.setEnableSet(properties.getEndpoint());
-        GlobalContext.setDatabase(DataSourcePropUtil.dataSourceTypeByBeanName(GlobalContext.getCurrentDataSourceBeanName()));
     }
 }

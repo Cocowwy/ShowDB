@@ -49,31 +49,35 @@ public class ConfigService {
      * @param name
      * @return
      */
+    @Deprecated
     public void switchDataSource(String name) throws SQLException {
-        GlobalContext.switchDataSource(name);
+//        GlobalContext.switchDataSource(name);
     }
 
     /**
      * DB所处环境
      * @return
      */
-    public String getOsEnv() {
-        String key = ShowDbCache.buildCacheKey("os", "env");
-        return (String) ShowDbCache.cache().computeIfAbsent(key, (k) -> CONFIG_STRATEGY.get(GlobalContext.getDatabase()).OsEnv());
+    public String getOsEnv(String ds) {
+        String key = ShowDbCache.buildCacheKey(ds, "os", "env");
+        return (String) ShowDbCache.cache().computeIfAbsent(key,
+                (k) -> CONFIG_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).OsEnv(ds));
     }
 
     /**
      * DB版本号
      * @return
      */
-    public String getDbVersion() {
-        String key = ShowDbCache.buildCacheKey("db", "version");
-        return (String) ShowDbCache.cache().computeIfAbsent(key, (k) -> CONFIG_STRATEGY.get(GlobalContext.getDatabase()).DbVersion());
+    public String getDbVersion(String ds) {
+        String key = ShowDbCache.buildCacheKey(ds, "db", "version");
+        return (String) ShowDbCache.cache().computeIfAbsent(key,
+                (k) -> CONFIG_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).DbVersion(ds));
     }
 
-    private String getBaseDir(){
-        String key = ShowDbCache.buildCacheKey("db", "baseDir");
-        return (String) ShowDbCache.cache().computeIfAbsent(key, (k) -> CONFIG_STRATEGY.get(GlobalContext.getDatabase()).baseDir());
+    private String getBaseDir(String ds) {
+        String key = ShowDbCache.buildCacheKey(ds, "db", "baseDir");
+        return (String) ShowDbCache.cache().computeIfAbsent(key,
+                (k) -> CONFIG_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).baseDir(ds));
     }
 
     /**
@@ -88,26 +92,23 @@ public class ConfigService {
             Connection connection = null;
             DatabaseMetaData masterDataSource = null;
             try {
-                connection = dsMap.get(entry.getKey()).getConnection();
+                String ds = entry.getKey();
+                connection = dsMap.get(ds).getConnection();
                 masterDataSource = connection.getMetaData();
 
                 dsInfo.setBeanName(entry.getKey());
                 dsInfo.setDsProductName(masterDataSource.getDatabaseProductName());
                 dsInfo.setUrl(masterDataSource.getURL());
                 dsInfo.setUsername(connection.getMetaData().getUserName());
-                dsInfo.setDbVersion(getDbVersion());
-                dsInfo.setDataSize(monitorService.dsInfo().getDataSize());
-                dsInfo.setIndexSize(monitorService.dsInfo().getIndexSize());
-                dsInfo.setRecords(monitorService.dsInfo().getRecords());
-                dsInfo.setOsEnv(getDbVersion());
-                dsInfo.setOsEnv(getOsEnv());
-                dsInfo.setTableSchema(DataSourcePropUtil.getMysqlSchemaFromCurrentDataSource());
-                dsInfo.setBaseDir(this.getBaseDir());
-                dsInfo.setIpConCounts(monitorService.ipCountInfo());
-
-                if (GlobalContext.getCurrentDataSourceBeanName().equals(dsInfo.getBeanName())) {
-                    dsInfo.setUse(Boolean.TRUE);
-                }
+                dsInfo.setDbVersion(getDbVersion(ds));
+                dsInfo.setDataSize(monitorService.dsInfo(ds).getDataSize());
+                dsInfo.setIndexSize(monitorService.dsInfo(ds).getIndexSize());
+                dsInfo.setRecords(monitorService.dsInfo(ds).getRecords());
+                dsInfo.setOsEnv(getDbVersion(ds));
+                dsInfo.setOsEnv(getOsEnv(ds));
+                dsInfo.setTableSchema(DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds));
+                dsInfo.setBaseDir(this.getBaseDir(ds));
+                dsInfo.setIpConCounts(monitorService.ipCountInfo(ds));
                 return dsInfo;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

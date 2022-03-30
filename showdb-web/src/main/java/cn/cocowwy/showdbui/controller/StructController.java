@@ -3,14 +3,10 @@ package cn.cocowwy.showdbui.controller;
 import cn.cocowwy.showdbcore.annotation.Endpoint;
 import cn.cocowwy.showdbcore.constants.EndpointEnum;
 import cn.cocowwy.showdbcore.entities.Res;
-import cn.cocowwy.showdbcore.entities.TableField;
 import cn.cocowwy.showdbcore.entities.TableStructVo;
 import cn.cocowwy.showdbui.service.StructService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,9 +26,9 @@ public class StructController {
      * @return
      */
     @Endpoint(EndpointEnum.STRUCTURE)
-    @GetMapping("/{pageSize}/{pageNumber}")
-    public Res<TableStructVo> tableStruct(@PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber) {
-        return Res.success(structService.tableStruct(pageSize, pageNumber));
+    @GetMapping("/{ds}/{pageSize}/{pageNumber}")
+    public Res<TableStructVo> tableStruct(@PathVariable("ds") String ds, @PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber) {
+        return Res.success(structService.tableStruct(ds, pageSize, pageNumber));
     }
 
     /**
@@ -43,8 +39,8 @@ public class StructController {
      */
     @Endpoint(EndpointEnum.STRUCTURE)
     @GetMapping("/create/{table}")
-    public Res<String> tableCreateStatement(@PathVariable("table") String table) {
-        return Res.success(structService.tableCreateStatement(table));
+    public Res<String> tableCreateStatement(@PathVariable("ds") String ds, @PathVariable("table") String table) {
+        return Res.success(structService.tableCreateStatement(ds, table));
     }
 
     /**
@@ -54,8 +50,8 @@ public class StructController {
      */
     @Endpoint(EndpointEnum.STRUCTURE)
     @GetMapping("/{pageSize}/{pageNumber}/{table}")
-    public Res<TableStructVo> tableStruct(@PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber, @PathVariable("table") String table) {
-        return Res.success(structService.tableStruct(pageSize, pageNumber, table));
+    public Res<TableStructVo> tableStruct(@PathVariable("ds") String ds, @PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber, @PathVariable("table") String table) {
+        return Res.success(structService.tableStruct(ds, pageSize, pageNumber, table));
     }
 
     /**
@@ -63,7 +59,7 @@ public class StructController {
      * @return
      */
     @GetMapping("/all")
-    public Res<List<String>> tableNames() {
-        return Res.success(structService.tableNames());
+    public Res<List<String>> tableNames(@PathVariable("ds") String ds) {
+        return Res.success(structService.tableNames(ds));
     }
 }

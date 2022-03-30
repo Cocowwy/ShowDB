@@ -26,8 +26,8 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
      * @param tableName
      */
     @Override
-    public List<TableField> tableStructure(String tableName) {
-        return ShowDbFactory.getJdbcTemplate()
+    public List<TableField> tableStructure(String ds, String tableName) {
+        return ShowDbFactory.getJdbcTemplate(ds)
                 .query(String.format("SELECT TABLE_SCHEMA,\n" +
                                 "       TABLE_NAME,\n" +
                                 "       COLUMN_NAME,\n" +
@@ -38,7 +38,7 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
                                 "       COLUMN_KEY\n" +
                                 "FROM information_schema.COLUMNS \n" +
                                 "WHERE table_name = '%s' AND TABLE_SCHEMA = '%s' ORDER BY ORDINAL_POSITION ASC", tableName,
-                        DataSourcePropUtil.getMysqlSchemaFromCurrentDataSource()),
+                        DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds)),
                         (rs, i) -> {
                             TableField ts = new TableField();
                             ts.setSchema(rs.getString("TABLE_SCHEMA"));
@@ -60,8 +60,8 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
      * @return
      */
     @Override
-    public List<String> tableNames() {
-        return ShowDbFactory.getJdbcTemplate()
+    public List<String> tableNames(String ds) {
+        return ShowDbFactory.getJdbcTemplate(ds)
                 .query("show tables", (rs, i) ->
                         rs.getObject(1, String.class));
     }
@@ -72,8 +72,8 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
      * @return
      */
     @Override
-    public String createTableStatement(String tableName) {
-        List<String> result = ShowDbFactory.getJdbcTemplate()
+    public String createTableStatement(String ds, String tableName) {
+        List<String> result = ShowDbFactory.getJdbcTemplate(ds)
                 .query(String.format("show create table %s", tableName), (resultSet, i) ->
                         resultSet.getObject(2, String.class));
         return CollectionUtils.lastElement(result);
@@ -84,11 +84,11 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
      * @return
      */
     @Override
-    public TableInfo tableInfo(String table) {
-        List<TableInfo> rts = ShowDbFactory.getJdbcTemplate()
+    public TableInfo tableInfo(String ds, String table) {
+        List<TableInfo> rts = ShowDbFactory.getJdbcTemplate(ds)
                 .query(String.format("SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES  " +
                                 "WHERE TABLE_NAME = '%s' AND TABLE_SCHEMA = '%s'", table,
-                        DataSourcePropUtil.getMysqlSchemaFromCurrentDataSource()),
+                        DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds)),
                         (rs, i) -> {
                             TableInfo ti = new TableInfo();
                             ti.setTableComment(rs.getString("TABLE_COMMENT"));

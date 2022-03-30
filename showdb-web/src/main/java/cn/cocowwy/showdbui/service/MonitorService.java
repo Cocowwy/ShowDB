@@ -43,8 +43,8 @@ public class MonitorService {
      * 当前数据源所对应数据库的 IP客户端连接数
      * @return
      */
-    public List<IpCount> ipCountInfo() {
-        return MONITOR_STRATEGY.get(GlobalContext.getDatabase()).ipConnectCount();
+    public List<IpCount> ipCountInfo(String ds) {
+        return MONITOR_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).ipConnectCount(ds);
     }
 
     /**
@@ -52,20 +52,17 @@ public class MonitorService {
      *  -MySQL 仅开启主从之后有返回值
      * @return
      */
-    public SlaveStatus masterSlaveInfo() {
-        if (!GlobalContext.getDatabase().equals(DBEnum.MySQL)) {
-            return null;
-        }
-        return MONITOR_STRATEGY.get(GlobalContext.getDatabase()).slaveStatus();
+    public SlaveStatus masterSlaveInfo(String ds) {
+        return MONITOR_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).slaveStatus(ds);
     }
 
     /**
      * 数据库大小
      * @return
      */
-    public DsInfo dsInfo() {
+    public DsInfo dsInfo(String ds) {
         return (DsInfo) ShowDbCache.cache()
-                .computeIfAbsent(ShowDbCache.buildCacheKey("dsInfo", DataSourcePropUtil.getMysqlSchemaFromCurrentDataSource()),
-                        (key) -> MONITOR_STRATEGY.get(GlobalContext.getDatabase()).dsInfo());
+                .computeIfAbsent(ShowDbCache.buildCacheKey(ds,"dsInfo", ds),
+                        (key) -> MONITOR_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).dsInfo(ds));
     }
 }

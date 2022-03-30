@@ -9,17 +9,17 @@ public interface ConfigExecuteStrategy extends SqlExecuteStrategy {
      * 操作系统版本
      * @return
      */
-    String OsEnv();
+    String OsEnv(String ds);
 
     /**
      * 数据库版本号
      * @return
      */
-    String DbVersion();
+    String DbVersion(String ds);
 
     /**
      * 路径
      * @return
      */
-    String baseDir();
+    String baseDir(String ds);
 }

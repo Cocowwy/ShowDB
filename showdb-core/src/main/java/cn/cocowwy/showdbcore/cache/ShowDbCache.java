@@ -50,18 +50,6 @@ public class ShowDbCache {
         return String.format("%s#%s#%s", ds, biz, label);
     }
 
-
-    /**
-     * 缓存键构造
-     * Cache key construction
-     * @param biz 业务标识
-     * @param label 唯一标识
-     * @return
-     */
-    public static String buildCacheKey(String biz, String label) {
-        return String.format("%s#%s#%s", GlobalContext.getDatabaseProductName(), biz, label);
-    }
-
     public static Map<String, Object>  cache() {
         return CACHE;
     }

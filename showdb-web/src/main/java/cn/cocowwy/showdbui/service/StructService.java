@@ -45,18 +45,16 @@ public class StructService {
      * Get the structure of all tables
      * @return
      */
-    public TableStructVo tableStruct(Integer pageSize, Integer pageNumber) {
-        String key = ShowDbCache.buildCacheKey(
-                GlobalContext.getCurrentDataSourceBeanName(),
-                "tableStruct", pageSize + "@" + pageNumber);
+    public TableStructVo tableStruct(String ds, Integer pageSize, Integer pageNumber) {
+        String key = ShowDbCache.buildCacheKey(ds, "tableStruct", pageSize + "@" + pageNumber);
 
         List<TableStructVo.TableStruct> rts = (List<TableStructVo.TableStruct>) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
-            List<String> tables = page(tableNames(), pageSize, pageNumber);
+            List<String> tables = page(tableNames(ds), pageSize, pageNumber);
             List<TableStructVo.TableStruct> rt = tables.stream().map(table -> {
-                List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(table);
+                List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableStructure(ds, table);
                 TableInfo tableInfo = new TableInfo();
                 tableInfo.setTableName(table);
-                tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableInfo(table).getTableComment());
+                tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableInfo(ds, table).getTableComment());
                 TableStructVo.TableStruct tableStruct = new TableStructVo.TableStruct();
                 tableStruct.setTableInfo(tableInfo);
                 tableStruct.setTableFieldList(tableFields);
@@ -66,7 +64,7 @@ public class StructService {
         });
 
         TableStructVo tableStructVo = new TableStructVo();
-        tableStructVo.setTotal(tableNames().size());
+        tableStructVo.setTotal(tableNames(ds).size());
         tableStructVo.setTableStructs(rts);
 
         return tableStructVo;
@@ -77,13 +75,11 @@ public class StructService {
      * Get a collection of all table names
      * @return
      */
-    public List<String> tableNames() {
-        String tablesKey = ShowDbCache.buildCacheKey(
-                GlobalContext.getCurrentDataSourceBeanName(),
-                "tableLists", "names");
+    public List<String> tableNames(String ds) {
+        String tablesKey = ShowDbCache.buildCacheKey(ds, "tableLists", "names");
 
         List<String> rts = (List<String>) ShowDbCache.cache().computeIfAbsent(tablesKey,
-                (key) -> STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableNames());
+                (key) -> STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableNames(ds));
         return rts;
     }
 
@@ -92,20 +88,18 @@ public class StructService {
      * Get the structure of all tables
      * @return
      */
-    public TableStructVo tableStruct(Integer pageSize, Integer pageNumber, String name) {
+    public TableStructVo tableStruct(String ds, Integer pageSize, Integer pageNumber, String name) {
 
-        String key = ShowDbCache.buildCacheKey(
-                GlobalContext.getCurrentDataSourceBeanName(),
-                "tableStruct", name + "#" + pageSize + "#" + pageNumber);
+        String key = ShowDbCache.buildCacheKey(ds, "tableStruct", name + "#" + pageSize + "#" + pageNumber);
 
-        List<String> tabkes = tableNames().stream().filter(it -> it.contains(name)).collect(Collectors.toList());
+        List<String> tabkes = tableNames(ds).stream().filter(it -> it.contains(name)).collect(Collectors.toList());
         List<TableStructVo.TableStruct> rts = (List<TableStructVo.TableStruct>) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
             List<String> likeTale = page(tabkes, pageSize, pageNumber);
             List<TableStructVo.TableStruct> rt = likeTale.stream().map(table -> {
-                List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableStructure(table);
+                List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableStructure(ds, table);
                 TableInfo tableInfo = new TableInfo();
                 tableInfo.setTableName(table);
-                tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.getDatabase()).tableInfo(table).getTableComment());
+                tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableInfo(ds, table).getTableComment());
                 TableStructVo.TableStruct tableStruct = new TableStructVo.TableStruct();
                 tableStruct.setTableInfo(tableInfo);
                 tableStruct.setTableFieldList(tableFields);
@@ -126,13 +120,10 @@ public class StructService {
      * @param table 表名
      * @return
      */
-    public String tableCreateStatement(String table) {
-        String key = ShowDbCache.buildCacheKey(
-                GlobalContext.getCurrentDataSourceBeanName(),
-                "createStatement",
-                table);
+    public String tableCreateStatement(String ds, String table) {
+        String key = ShowDbCache.buildCacheKey(ds, "createStatement", table);
         return (String) ShowDbCache.cache()
-                .computeIfAbsent(key, (k) -> STRUCT_STRATEGY.get(GlobalContext.getDatabase()).createTableStatement(table));
+                .computeIfAbsent(key, (k) -> STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).createTableStatement(ds, table));
 
     }
 

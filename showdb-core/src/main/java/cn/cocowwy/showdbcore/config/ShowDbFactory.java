@@ -35,7 +35,7 @@ public class ShowDbFactory {
      * 获取当前所选择数据源的JdbcTemplate对象
      * @return
      */
-    public static JdbcTemplate getJdbcTemplate() {
-        return jdbcTemplatePool.get(GlobalContext.getCurrentDataSourceBeanName());
+    public static JdbcTemplate getJdbcTemplate(String ds) {
+        return jdbcTemplatePool.get(ds);
     }
 }

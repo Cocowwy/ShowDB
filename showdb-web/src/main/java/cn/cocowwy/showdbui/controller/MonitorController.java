@@ -8,9 +8,7 @@ import cn.cocowwy.showdbcore.entities.SlaveStatus;
 import cn.cocowwy.showdbcore.exception.ErrorDefinition;
 import cn.cocowwy.showdbui.service.MonitorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,7 +17,7 @@ import java.util.List;
  * @create 2022-03-03-19:01
  */
 @RestController
-@RequestMapping("/showdb/monitor")
+@RequestMapping("/showdb/monitor/{ds}")
 public class MonitorController {
     @Autowired
     private MonitorService monitorService;
@@ -31,8 +29,8 @@ public class MonitorController {
      */
     @Endpoint(EndpointEnum.MONITOR_MASTER_SLAVE)
     @GetMapping("/masterSlaveInfo")
-    public Res<SlaveStatus> masterSlaveInfo() {
-        SlaveStatus info = monitorService.masterSlaveInfo();
+    public Res<SlaveStatus> masterSlaveInfo(@PathVariable("ds") String ds) {
+        SlaveStatus info = monitorService.masterSlaveInfo(ds);
         if (info == null) {
             return Res.error(ErrorDefinition.NOT_SUPPORTED);
         }
@@ -45,8 +43,8 @@ public class MonitorController {
      */
     @Endpoint(EndpointEnum.MONITOR_DATABASE)
     @GetMapping("/ipCountInfo")
-    public Res<List<IpCount>> ipCountInfo() {
-        return Res.success(monitorService.ipCountInfo());
+    public Res<List<IpCount>> ipCountInfo(@PathVariable("ds")String ds) {
+        return Res.success(monitorService.ipCountInfo(ds));
     }
 }
 

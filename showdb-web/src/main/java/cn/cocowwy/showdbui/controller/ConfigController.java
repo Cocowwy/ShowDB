@@ -27,7 +27,8 @@ public class ConfigController {
      * 修改当前数据源
      * @return
      */
-    @GetMapping("/switchDataSource/{name}")
+    @GetMapping("/{ds}/switchDataSource/{name}")
+    @Deprecated
     public Res<Boolean> switchDataSource(@PathVariable("name") String name) {
         try {
             configService.switchDataSource(name);
@@ -41,18 +42,18 @@ public class ConfigController {
      * DB所处环境
      * @return
      */
-    @GetMapping("/osEnv")
-    public Res<String> getOsEnv() {
-        return Res.success(configService.getOsEnv());
+    @GetMapping("/{ds}/osEnv")
+    public Res<String> getOsEnv(@RequestParam("ds") String ds) {
+        return Res.success(configService.getOsEnv(ds));
     }
 
     /**
      * DB版本号
      * @return
      */
-    @GetMapping("/dbVersion")
-    public Res<String> getDbVersion() {
-        return Res.success(configService.getDbVersion());
+    @GetMapping("/{ds}/dbVersion")
+    public Res<String> getDbVersion(@RequestParam("ds") String ds) {
+        return Res.success(configService.getDbVersion(ds));
     }
 
     /**

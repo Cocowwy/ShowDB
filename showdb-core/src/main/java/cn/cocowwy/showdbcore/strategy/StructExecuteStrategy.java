@@ -13,24 +13,24 @@ public interface StructExecuteStrategy extends SqlExecuteStrategy {
     /**
      * 表结构文档
      */
-    List<TableField> tableStructure(String tableName);
+    List<TableField> tableStructure(String ds, String tableName);
 
     /**
      * 表名集合
      * @return
      */
-    List<String> tableNames();
+    List<String> tableNames(String ds);
 
     /**
      * 获取建表语句
      * @param tableName
      * @return
      */
-    String createTableStatement(String tableName);
+    String createTableStatement(String ds, String tableName);
 
     /**
      * 表详细信息
      * @return
      */
-    TableInfo tableInfo(String table);
+    TableInfo tableInfo(String ds, String table);
 }

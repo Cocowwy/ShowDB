@@ -16,24 +16,24 @@ public interface MonitorExecuteStrategy extends SqlExecuteStrategy {
      * 查询每个IP所占用的连接数
      * @return
      */
-    List<IpCount> ipConnectCount();
+    List<IpCount> ipConnectCount(String ds);
 
     /**
      * 主从信息查询，当前支持MySQL
      *  - MySQL
      * @return
      */
-    SlaveStatus slaveStatus();
+    SlaveStatus slaveStatus(String ds);
 
     /**
      * 监控表大小
      * @return
      */
-    List<TableInfo> tableMonitor();
+    List<TableInfo> tableMonitor(String ds, String tableName);
 
     /**
      * 数据库大小
      * @return
      */
-    DsInfo dsInfo();
+    DsInfo dsInfo(String ds);
 }

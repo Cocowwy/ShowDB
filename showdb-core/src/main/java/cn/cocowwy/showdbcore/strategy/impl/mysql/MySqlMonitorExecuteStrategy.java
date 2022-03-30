@@ -6,7 +6,6 @@ import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
 import cn.cocowwy.showdbcore.entities.TableInfo;
 import cn.cocowwy.showdbcore.strategy.MonitorExecuteStrategy;
-import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -23,12 +22,12 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySq
      * @return
      */
     @Override
-    public List<IpCount> ipConnectCount() {
+    public List<IpCount> ipConnectCount(String ds) {
         String sql = "select SUBSTRING_INDEX(host, ':', 1) as ip, count(*) as count\n" +
                 "from information_schema.processlist as a\n" +
                 "group by ip\n" +
                 "order by count desc;\n";
-        List<IpCount> ipCounts = ShowDbFactory.getJdbcTemplate().query(sql, (rs, i) -> {
+        List<IpCount> ipCounts = ShowDbFactory.getJdbcTemplate(ds).query(sql, (rs, i) -> {
             IpCount ic = new IpCount();
             ic.setIp(rs.getString("ip"));
             ic.setCount(rs.getLong("count"));
@@ -43,7 +42,7 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySq
      * @return
      */
     @Override
-    public SlaveStatus slaveStatus() {
+    public SlaveStatus slaveStatus(String ds) {
         String sql = "show slave status";
         return null;
     }
@@ -53,7 +52,7 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySq
      * @return
      */
     @Override
-    public List<TableInfo> tableMonitor() {
+    public List<TableInfo> tableMonitor(String ds, String tableName) {
         String sql = "select\n" +
                 "table_schema as 'ds',\n" +
                 "table_name as 'tableName',\n" +
@@ -63,15 +62,15 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySq
                 "from information_schema.tables\n" +
                 "where table_schema='%s'\n" +
                 "order by data_length desc, index_length desc;";
-        List<TableInfo> tableInfos = ShowDbFactory.getJdbcTemplate().query(String.format(sql,
-                DataSourcePropUtil.getMysqlSchemaFromCurrentDataSource()), (rs, i) -> {
-            TableInfo tableInfo = new TableInfo();
-            tableInfo.setTableName(rs.getString("tableName"));
-            tableInfo.setDataSize(rs.getLong("data_size_MB"));
-            tableInfo.setIndexSize(rs.getLong("index_size_MB"));
-            tableInfo.setRecords(rs.getLong("records"));
-            return tableInfo;
-        });
+        List<TableInfo> tableInfos = ShowDbFactory.getJdbcTemplate(ds).query(String.format(sql, ds),
+                (rs, i) -> {
+                    TableInfo tableInfo = new TableInfo();
+                    tableInfo.setTableName(rs.getString("tableName"));
+                    tableInfo.setDataSize(rs.getLong("data_size_MB"));
+                    tableInfo.setIndexSize(rs.getLong("index_size_MB"));
+                    tableInfo.setRecords(rs.getLong("records"));
+                    return tableInfo;
+                });
         return tableInfos;
     }
 
@@ -80,7 +79,7 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySq
      * @return
      */
     @Override
-    public DsInfo dsInfo() {
+    public DsInfo dsInfo(String ds) {
         String sql = "select\n" +
                 "table_schema as 'ds',\n" +
                 "sum(table_rows) as 'records',\n" +
@@ -88,16 +87,14 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySq
                 "sum(truncate(index_length/1024/1024, 2)) as 'index_size_MB'\n" +
                 "from information_schema.tables\n" +
                 "where table_schema='%s'";
-        List<DsInfo> tableInfos = ShowDbFactory.getJdbcTemplate().query(String.format(sql,
-                DataSourcePropUtil.getMysqlSchemaFromCurrentDataSource()), (rs, i) -> {
+        List<DsInfo> tableInfos = ShowDbFactory.getJdbcTemplate(ds).query(String.format(sql,
+                ds), (rs, i) -> {
             DsInfo dsInfo = new DsInfo();
             dsInfo.setDataSize(rs.getString("data_size_MB"));
             dsInfo.setIndexSize(rs.getString("index_size_MB"));
             dsInfo.setRecords(rs.getLong("records"));
             return dsInfo;
         });
-
-
         return CollectionUtils.firstElement(tableInfos);
     }
 }
