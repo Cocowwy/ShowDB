@@ -16,26 +16,6 @@ import java.util.Map;
  * @create 2022-03-03-10:03
  */
 public class DataSourcePropUtil {
-    @Deprecated
-    public static DBEnum dataSourceType(DataSource dataSource) throws SQLException {
-        DBEnum type = null;
-        Connection connection = dataSource.getConnection();
-        String name = connection.getMetaData().getDatabaseProductName();
-        try {
-            switch (name) {
-                case "MySQL":
-                    type = DBEnum.MySQL;
-                    break;
-                default:
-                    throw new ShowDbException("The data source is not supported");
-            }
-        } finally {
-            connection.close();
-
-        }
-        return type;
-    }
-
     /**
      * 根据当前数据源的bean名称，获取到数据源枚举
      * @param dataSourceBeanName

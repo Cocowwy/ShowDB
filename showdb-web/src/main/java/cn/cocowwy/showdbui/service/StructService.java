@@ -8,6 +8,7 @@ import cn.cocowwy.showdbcore.entities.TableInfo;
 import cn.cocowwy.showdbcore.entities.TableStructVo;
 import cn.cocowwy.showdbcore.strategy.StructExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
+import cn.cocowwy.showdbcore.util.CodeGenerateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,7 +90,6 @@ public class StructService {
      * @return
      */
     public TableStructVo tableStruct(String ds, Integer pageSize, Integer pageNumber, String name) {
-
         String key = ShowDbCache.buildCacheKey(ds, "tableStruct", name + "#" + pageSize + "#" + pageNumber);
 
         List<String> tabkes = tableNames(ds).stream().filter(it -> it.contains(name)).collect(Collectors.toList());
@@ -127,6 +127,40 @@ public class StructService {
 
     }
 
+    /**
+     * Java 表实体 生成
+     * @return
+     */
+    public String tableJavaCode(String ds, String table) {
+        String rt = (String) ShowDbCache.cache().computeIfAbsent(ShowDbCache.buildCacheKey(ds, "tableJavaCode", table),
+                (key) -> {
+                    List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableStructure(ds, table);
+                    StringBuilder code = new StringBuilder("@Data\npublic class ");
+                    code.append(CodeGenerateUtil.className(table));
+                    code.append("{");
+                    code.append("\n");
+                    tableFields.forEach(field -> {
+                        String javaName = CodeGenerateUtil.columnName(field.getFieldName());
+                        String javaType = CodeGenerateUtil.getType(field.getType());
+                        code.append("    ");
+                        code.append("private");
+                        code.append(" ");
+                        code.append(javaType);
+                        code.append(" ");
+                        code.append(javaName);
+                        code.append(";");
+                        code.append("\n");
+                    });
+                    code.append("}");
+                    return code.toString();
+                });
+
+        return rt;
+    }
+
+    /**
+     * 内存分页
+     */
     private static <T> List<T> page(List<T> data, int size, int num) {
         if (data.size() < 1) {
             return new ArrayList<>(0);

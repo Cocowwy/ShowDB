@@ -57,8 +57,11 @@
             <el-card v-for="(item,index) in  tableStruct" class="box-card" style="margin-top: 18px">
                 <div slot="header" class="clearfix">
                     <span style="font-weight: bolder">{{item.tableInfo.tableName}}&nbsp{{item.tableInfo.tableComment}}</span>
-                    <el-button style="float: right; padding: 3px 3px" type="text">Java实体类</el-button>
-                    <el-button style="float: right; padding: 3px 3px" type="text">建表语句</el-button>
+                    <el-button style="float: right; padding: 3px 3px" type="text"
+                               @click="tableJavaCode(item.tableInfo.tableName)">Java实体类</el-button>
+                    <el-button style="float: right; padding: 3px 3px" type="text"
+                               @click="tableCreateStatement(item.tableInfo.tableName)">建表语句
+                    </el-button>
                     <el-button style="float: right; padding: 3px 0px" type="text">监控信息</el-button>
                 </div>
                 <div>
@@ -101,15 +104,15 @@
             </div>
         </el-main>
 
-
-        <!--右侧数据源相关-->
+        <!--右侧数据源-->
         <el-aside width="35%" style="margin-top: 58px;">
 
             <el-image v-if="currentDataSourceInfo!=null&&currentDataSourceInfo.dsProductName==='MySQL'"
                       style="width: 228px; height: 228px" th:src="@{img/mysql.png}"></el-image>
 
             <!--数据源信息-->
-            <el-descriptions style="font-size: medium" v-if="currentDataSourceInfo!=null" :title="currentDataSourceInfo.beanName"
+            <el-descriptions style="font-size: medium" v-if="currentDataSourceInfo!=null"
+                             :title="currentDataSourceInfo.beanName"
                              column="1">
                 <el-descriptions-item label="类型">
                     <el-tag size="small" type="info">{{currentDataSourceInfo.dsProductName}}</el-tag>
@@ -134,8 +137,37 @@
                 <el-table-column prop="count" label="连接数量"></el-table-column>
             </el-table>
         </el-aside>
-
     </el-container>
+
+
+    <!--表创建语句弹框-->
+    <el-dialog
+            :title="createStatementTableName"
+            :visible.sync="createStatementDialog"
+            width="30%">
+        <el-input
+                type="textarea"
+                :autosize="{ minRows: 2, maxRows: 20}"
+                v-model="createStatementContent">
+        </el-input>
+        <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="createStatementDialog = false">确 定</el-button>
+  </span>
+    </el-dialog>
+    <!--Java实体类代码-->
+    <el-dialog
+            :title="createJavaCodeTableName"
+            :visible.sync="createJavaCodeDialog"
+            width="30%">
+        <el-input
+                type="textarea"
+                :autosize="{ minRows: 2, maxRows: 20}"
+                v-model="createJavaCodeContent">
+        </el-input>
+        <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="createJavaCodeDialog = false">确 定</el-button>
+  </span>
+    </el-dialog>
 </dev>
 
 

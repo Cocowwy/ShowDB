@@ -40,9 +40,20 @@ public class StructController {
      * @return
      */
     @Endpoint(EndpointEnum.STRUCTURE)
-    @GetMapping("/create/{table}")
+    @GetMapping("/{ds}/create/{table}")
     public Res<String> tableCreateStatement(@PathVariable("ds") String ds, @PathVariable("table") String table) {
         return Res.success(structService.tableCreateStatement(ds, table));
+    }
+
+    /**
+     * Java 实体类代码生成
+     *
+     * @return
+     */
+    @Endpoint(EndpointEnum.STRUCTURE)
+    @GetMapping("/{ds}/java/{table}")
+    public Res<String> tableJavaCode(@PathVariable("ds") String ds, @PathVariable("table") String table) {
+        return Res.success(structService.tableJavaCode(ds, table));
     }
 
     /**

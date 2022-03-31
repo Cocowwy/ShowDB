@@ -19,6 +19,16 @@ var app = new Vue({
         tableStructPageNumber: 1,
         tableStruct: null,
         total: 0,
+
+        // dialog展示框
+        // 表sql创建语句
+        createStatementDialog: false,
+        createStatementContent: null,
+        createStatementTableName: null,
+        // Java代码生成
+        createJavaCodeDialog: false,
+        createJavaCodeContent: null,
+        createJavaCodeTableName: null,
     },
     methods: {
         // 数据源信息
@@ -161,6 +171,43 @@ var app = new Vue({
                 that.loadingClose()
             })
         },
+
+        /**
+         * 表创建语句
+         */
+        tableCreateStatement(table) {
+            var that = this;
+            axios.get('/showdb/struct/' + this.currentDataSource + '/create/' + table).then(function (res) {
+                that.loadingOpen()
+                if (res.data.code !== 200) {
+                    alert(res.data.msg);
+                    return;
+                }
+                that.createStatementDialog = true
+                that.createStatementContent = res.data.data
+                that.createStatementTableName = table
+                that.loadingClose()
+            });
+        },
+
+        /**
+         * 表创建语句
+         */
+        tableJavaCode(table) {
+            var that = this;
+            axios.get('/showdb/struct/' + this.currentDataSource + '/java/' + table).then(function (res) {
+                that.loadingOpen()
+                if (res.data.code !== 200) {
+                    alert(res.data.msg);
+                    return;
+                }
+                that.createJavaCodeDialog = true
+                that.createJavaCodeContent = res.data.data
+                that.createJavaCodeTableName = table
+                that.loadingClose()
+            });
+        },
+
 
         starIt() {
             window.open("https://github.com/Cocowwy/ShowDB");
