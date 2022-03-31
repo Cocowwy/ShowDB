@@ -22,7 +22,7 @@
         <!--表结构信息-->
         <el-main v-loading="loadingTables" width="20%">
             <div v-loading="loadingDataSource">
-                <el-radio v-model="currentDataSource" @change="dataSourceChange" v-for="(item,index) in dataSorucesInfo"
+                <el-radio v-model="currentDataSource" @change="dsChange" v-for="(item,index) in dataSorucesInfo"
                           :label="item.beanName" border>{{item.beanName}}
                 </el-radio>
             </div>
@@ -57,8 +57,9 @@
             <el-card v-for="(item,index) in  tableStruct" class="box-card" style="margin-top: 18px">
                 <div slot="header" class="clearfix">
                     <span style="font-weight: bolder">{{item.tableInfo.tableName}}&nbsp{{item.tableInfo.tableComment}}</span>
-                    <el-button style="float: right; padding: 3px 0" type="text">建表语句</el-button>
-                    <el-button style="float: right; padding: 3px 6px" type="text">监控信息</el-button>
+                    <el-button style="float: right; padding: 3px 3px" type="text">Java实体类</el-button>
+                    <el-button style="float: right; padding: 3px 3px" type="text">建表语句</el-button>
+                    <el-button style="float: right; padding: 3px 0px" type="text">监控信息</el-button>
                 </div>
                 <div>
                     <el-table :data="item.tableFieldList" stripe style="width: 100%">

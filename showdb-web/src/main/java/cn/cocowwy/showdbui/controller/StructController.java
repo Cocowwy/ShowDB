@@ -27,7 +27,9 @@ public class StructController {
      */
     @Endpoint(EndpointEnum.STRUCTURE)
     @GetMapping("/{ds}/{pageSize}/{pageNumber}")
-    public Res<TableStructVo> tableStruct(@PathVariable("ds") String ds, @PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber) {
+    public Res<TableStructVo> tableStruct(@PathVariable("ds") String ds,
+                                          @PathVariable("pageSize") Integer pageSize,
+                                          @PathVariable("pageNumber") Integer pageNumber) {
         return Res.success(structService.tableStruct(ds, pageSize, pageNumber));
     }
 
@@ -49,7 +51,7 @@ public class StructController {
      * @return 表结构
      */
     @Endpoint(EndpointEnum.STRUCTURE)
-    @GetMapping("/{pageSize}/{pageNumber}/{table}")
+    @GetMapping("/{ds}/{pageSize}/{pageNumber}/{table}")
     public Res<TableStructVo> tableStruct(@PathVariable("ds") String ds, @PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber, @PathVariable("table") String table) {
         return Res.success(structService.tableStruct(ds, pageSize, pageNumber, table));
     }
@@ -58,7 +60,7 @@ public class StructController {
      * 获取所有的表名称集合
      * @return
      */
-    @GetMapping("/all")
+    @GetMapping("/{ds}/all")
     public Res<List<String>> tableNames(@PathVariable("ds") String ds) {
         return Res.success(structService.tableNames(ds));
     }

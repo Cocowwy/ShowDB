@@ -25,6 +25,7 @@ var app = new Vue({
         dsInfo() {
             const that = this
             axios.get('/showdb/config/dsInfo').then(function (res) {
+                that.loadingOpen();
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
@@ -33,24 +34,44 @@ var app = new Vue({
                 that.dataSorucesInfo = res;
                 that.currentDataSource = that.dataSorucesInfo[0].beanName
                 that.currentDataSourceInfo = that.dataSorucesInfo[0]
+
+                that.tableStructByPage(that.tableStructSize, that.tableStructPageNumber);
+                that.tableNames();
+                that.loadingClose();
             })
         },
+
+        // 数据源切换事件
+        dsChange() {
+            for (var i = 0; i < this.dataSorucesInfo.left; i++) {
+                if (this.dataSorucesInfo[i].beanName == this.currentDataSource) {
+                    this.currentDataSourceInfo = this.dataSorucesInfo[i];
+                    break;
+                }
+            }
+            this.tableStructByPage(this.tableStructSize, this.tableStructPageNumber);
+            this.tableNames();
+        },
+
         // 查询表集合名称
         tableNames() {
             const that = this
             axios.get('/showdb/struct/' + this.currentDataSource + '/all').then(function (res) {
+                that.loadingOpen();
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
                 }
                 var res = res.data.data;
                 that.tableNameList = res;
+                that.loadingClose();
             })
         },
         // 获取单表信息-模糊查询-分页
         getByTableName(tableStructSize, tableStructPageNumber, table) {
             const that = this
             axios.get('/showdb/struct/' + this.currentDataSource + '/' + this.tableStructSize + '/' + this.tableStructPageNumber + '/' + table).then(function (res) {
+                that.loadingOpen();
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
@@ -58,6 +79,7 @@ var app = new Vue({
                 that.tableStruct = res.data.data.tableStructs
                 that.total = res.data.data.total
                 document.body.scrollTop = document.documentElement.scrollTop = 0;
+                that.loadingClose();
             })
         },
 
@@ -65,16 +87,17 @@ var app = new Vue({
         tableStructByPage(tableStructSize, tableStructPageNumber) {
             const that = this
             axios.get('/showdb/struct/' + this.currentDataSource + '/' + tableStructSize + '/' + tableStructPageNumber).then(function (res) {
+                that.loadingOpen();
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
                 }
                 that.tableStruct = res.data.data.tableStructs
-                that.total = res.data.data.total
+                that.total = res.data.data.total;
+                that.loadingClose();
             })
         },
         handleCurrentChange(number) {
-            this.loadingTables = true;
             if (this.queryTableName != '' || this.queryTableName != null) {
                 this.getByTableName(this.tableStructSize, number, this.queryTableName);
                 this.loadingTables = false;
@@ -82,7 +105,6 @@ var app = new Vue({
             }
             this.tableStructByPage(this.tableStructSize, number);
             document.body.scrollTop = document.documentElement.scrollTop = 0;
-            this.loadingTables = false;
         },
 
         // ===========================搜索框=======================
@@ -111,22 +133,18 @@ var app = new Vue({
             };
         },
         // 数据源切换
-        dataSourceChange(dsBeanName) {
-            // var that = this
-            // this.loadingDataSource = true;
-            // this.loadingTables = true;
-            // axios.get('/showdb/config/switchDataSource/' + dsBeanName).then(function (res) {
-            //     if (res.data.code !== 200) {
-            //         alert(res.data.msg);
-            //         return;
-            //     }
-            //     that.currentDataSource = dsBeanName;
-            //     that.tableStructByPage(that.tableStructSize, that.tableStructPageNumber);
-            //     that.tableNames();
-            //     that.dsInfo();
-            // })
-            // this.loadingDataSource = false;
-            // this.loadingTables = false;
+        dataSourceChange() {
+            this.dsInfo();
+        },
+
+        loadingOpen() {
+            this.loadingTables = true;
+            this.loadingDataSource = true;
+        },
+
+        loadingClose() {
+            this.loadingTables = false;
+            this.loadingDataSource = false;
         },
 
         /**
@@ -154,16 +172,7 @@ var app = new Vue({
 
     // 加载页面初始化数据
     mounted: function () {
-        this.loadingTables = true;
-        this.loadingDataSource = true;
-
         this.dsInfo();
-        this.tableStructByPage(this.tableStructSize, this.tableStructPageNumber);
-        this.tableNames();
-
-        this.loadingTables = false;
-        this.loadingDataSource = false;
-
         console.log('作者：Cocowwy  Github:https://github.com/Cocowwy/ShowDB')
     }
 })
