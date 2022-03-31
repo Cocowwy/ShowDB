@@ -43,8 +43,8 @@ var app = new Vue({
 
         // 数据源切换事件
         dsChange() {
-            for (var i = 0; i < this.dataSorucesInfo.left; i++) {
-                if (this.dataSorucesInfo[i].beanName == this.currentDataSource) {
+            for (var i = 0; i < this.dataSorucesInfo.length; i++) {
+                if (this.dataSorucesInfo[i].beanName === this.currentDataSource) {
                     this.currentDataSourceInfo = this.dataSorucesInfo[i];
                     break;
                 }

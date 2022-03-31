@@ -6,6 +6,7 @@ import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
 import cn.cocowwy.showdbcore.entities.TableInfo;
 import cn.cocowwy.showdbcore.strategy.MonitorExecuteStrategy;
+import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -88,7 +89,7 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySq
                 "from information_schema.tables\n" +
                 "where table_schema='%s'";
         List<DsInfo> tableInfos = ShowDbFactory.getJdbcTemplate(ds).query(String.format(sql,
-                ds), (rs, i) -> {
+                DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds)), (rs, i) -> {
             DsInfo dsInfo = new DsInfo();
             dsInfo.setDataSize(rs.getString("data_size_MB"));
             dsInfo.setIndexSize(rs.getString("index_size_MB"));

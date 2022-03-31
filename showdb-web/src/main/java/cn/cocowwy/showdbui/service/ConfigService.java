@@ -45,16 +45,6 @@ public class ConfigService {
     }
 
     /**
-     * 修改数据源
-     * @param name
-     * @return
-     */
-    @Deprecated
-    public void switchDataSource(String name) throws SQLException {
-//        GlobalContext.switchDataSource(name);
-    }
-
-    /**
      * DB所处环境
      * @return
      */

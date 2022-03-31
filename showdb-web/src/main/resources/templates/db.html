@@ -13,7 +13,7 @@
 </head>
 <body>
 <dev id="ShowDB">
-    <el-alert title="拆箱即用的数据库文档开源工具，会自动根据SpringBoot项目中已存在的数据源（多数据源），生成文档以及数据库监控信息等 v1.0.0"
+    <el-alert style="font-weight: bold" title="拆箱即用的数据库文档开源工具，会自动根据SpringBoot项目中已存在的数据源（多数据源），生成文档以及数据库监控信息等 v1.0.0"
               type="success"
               @close="starIt" center>
     </el-alert>
@@ -109,7 +109,7 @@
                       style="width: 228px; height: 228px" th:src="@{img/mysql.png}"></el-image>
 
             <!--数据源信息-->
-            <el-descriptions v-if="currentDataSourceInfo!=null" :title="currentDataSourceInfo.beanName"
+            <el-descriptions style="font-size: medium" v-if="currentDataSourceInfo!=null" :title="currentDataSourceInfo.beanName"
                              column="1">
                 <el-descriptions-item label="类型">
                     <el-tag size="small" type="info">{{currentDataSourceInfo.dsProductName}}</el-tag>

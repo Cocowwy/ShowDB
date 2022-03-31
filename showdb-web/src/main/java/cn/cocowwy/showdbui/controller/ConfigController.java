@@ -24,21 +24,6 @@ public class ConfigController {
     private ConfigService configService;
 
     /**
-     * 修改当前数据源
-     * @return
-     */
-    @GetMapping("/{ds}/switchDataSource/{name}")
-    @Deprecated
-    public Res<Boolean> switchDataSource(@PathVariable("name") String name) {
-        try {
-            configService.switchDataSource(name);
-        } catch (SQLException throwables) {
-            return Res.error(ErrorDefinition.SWITCH_DATA_SOURCE_ERROR);
-        }
-        return Res.success(Boolean.TRUE);
-    }
-
-    /**
      * DB所处环境
      * @return
      */
