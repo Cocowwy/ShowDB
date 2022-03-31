@@ -28,7 +28,7 @@
             </div>
 
             <div style="margin-top: 18px">
-                <el-popconfirm title="确定清理缓存嘛？">
+                <el-popconfirm title="数据库结构发生变化需手动清理缓存？" @confirm="cleanCache">
                     <el-button type="info" slot="reference">清理缓存</el-button>
                 </el-popconfirm>
                 <el-popconfirm title="是否生成当前数据源所有表结构PDF？">
