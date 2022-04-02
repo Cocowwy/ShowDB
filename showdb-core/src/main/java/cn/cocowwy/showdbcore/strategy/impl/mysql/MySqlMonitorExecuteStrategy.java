@@ -4,7 +4,6 @@ import cn.cocowwy.showdbcore.config.ShowDbFactory;
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
-import cn.cocowwy.showdbcore.entities.TableInfo;
 import cn.cocowwy.showdbcore.strategy.MonitorExecuteStrategy;
 import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.springframework.stereotype.Component;
@@ -45,7 +44,21 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySq
     @Override
     public SlaveStatus slaveStatus(String ds) {
         String sql = "show slave status";
-        return null;
+        List<SlaveStatus> ipCounts = ShowDbFactory.getJdbcTemplate(ds).query(sql, (rs, i) -> {
+            SlaveStatus ss = new SlaveStatus();
+            ss.setSlaveIOState(rs.getString("Slave_IO_State"));
+            ss.setMasterHost(rs.getString("Master_Host"));
+            ss.setMasterUser(rs.getString("Master_User"));
+            ss.setMasterPort(rs.getString("Master_Port"));
+            ss.setMasterRetryCount(rs.getString("Master_Retry_Count"));
+            ss.setSlaveIORunning(rs.getString("Slave_IO_Running"));
+            ss.setSlaveSQLRunning(rs.getString("Slave_SQL_Running"));
+            ss.setSqlDelay(rs.getString("SQL_Delay"));
+            ss.setRelayLogFile(rs.getString("Relay_Log_File"));
+            ss.setMasterLogFile(rs.getString("Master_Log_File"));
+            return ss;
+        });
+        return CollectionUtils.lastElement(ipCounts);
     }
 
     /**

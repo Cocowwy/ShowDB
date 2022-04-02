@@ -5,20 +5,31 @@ package cn.cocowwy.showdbcore.entities;
  * @create 2022-03-03-20:42
  */
 public class SlaveStatus {
+    /**
+     * 状态
+     */
     private String slaveIOState;
     private String masterHost;
     private String masterUser;
     private String masterPort;
-    private String connectRetry;
-    private String masterLogFile;
-    private String readMasterLogPos;
-    private String relayLogFile;
-    private String relayLogPos;
-    private String relayMasterLogFile;
+    /**
+     * 连接中断后，重新尝试连接的时间间隔。默认值是60秒。
+     */
+    private String masterRetryCount;
     private String slaveIORunning;
     private String slaveSQLRunning;
-    private String stringreplicateDoDB;
-    private String replicateIgnoreDB;
+    /**
+     * 一个非负整数，表示秒数，Slave滞后多少秒于master。
+     */
+    private String sqlDelay;
+    /**
+     * SQL线程正在读取和执行的中继日志文件
+     */
+    private String relayLogFile;
+    /**
+     * 当前I/O线程正在读取的主服务器二进制日志文件的名称
+     */
+    private String masterLogFile;
 
     public String getSlaveIOState() {
         return slaveIOState;
@@ -52,52 +63,12 @@ public class SlaveStatus {
         this.masterPort = masterPort;
     }
 
-    public String getConnectRetry() {
-        return connectRetry;
+    public String getMasterRetryCount() {
+        return masterRetryCount;
     }
 
-    public void setConnectRetry(String connectRetry) {
-        this.connectRetry = connectRetry;
-    }
-
-    public String getMasterLogFile() {
-        return masterLogFile;
-    }
-
-    public void setMasterLogFile(String masterLogFile) {
-        this.masterLogFile = masterLogFile;
-    }
-
-    public String getReadMasterLogPos() {
-        return readMasterLogPos;
-    }
-
-    public void setReadMasterLogPos(String readMasterLogPos) {
-        this.readMasterLogPos = readMasterLogPos;
-    }
-
-    public String getRelayLogFile() {
-        return relayLogFile;
-    }
-
-    public void setRelayLogFile(String relayLogFile) {
-        this.relayLogFile = relayLogFile;
-    }
-
-    public String getRelayLogPos() {
-        return relayLogPos;
-    }
-
-    public void setRelayLogPos(String relayLogPos) {
-        this.relayLogPos = relayLogPos;
-    }
-
-    public String getRelayMasterLogFile() {
-        return relayMasterLogFile;
-    }
-
-    public void setRelayMasterLogFile(String relayMasterLogFile) {
-        this.relayMasterLogFile = relayMasterLogFile;
+    public void setMasterRetryCount(String masterRetryCount) {
+        this.masterRetryCount = masterRetryCount;
     }
 
     public String getSlaveIORunning() {
@@ -116,19 +87,27 @@ public class SlaveStatus {
         this.slaveSQLRunning = slaveSQLRunning;
     }
 
-    public String getStringreplicateDoDB() {
-        return stringreplicateDoDB;
+    public String getSqlDelay() {
+        return sqlDelay;
     }
 
-    public void setStringreplicateDoDB(String stringreplicateDoDB) {
-        this.stringreplicateDoDB = stringreplicateDoDB;
+    public void setSqlDelay(String sqlDelay) {
+        this.sqlDelay = sqlDelay;
     }
 
-    public String getReplicateIgnoreDB() {
-        return replicateIgnoreDB;
+    public String getRelayLogFile() {
+        return relayLogFile;
     }
 
-    public void setReplicateIgnoreDB(String replicateIgnoreDB) {
-        this.replicateIgnoreDB = replicateIgnoreDB;
+    public void setRelayLogFile(String relayLogFile) {
+        this.relayLogFile = relayLogFile;
+    }
+
+    public String getMasterLogFile() {
+        return masterLogFile;
+    }
+
+    public void setMasterLogFile(String masterLogFile) {
+        this.masterLogFile = masterLogFile;
     }
 }
