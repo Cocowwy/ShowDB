@@ -30,3 +30,9 @@
 .clearfix{
     font-size: 28px;
 }
+
+/*alert框*/
+.el-alert--success.is-light {
+    background-color: #e9f7e1;
+    color: #40a110;
+}
