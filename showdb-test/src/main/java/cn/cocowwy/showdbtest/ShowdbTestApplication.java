@@ -20,8 +20,8 @@ public class ShowdbTestApplication {
     /**
      * 数据源1配置
      */
-    @Bean(name = "sexytea_dev", destroyMethod = "close", initMethod = "init")
-    @ConfigurationProperties(prefix = "spring.datasource.data-source1")
+    @Bean(name = "cms", destroyMethod = "close", initMethod = "init")
+    @ConfigurationProperties(prefix = "spring.datasource.cms")
     @Primary
     public DruidDataSource createDataSource1Source() {
         return DruidDataSourceBuilder.create().build();
@@ -30,8 +30,8 @@ public class ShowdbTestApplication {
     /**
      * 数据源2配置
      */
-    @Bean(name = "sexytea_branch", destroyMethod = "close", initMethod = "init")
-    @ConfigurationProperties(prefix = "spring.datasource.data-source2")
+    @Bean(name = "oms", destroyMethod = "close", initMethod = "init")
+    @ConfigurationProperties(prefix = "spring.datasource.oms")
     public DruidDataSource createDataSource2Source() {
         return DruidDataSourceBuilder.create().build();
     }
@@ -39,8 +39,8 @@ public class ShowdbTestApplication {
     /**
      * 数据源3配置
      */
-    @Bean(name = "sexytea_cms", destroyMethod = "close", initMethod = "init")
-    @ConfigurationProperties(prefix = "spring.datasource.data-source3")
+    @Bean(name = "pms", destroyMethod = "close", initMethod = "init")
+    @ConfigurationProperties(prefix = "spring.datasource.pms")
     public DruidDataSource createDataSource3Source() {
         return DruidDataSourceBuilder.create().build();
     }
