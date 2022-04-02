@@ -29,13 +29,17 @@ var app = new Vue({
         createJavaCodeDialog: false,
         createJavaCodeContent: null,
         createJavaCodeTableName: null,
+        // 表详细信息
+        tableDetailDialog: false,
+        tableDetailTableName: null,
+        tableDetailInformation: null,
     },
     methods: {
         // 数据源信息
         dsInfo() {
             const that = this
+            this.loadingOpen();
             axios.get('/showdb/config/dsInfo').then(function (res) {
-                that.loadingOpen();
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
@@ -66,8 +70,8 @@ var app = new Vue({
         // 查询表集合名称
         tableNames() {
             const that = this
+            this.loadingOpen();
             axios.get('/showdb/struct/' + this.currentDataSource + '/all').then(function (res) {
-                that.loadingOpen();
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
@@ -80,8 +84,8 @@ var app = new Vue({
         // 获取单表信息-模糊查询-分页
         getByTableName(tableStructSize, tableStructPageNumber, table) {
             const that = this
+            this.loadingOpen();
             axios.get('/showdb/struct/' + this.currentDataSource + '/' + this.tableStructSize + '/' + this.tableStructPageNumber + '/' + table).then(function (res) {
-                that.loadingOpen();
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
@@ -96,8 +100,8 @@ var app = new Vue({
         //=========================分页查询表信息==================
         tableStructByPage(tableStructSize, tableStructPageNumber) {
             const that = this
+            this.loadingOpen();
             axios.get('/showdb/struct/' + this.currentDataSource + '/' + tableStructSize + '/' + tableStructPageNumber).then(function (res) {
-                that.loadingOpen();
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
@@ -142,6 +146,7 @@ var app = new Vue({
                 return (i.indexOf(queryString) >= 0);
             };
         },
+
         // 数据源切换
         dataSourceChange() {
             this.dsInfo();
@@ -169,6 +174,12 @@ var app = new Vue({
                     return;
                 }
                 that.loadingClose()
+                const h = that.$createElement;
+                that.$notify({
+                    title: '成功',
+                    duration: 3000,
+                    message: h('i', {style: 'color: teal'}, '缓存清理成功')
+                });
             })
         },
 
@@ -191,7 +202,7 @@ var app = new Vue({
         },
 
         /**
-         * 表创建语句
+         * Java实体生成
          */
         tableJavaCode(table) {
             var that = this;
@@ -208,6 +219,23 @@ var app = new Vue({
             });
         },
 
+        /**
+         * 表的详细信息
+         */
+        tableDetailInfo(table) {
+            var that = this
+            this.loadingOpen()
+            axios.get('/showdb/struct/' + this.currentDataSource + '/' + table + '/detailInfo').then(function (res) {
+                if (res.data.code !== 200) {
+                    alert(res.data.msg);
+                    return;
+                }
+                that.tableDetailDialog = true
+                that.tableDetailTableName = table
+                that.tableDetailInformation = res.data.data
+                that.loadingClose()
+            });
+        },
 
         starIt() {
             window.open("https://github.com/Cocowwy/ShowDB");
@@ -217,6 +245,6 @@ var app = new Vue({
     // 加载页面初始化数据
     mounted: function () {
         this.dsInfo();
-        console.log('作者：Cocowwy  Github:https://github.com/Cocowwy/ShowDB')
+        console.log('作者：Cocowwy  Github：https://github.com/Cocowwy/ShowDB')
     }
 })

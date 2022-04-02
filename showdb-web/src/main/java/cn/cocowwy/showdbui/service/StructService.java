@@ -11,6 +11,7 @@ import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
 import cn.cocowwy.showdbcore.util.CodeGenerateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class StructService {
                 List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableStructure(ds, table);
                 TableInfo tableInfo = new TableInfo();
                 tableInfo.setTableName(table);
-                tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableInfo(ds, table).getTableComment());
+                tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableComment(ds, table).getTableComment());
                 TableStructVo.TableStruct tableStruct = new TableStructVo.TableStruct();
                 tableStruct.setTableInfo(tableInfo);
                 tableStruct.setTableFieldList(tableFields);
@@ -99,7 +100,7 @@ public class StructService {
                 List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableStructure(ds, table);
                 TableInfo tableInfo = new TableInfo();
                 tableInfo.setTableName(table);
-                tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableInfo(ds, table).getTableComment());
+                tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableComment(ds, table).getTableComment());
                 TableStructVo.TableStruct tableStruct = new TableStructVo.TableStruct();
                 tableStruct.setTableInfo(tableInfo);
                 tableStruct.setTableFieldList(tableFields);
@@ -115,6 +116,20 @@ public class StructService {
     }
 
     /**
+     * 表详细信息
+     * @return
+     */
+    public TableStructVo tableDetailInfo(String ds, String table) {
+        String key = ShowDbCache.buildCacheKey(ds, "tableDetailInfo", table);
+        TableStructVo rt = (TableStructVo) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
+            TableStructVo vo = new TableStructVo();
+            vo.setTableInfo(STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableInfo(ds, table));
+            return vo;
+        });
+        return rt;
+    }
+
+    /**
      * 表创建语句
      * Table creation statement
      * @param table 表名
@@ -124,7 +139,6 @@ public class StructService {
         String key = ShowDbCache.buildCacheKey(ds, "createStatement", table);
         return (String) ShowDbCache.cache()
                 .computeIfAbsent(key, (k) -> STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).createTableStatement(ds, table));
-
     }
 
     /**
@@ -142,6 +156,14 @@ public class StructService {
                     tableFields.forEach(field -> {
                         String javaName = CodeGenerateUtil.columnName(field.getFieldName());
                         String javaType = CodeGenerateUtil.getType(field.getType());
+                        if (!StringUtils.isEmpty(field.getComment())) {
+                            code.append("    /**\n");
+                            code.append("     * ");
+                            code.append(field.getComment());
+                            code.append("\n");
+                            code.append("     */");
+                            code.append("\n");
+                        }
                         code.append("    ");
                         code.append("private");
                         code.append(" ");
@@ -154,7 +176,6 @@ public class StructService {
                     code.append("}");
                     return code.toString();
                 });
-
         return rt;
     }
 

@@ -68,6 +68,17 @@ public class StructController {
     }
 
     /**
+     * 获取某张表的详细信息
+     * @param table
+     * @return 表结构
+     */
+    @Endpoint(EndpointEnum.STRUCTURE)
+    @GetMapping("/{ds}/{table}/detailInfo")
+    public Res<TableStructVo> tableDetailInfo(@PathVariable("ds")String ds, @PathVariable("table") String table) {
+        return Res.success(structService.tableDetailInfo(ds, table));
+    }
+
+    /**
      * 获取所有的表名称集合
      * @return
      */

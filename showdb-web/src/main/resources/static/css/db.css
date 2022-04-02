@@ -20,8 +20,13 @@
     background-color: #555;
 }
 
-/*数据源描述标题大小*/
-.el-descriptions__title {
-    font-size: 28px;
+/*右侧数据源 beanName*/
+.el-descriptions__title{
+    font-size: 32px;
     font-weight: 700;
+}
+
+/*表格标题大小*/
+.clearfix{
+    font-size: 28px;
 }

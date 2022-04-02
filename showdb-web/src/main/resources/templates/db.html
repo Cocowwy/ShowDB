@@ -57,15 +57,18 @@
             <el-card v-for="(item,index) in  tableStruct" class="box-card" style="margin-top: 18px">
                 <div slot="header" class="clearfix">
                     <span style="font-weight: bolder">{{item.tableInfo.tableName}}&nbsp{{item.tableInfo.tableComment}}</span>
-                    <el-button style="float: right; padding: 3px 3px" type="text"
-                               @click="tableJavaCode(item.tableInfo.tableName)">Java实体类</el-button>
-                    <el-button style="float: right; padding: 3px 3px" type="text"
+                    <el-button style="font-size: 18px;float: right; padding: 3px 3px" type="text"
+                               @click="tableJavaCode(item.tableInfo.tableName)">Java实体类
+                    </el-button>
+                    <el-button style="font-size: 18px;float: right; padding: 3px 3px" type="text"
                                @click="tableCreateStatement(item.tableInfo.tableName)">建表语句
                     </el-button>
-                    <el-button style="float: right; padding: 3px 0px" type="text">监控信息</el-button>
+                    <el-button style="font-size: 18px;float: right; padding: 3px 0px" type="text"
+                               @click="tableDetailInfo(item.tableInfo.tableName)">详细信息
+                    </el-button>
                 </div>
                 <div>
-                    <el-table :data="item.tableFieldList" stripe style="width: 100%">
+                    <el-table :data="item.tableFieldList" stripe style="width: 100%;font-size: medium">
                         <el-table-column property="fieldName" label="字段">
                             <template slot-scope="scope">
                                 <span style="display: flex;align-items: center">
@@ -115,10 +118,10 @@
                              :title="currentDataSourceInfo.beanName"
                              column="1">
                 <el-descriptions-item label="类型">
-                    <el-tag size="small" type="info">{{currentDataSourceInfo.dsProductName}}</el-tag>
+                    <el-tag size="large" type="info">{{currentDataSourceInfo.dsProductName}}</el-tag>
                 </el-descriptions-item>
                 <el-descriptions-item label="版本号">
-                    <el-tag size="small" type="success"> {{currentDataSourceInfo.dbVersion}}</el-tag>
+                    <el-tag size="large" type="success"> {{currentDataSourceInfo.dbVersion}}</el-tag>
                 </el-descriptions-item>
                 <el-descriptions-item label="数据库">{{currentDataSourceInfo.tableSchema}}</el-descriptions-item>
                 <el-descriptions-item label="系统">{{currentDataSourceInfo.osEnv}}</el-descriptions-item>
@@ -144,7 +147,7 @@
     <el-dialog
             :title="createStatementTableName"
             :visible.sync="createStatementDialog"
-            width="30%">
+            width="38%">
         <el-input
                 type="textarea"
                 :autosize="{ minRows: 2, maxRows: 20}"
@@ -154,11 +157,13 @@
     <el-button type="primary" @click="createStatementDialog = false">确 定</el-button>
   </span>
     </el-dialog>
+
+
     <!--Java实体类代码-->
     <el-dialog
             :title="createJavaCodeTableName"
             :visible.sync="createJavaCodeDialog"
-            width="30%">
+            width="38%">
         <el-input
                 type="textarea"
                 :autosize="{ minRows: 2, maxRows: 20}"
@@ -168,8 +173,39 @@
     <el-button type="primary" @click="createJavaCodeDialog = false">确 定</el-button>
   </span>
     </el-dialog>
-</dev>
 
+
+    <!--表 详细信息-->
+    <el-dialog :title="tableDetailTableName" :visible.sync="tableDetailDialog" width="38%">
+        <el-descriptions v-if="tableDetailInformation!=null">
+            <el-descriptions-item label="表描述">{{tableDetailInformation.tableInfo.tableComment}}</el-descriptions-item>
+            <el-descriptions-item label="行数">{{tableDetailInformation.tableInfo.rows}}</el-descriptions-item>
+            <el-descriptions-item label="数据大小">{{(tableDetailInformation.tableInfo.dataSize/1024/1024).toFixed(2)}}MB /
+                {{tableDetailInformation.tableInfo.dataSize}}B
+            </el-descriptions-item>
+            <el-descriptions-item label="索引大小">{{(tableDetailInformation.tableInfo.indexSie/1024/1024).toFixed(2)}}MB /
+                {{tableDetailInformation.tableInfo.indexSie}}B
+            </el-descriptions-item>
+            <el-descriptions-item label="平均每行字节数">{{tableDetailInformation.tableInfo.avgRowLength}}B
+            </el-descriptions-item>
+            <el-descriptions-item v-if="tableDetailInformation.tableInfo.maxDataLenth===0" label="最大容量">
+                {{(tableDetailInformation.tableInfo.maxDataLenth/1024/1024).toFixed(2)}}MB /
+                {{tableDetailInformation.tableInfo.maxDataLenth}}B
+            </el-descriptions-item>
+            <el-descriptions-item v-else label="最大容量">无上限</el-descriptions-item>
+
+            <el-descriptions-item label="存储引擎">{{tableDetailInformation.tableInfo.engine}}</el-descriptions-item>
+            <el-descriptions-item label="字符集">{{tableDetailInformation.tableInfo.collation}}</el-descriptions-item>
+            <el-descriptions-item label="创建时间">{{tableDetailInformation.tableInfo.createTime}}</el-descriptions-item>
+            <el-descriptions-item label="更新时间">{{tableDetailInformation.tableInfo.updateTime}}</el-descriptions-item>
+        </el-descriptions>
+        <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="tableDetailDialog = false">确 定</el-button>
+  </span>
+    </el-dialog>
+
+
+</dev>
 
 </body>
 <script th:src="@{js/db.js}"></script>
