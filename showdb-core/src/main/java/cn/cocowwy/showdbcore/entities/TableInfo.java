@@ -7,9 +7,17 @@ package cn.cocowwy.showdbcore.entities;
 public class TableInfo {
     private String tableName;
     private String tableComment;
-    private Long dataSize;
-    private Long indexSize;
-    private Long records;
+
+    //detail
+    private String engine;
+    private String rows;
+    private String avgRowLength;
+    private String dataSize;
+    private String maxDataLenth;
+    private String indexSie;
+    private String createTime;
+    private String updateTime;
+    private String collation;
 
     public String getTableName() {
         return tableName;
@@ -27,27 +35,75 @@ public class TableInfo {
         this.tableComment = tableComment;
     }
 
-    public Long getDataSize() {
+    public String getEngine() {
+        return engine;
+    }
+
+    public void setEngine(String engine) {
+        this.engine = engine;
+    }
+
+    public String getRows() {
+        return rows;
+    }
+
+    public void setRows(String rows) {
+        this.rows = rows;
+    }
+
+    public String getAvgRowLength() {
+        return avgRowLength;
+    }
+
+    public void setAvgRowLength(String avgRowLength) {
+        this.avgRowLength = avgRowLength;
+    }
+
+    public String getDataSize() {
         return dataSize;
     }
 
-    public void setDataSize(Long dataSize) {
+    public void setDataSize(String dataSize) {
         this.dataSize = dataSize;
     }
 
-    public Long getIndexSize() {
-        return indexSize;
+    public String getMaxDataLenth() {
+        return maxDataLenth;
     }
 
-    public void setIndexSize(Long indexSize) {
-        this.indexSize = indexSize;
+    public void setMaxDataLenth(String maxDataLenth) {
+        this.maxDataLenth = maxDataLenth;
     }
 
-    public Long getRecords() {
-        return records;
+    public String getIndexSie() {
+        return indexSie;
     }
 
-    public void setRecords(Long records) {
-        this.records = records;
+    public void setIndexSie(String indexSie) {
+        this.indexSie = indexSie;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getCollation() {
+        return collation;
+    }
+
+    public void setCollation(String collation) {
+        this.collation = collation;
     }
 }

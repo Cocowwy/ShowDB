@@ -26,12 +26,6 @@ public interface MonitorExecuteStrategy extends SqlExecuteStrategy {
     SlaveStatus slaveStatus(String ds);
 
     /**
-     * 监控表大小
-     * @return
-     */
-    List<TableInfo> tableMonitor(String ds, String tableName);
-
-    /**
      * 数据库大小
      * @return
      */

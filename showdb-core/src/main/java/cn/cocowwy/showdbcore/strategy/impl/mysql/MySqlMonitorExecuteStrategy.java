@@ -49,33 +49,6 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySq
     }
 
     /**
-     * 监控表大小
-     * @return
-     */
-    @Override
-    public List<TableInfo> tableMonitor(String ds, String tableName) {
-        String sql = "select\n" +
-                "table_schema as 'ds',\n" +
-                "table_name as 'tableName',\n" +
-                "table_rows as 'records',\n" +
-                "truncate(data_length/1024/1024, 2) as 'data_size_MB',\n" +
-                "truncate(index_length/1024/1024, 2) as 'index_size_MB'\n" +
-                "from information_schema.tables\n" +
-                "where table_schema='%s'\n" +
-                "order by data_length desc, index_length desc;";
-        List<TableInfo> tableInfos = ShowDbFactory.getJdbcTemplate(ds).query(String.format(sql, ds),
-                (rs, i) -> {
-                    TableInfo tableInfo = new TableInfo();
-                    tableInfo.setTableName(rs.getString("tableName"));
-                    tableInfo.setDataSize(rs.getLong("data_size_MB"));
-                    tableInfo.setIndexSize(rs.getLong("index_size_MB"));
-                    tableInfo.setRecords(rs.getLong("records"));
-                    return tableInfo;
-                });
-        return tableInfos;
-    }
-
-    /**
      * 数据
      * @return
      */

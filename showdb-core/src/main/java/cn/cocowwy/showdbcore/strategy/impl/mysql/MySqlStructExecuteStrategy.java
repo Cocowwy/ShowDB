@@ -80,11 +80,11 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
     }
 
     /**
-     * 表详细信息
+     * 表描述信息
      * @return
      */
     @Override
-    public TableInfo tableInfo(String ds, String table) {
+    public TableInfo tableComment(String ds, String table) {
         List<TableInfo> rts = ShowDbFactory.getJdbcTemplate(ds)
                 .query(String.format("SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES  " +
                                 "WHERE TABLE_NAME = '%s' AND TABLE_SCHEMA = '%s'", table,
@@ -96,6 +96,36 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
                         });
 
         return CollectionUtils.firstElement(rts);
+    }
+
+    /**
+     * 表详细信息
+     * @return
+     * @param ds
+     * @param table
+     */
+    @Override
+    public TableInfo tableInfo(String ds, String table) {
+        String sql = "show table status from %s where name = '%s'";
+        List<TableInfo> rts = ShowDbFactory.getJdbcTemplate(ds)
+                .query(String.format(sql, DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds), table),
+                        (rs, i) -> {
+                            TableInfo ti = new TableInfo();
+                            ti.setTableName(rs.getString("Name"));
+                            ti.setEngine(rs.getString("Engine"));
+                            ti.setRows(rs.getString("Rows"));
+                            ti.setAvgRowLength(rs.getString("Avg_row_length"));
+                            ti.setDataSize(rs.getString("Data_length"));
+                            ti.setIndexSie(rs.getString("Index_length"));
+                            ti.setMaxDataLenth(rs.getString("Max_data_length"));
+                            ti.setCreateTime(rs.getString("Create_time"));
+                            ti.setUpdateTime(rs.getString("Update_time"));
+                            ti.setCollation(rs.getString("Collation"));
+                            ti.setTableComment(rs.getString("Comment"));
+                            return ti;
+                        });
+
+        return CollectionUtils.lastElement(rts);
     }
 
 

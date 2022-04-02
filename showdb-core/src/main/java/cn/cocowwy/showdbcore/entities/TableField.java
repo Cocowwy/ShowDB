@@ -33,15 +33,6 @@ public class TableField {
      * 默认值
      */
     private String columnDefault;
-
-    public Boolean getNullable() {
-        return nullable;
-    }
-
-    public void setNullable(Boolean nullable) {
-        this.nullable = nullable;
-    }
-
     /**
      * 可否为空
      */
@@ -50,6 +41,14 @@ public class TableField {
      * 字段描述
      */
     private String comment;
+
+    public Boolean getNullable() {
+        return nullable;
+    }
+
+    public void setNullable(Boolean nullable) {
+        this.nullable = nullable;
+    }
 
     public String getSchema() {
         return schema;

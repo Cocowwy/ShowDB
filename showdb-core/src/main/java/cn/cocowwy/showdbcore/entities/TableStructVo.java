@@ -11,6 +11,8 @@ public class TableStructVo {
 
     private List<TableStruct> tableStructs;
 
+    private TableInfo tableInfo;
+
     public static class TableStruct {
         private List<TableField> tableFieldList;
 
@@ -47,5 +49,13 @@ public class TableStructVo {
 
     public void setTableStructs(List<TableStruct> tableStructs) {
         this.tableStructs = tableStructs;
+    }
+
+    public TableInfo getTableInfo() {
+        return tableInfo;
+    }
+
+    public void setTableInfo(TableInfo tableInfo) {
+        this.tableInfo = tableInfo;
     }
 }

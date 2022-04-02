@@ -29,6 +29,12 @@ public interface StructExecuteStrategy extends SqlExecuteStrategy {
     String createTableStatement(String ds, String tableName);
 
     /**
+     * 表描述信息
+     * @return
+     */
+    TableInfo tableComment(String ds, String table);
+
+    /**
      * 表详细信息
      * @return
      */
