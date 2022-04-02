@@ -36,6 +36,16 @@ showdb:
 |  ----  | ----  |
 | MySQL | 支持 |
 
+  
+**包模块说明：**
+|  包名   | 说明  |
+|  ----  | ----  |
+| showdb-core | 核心逻辑 |
+| showdb-spring-boot-autoconfigure | 自动配置 |
+| showdb-spring-boot-starter | 引入starter |
+| showdb-test | 测试，内含多数据源demo，测试sql等 |
+| showdb-web | web端 |
+
 :zap: 这不是一个数据库的可视化工具！！仅仅仅仅只是一个**数据库文档工具，以及一些扩展增强！**
 
 
