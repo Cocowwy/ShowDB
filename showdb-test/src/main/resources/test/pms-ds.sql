@@ -1,3 +1,6 @@
+create database pms
+
+
 -- ----------------------------
 -- Table structure for pms_album
 -- ----------------------------
