@@ -31,9 +31,6 @@ public class MonitorController {
     @GetMapping("/masterSlaveInfo")
     public Res<SlaveStatus> masterSlaveInfo(@PathVariable("ds") String ds) {
         SlaveStatus info = monitorService.masterSlaveInfo(ds);
-        if (info == null) {
-            return Res.error(ErrorDefinition.NOT_SUPPORTED);
-        }
         return Res.success(info);
     }
 

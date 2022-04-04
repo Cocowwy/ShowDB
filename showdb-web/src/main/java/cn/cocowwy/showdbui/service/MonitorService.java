@@ -8,7 +8,6 @@ import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
 import cn.cocowwy.showdbcore.strategy.MonitorExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
-import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,12 +47,22 @@ public class MonitorService {
     }
 
     /**
-     * 数据库主从连接信息
+     * 数据库主从连接信息，不走缓存，仅缓存未开启数据源的ds，降低db命中
      *  -MySQL 仅开启主从之后有返回值
      * @return
      */
     public SlaveStatus masterSlaveInfo(String ds) {
-        return MONITOR_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).slaveStatus(ds);
+        String key = ShowDbCache.buildCacheKey(ds, "un-use-master-slave", ds);
+        // 不走缓存，仅仅标记当前数据源是否开启主从复制
+        if (!ShowDbCache.cache().containsKey(key)) {
+            SlaveStatus slaveStatus = MONITOR_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).slaveStatus(ds);
+            if(slaveStatus==null){
+                // 未开启主从同步，标记即可
+                ShowDbCache.put(key, "un-use");
+            }
+            return slaveStatus;
+        }
+        return null;
     }
 
     /**
@@ -62,7 +71,7 @@ public class MonitorService {
      */
     public DsInfo dsInfo(String ds) {
         return (DsInfo) ShowDbCache.cache()
-                .computeIfAbsent(ShowDbCache.buildCacheKey(ds,"dsInfo", ds),
+                .computeIfAbsent(ShowDbCache.buildCacheKey(ds, "dsInfo", ds),
                         (key) -> MONITOR_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).dsInfo(ds));
     }
 }

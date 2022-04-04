@@ -6,6 +6,8 @@ var app = new Vue({
         // 当前选择的数据源
         currentDataSource: null,
         currentDataSourceInfo: null,
+        // 当前数据源的主从监控信息
+        currentDataSourceMasterSlaveInfo: null,
         // 当前数据源所有表名称集合
         tableNameList: [],
         // 搜索框选择值
@@ -51,6 +53,7 @@ var app = new Vue({
 
                 that.tableStructByPage(that.tableStructSize, that.tableStructPageNumber);
                 that.tableNames();
+                that.slaveInfo();
                 that.loadingClose();
             })
         },
@@ -65,6 +68,7 @@ var app = new Vue({
             }
             this.tableStructByPage(this.tableStructSize, this.tableStructPageNumber);
             this.tableNames();
+            this.slaveInfo();
         },
 
         // 查询表集合名称
@@ -237,6 +241,22 @@ var app = new Vue({
             });
         },
 
+        /**
+         * 主从监控
+         */
+        slaveInfo() {
+            var that = this;
+            axios.get('/showdb/monitor/' + this.currentDataSource + '/masterSlaveInfo').then(function (res) {
+                that.loadingOpen()
+                if (res.data.code !== 200) {
+                    alert(res.data.msg);
+                    return;
+                }
+                that.currentDataSourceMasterSlaveInfo = res.data.data
+                that.loadingClose()
+            });
+        },
+
         starIt() {
             window.open("https://github.com/Cocowwy/ShowDB");
         }
@@ -245,6 +265,12 @@ var app = new Vue({
     // 加载页面初始化数据
     mounted: function () {
         this.dsInfo();
-        console.log('作者：Cocowwy  Github：https://github.com/Cocowwy/ShowDB')
+        console.log('作者：Cocowwy  Github：https://github.com/Cocowwy/ShowDB\n'
+            + '███████╗██╗  ██╗ ██████╗ ██╗    ██╗██████╗ ██████╗ \n' +
+            '██╔════╝██║  ██║██╔═══██╗██║    ██║██╔══██╗██╔══██╗\n' +
+            '███████╗███████║██║   ██║██║ █╗ ██║██║  ██║██████╔╝\n' +
+            '╚════██║██╔══██║██║   ██║██║███╗██║██║  ██║██╔══██╗\n' +
+            '███████║██║  ██║╚██████╔╝╚███╔███╔╝██████╔╝██████╔╝\n' +
+            '╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚══╝╚══╝ ╚═════╝ ╚═════╝')
     }
 })

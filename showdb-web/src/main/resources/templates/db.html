@@ -16,9 +16,16 @@
     <el-alert style="font-weight: bold" title="拆箱即用的数据库文档开源工具，会自动根据SpringBoot项目中已存在的数据源（多数据源），生成文档以及数据库监控信息等 v1.0.0"
               type="success"
               @close="starIt" center>
+
     </el-alert>
     <el-container>
-        <el-aside width="20%">主从信息</el-aside>
+        <el-aside width="20%">
+            <!--IDEA的飘红不管-->
+            <el-empty style="margin-top: 155px" th:image="@{img/masterSlave.png}"
+                      description="暂未检测到当前数据源存在主从信息"
+            v-if="currentDataSourceMasterSlaveInfo==null">
+            </el-empty>
+        </el-aside>
         <!--表结构信息-->
         <el-main v-loading="loadingTables" width="20%">
             <div v-loading="loadingDataSource">
@@ -158,7 +165,6 @@
   </span>
     </el-dialog>
 
-
     <!--Java实体类代码-->
     <el-dialog
             :title="createJavaCodeTableName"
@@ -180,16 +186,18 @@
         <el-descriptions v-if="tableDetailInformation!=null">
             <el-descriptions-item label="表描述">{{tableDetailInformation.tableInfo.tableComment}}</el-descriptions-item>
             <el-descriptions-item label="行数">{{tableDetailInformation.tableInfo.rows}}</el-descriptions-item>
-            <el-descriptions-item label="数据大小">{{(tableDetailInformation.tableInfo.dataSize/1024/1024).toFixed(2)}}MB /
+            <el-descriptions-item label="数据大小">{{(tableDetailInformation.tableInfo.dataSize / 1024 / 1024).toFixed(2)}}MB
+                /
                 {{tableDetailInformation.tableInfo.dataSize}}B
             </el-descriptions-item>
-            <el-descriptions-item label="索引大小">{{(tableDetailInformation.tableInfo.indexSie/1024/1024).toFixed(2)}}MB /
+            <el-descriptions-item label="索引大小">{{(tableDetailInformation.tableInfo.indexSie / 1024 / 1024).toFixed(2)}}MB
+                /
                 {{tableDetailInformation.tableInfo.indexSie}}B
             </el-descriptions-item>
             <el-descriptions-item label="平均每行字节数">{{tableDetailInformation.tableInfo.avgRowLength}}B
             </el-descriptions-item>
             <el-descriptions-item v-if="tableDetailInformation.tableInfo.maxDataLenth===0" label="最大容量">
-                {{(tableDetailInformation.tableInfo.maxDataLenth/1024/1024).toFixed(2)}}MB /
+                {{(tableDetailInformation.tableInfo.maxDataLenth / 1024 / 1024).toFixed(2)}}MB /
                 {{tableDetailInformation.tableInfo.maxDataLenth}}B
             </el-descriptions-item>
             <el-descriptions-item v-else label="最大容量">无上限</el-descriptions-item>
