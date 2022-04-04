@@ -58,6 +58,24 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySq
             ss.setMasterLogFile(rs.getString("Master_Log_File"));
             return ss;
         });
+
+        // todo mock test data
+        if (ds.equals("oms")) {
+            SlaveStatus mock = new SlaveStatus();
+            mock.setSlaveIOState("Waiting for master to send event");
+            mock.setMasterHost("localhost");
+            mock.setMasterUser("photorepl");
+            mock.setMasterPort("3301");
+            mock.setMasterRetryCount("86400");
+            mock.setSlaveIORunning("Yes");
+            mock.setSlaveSQLRunning("Yes");
+            mock.setSqlDelay("0");
+            mock.setRelayLogFile("mysqld-relay-bin.005201");
+            mock.setMasterLogFile("mysql-bin.001822");
+            return mock;
+        }
+        // ------------mock---------------
+
         return CollectionUtils.lastElement(ipCounts);
     }
 
