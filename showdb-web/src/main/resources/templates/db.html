@@ -23,8 +23,14 @@
             <!--IDEA的飘红不管-->
             <el-empty style="margin-top: 155px" th:image="@{img/masterSlave.png}"
                       description="暂未检测到当前数据源存在主从信息"
-            v-if="currentDataSourceMasterSlaveInfo==null">
+                      v-if="currentDataSourceMasterSlaveInfo==null">
             </el-empty>
+            <el-card class="box-card" v-if="currentDataSourceMasterSlaveInfo!=null">
+                <div slot="header" class="clearfix">
+                    <span>{{currentDataSourceMasterSlaveInfo}}</span>
+                    <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                </div>
+            </el-card>
         </el-aside>
         <!--表结构信息-->
         <el-main v-loading="loadingTables" width="20%">
