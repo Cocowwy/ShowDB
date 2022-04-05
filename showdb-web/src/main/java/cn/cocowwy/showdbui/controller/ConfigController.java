@@ -22,24 +22,24 @@ import java.util.List;
 public class ConfigController {
     @Autowired
     private ConfigService configService;
-
-    /**
-     * DB所处环境
-     * @return
-     */
-    @GetMapping("/{ds}/osEnv")
-    public Res<String> getOsEnv(@RequestParam("ds") String ds) {
-        return Res.success(configService.getOsEnv(ds));
-    }
-
-    /**
-     * DB版本号
-     * @return
-     */
-    @GetMapping("/{ds}/dbVersion")
-    public Res<String> getDbVersion(@RequestParam("ds") String ds) {
-        return Res.success(configService.getDbVersion(ds));
-    }
+//
+//    /**
+//     * DB所处环境
+//     * @return
+//     */
+//    @GetMapping("/{ds}/osEnv")
+//    public Res<String> getOsEnv(@RequestParam("ds") String ds) {
+//        return Res.success(configService.getOsEnv(ds));
+//    }
+//
+//    /**
+//     * DB版本号
+//     * @return
+//     */
+//    @GetMapping("/{ds}/dbVersion")
+//    public Res<String> getDbVersion(@RequestParam("ds") String ds) {
+//        return Res.success(configService.getDbVersion(ds));
+//    }
 
     /**
      * 获取连接数据源相关信息

@@ -22,6 +22,7 @@ import org.springframework.util.CollectionUtils;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -77,11 +78,15 @@ public class ShowDbAutoConfiguration implements InitializingBean {
     }
 
     private void bannerLog() {
-        logger.info("\n███████╗██╗  ██╗ ██████╗ ██╗    ██╗██████╗ ██████╗\n" +
+        logger.info("\n" +
+                "███████╗██╗  ██╗ ██████╗ ██╗    ██╗██████╗ ██████╗\n" +
                 "██╔════╝██║  ██║██╔═══██╗██║    ██║██╔══██╗██╔══██╗\n" +
                 "███████╗███████║██║   ██║██║ █╗ ██║██║  ██║██████╔╝\n" +
                 "╚════██║██╔══██║██║   ██║██║███╗██║██║  ██║██╔══██╗\n" +
                 "███████║██║  ██║╚██████╔╝╚███╔███╔╝██████╔╝██████╔╝\n" +
-                "╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚══╝╚══╝ ╚═════╝ ╚═════╝\nCocowwy\nhttps://github.com/Cocowwy/ShowDB");
+                "╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚══╝╚══╝ ╚═════╝ ╚═════╝" +
+                "\nCreateBy：Cocowwy" +
+                "\nGit地址：https://github.com/Cocowwy/ShowDB" +
+                "\nShowDB 启动成功！");
     }
 }

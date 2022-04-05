@@ -6,8 +6,13 @@ import cn.cocowwy.showdbcore.entities.Res;
 import cn.cocowwy.showdbcore.entities.TableStructVo;
 import cn.cocowwy.showdbui.service.StructService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -74,7 +79,7 @@ public class StructController {
      */
     @Endpoint(EndpointEnum.STRUCTURE)
     @GetMapping("/{ds}/{table}/detailInfo")
-    public Res<TableStructVo> tableDetailInfo(@PathVariable("ds")String ds, @PathVariable("table") String table) {
+    public Res<TableStructVo> tableDetailInfo(@PathVariable("ds") String ds, @PathVariable("table") String table) {
         return Res.success(structService.tableDetailInfo(ds, table));
     }
 
@@ -85,5 +90,14 @@ public class StructController {
     @GetMapping("/{ds}/all")
     public Res<List<String>> tableNames(@PathVariable("ds") String ds) {
         return Res.success(structService.tableNames(ds));
+    }
+
+    /**
+     * 文档版本
+     * @return
+     */
+    @GetMapping("/dsTableDoc/{ds}")
+    public void dsTableDoc(HttpServletResponse response, @PathVariable("ds") String ds) throws IOException {
+        structService.dsTableDoc(response, ds);
     }
 }

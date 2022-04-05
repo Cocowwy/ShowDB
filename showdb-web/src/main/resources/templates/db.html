@@ -25,10 +25,20 @@
                       description="暂未检测到当前数据源存在主从信息"
                       v-if="currentDataSourceMasterSlaveInfo==null">
             </el-empty>
-            <el-card class="box-card" v-if="currentDataSourceMasterSlaveInfo!=null">
-                <div slot="header" class="clearfix">
-                    <span>{{currentDataSourceMasterSlaveInfo}}</span>
-                    <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+            <el-card style="margin-top: 200px" class="box-card" v-if="currentDataSourceMasterSlaveInfo!=null">
+                <div >
+                    <el-descriptions title="主从信息" direction="vertical" :column="1" border>
+                        <el-descriptions-item label="主机IP（Master_Host）">{{currentDataSourceMasterSlaveInfo.masterHost}}</el-descriptions-item>
+                        <el-descriptions-item label="主从复制用户（Master_User）">{{currentDataSourceMasterSlaveInfo.masterUser}}</el-descriptions-item>
+                        <el-descriptions-item label="主机端口（Master_Port）">{{currentDataSourceMasterSlaveInfo.masterPort}}</el-descriptions-item>
+                        <el-descriptions-item label="从库滞后时长（SQL_Delay）">{{currentDataSourceMasterSlaveInfo.sqlDelay}}</el-descriptions-item>
+                        <el-descriptions-item label="连接主库失败最多的重试次数（Master_Retry_Count）">{{currentDataSourceMasterSlaveInfo.masterRetryCount}}</el-descriptions-item>
+                        <el-descriptions-item label="slave I/O线程状态（Slave_IO_State）">{{currentDataSourceMasterSlaveInfo.slaveIOState}}</el-descriptions-item>
+                        <el-descriptions-item label="Slave_IO_Running">{{currentDataSourceMasterSlaveInfo.slaveIORunning}}</el-descriptions-item>
+                        <el-descriptions-item label="Slave_SQL_Running">{{currentDataSourceMasterSlaveInfo.slaveSQLRunning}}</el-descriptions-item>
+                        <el-descriptions-item label="Relay_Log_File">{{currentDataSourceMasterSlaveInfo.relayLogFile}}</el-descriptions-item>
+                        <el-descriptions-item label="Master_Log_File">{{currentDataSourceMasterSlaveInfo.masterLogFile}}</el-descriptions-item>
+                    </el-descriptions>
                 </div>
             </el-card>
         </el-aside>
@@ -44,8 +54,8 @@
                 <el-popconfirm title="数据库结构发生变化需手动清理缓存？" @confirm="cleanCache">
                     <el-button type="info" slot="reference">清理缓存</el-button>
                 </el-popconfirm>
-                <el-popconfirm title="是否生成当前数据源所有表结构PDF？">
-                    <el-button type="primary" slot="reference">PDF文档生成</el-button>
+                <el-popconfirm title="是否生成当前数据源所有表结构文档？" @confirm="dsTableDoc">
+                    <el-button type="primary" slot="reference">表结构文档导出</el-button>
                 </el-popconfirm>
                 <el-popconfirm title="是否导出当前数据源所有表SQL创建语句？">
                     <el-button type="primary" slot="reference">建表语句导出</el-button>

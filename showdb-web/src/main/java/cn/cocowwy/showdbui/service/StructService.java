@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -142,8 +146,64 @@ public class StructService {
     }
 
     /**
+     * pdf 生成
+     * @param response
+     */
+    public void dsTableDoc(HttpServletResponse response, String ds) throws IOException {
+
+        StringBuilder htmlStr = new StringBuilder();
+        for (String table : this.tableNames(ds)) {
+            htmlStr.append("<div style='margin-top:20px'><table border=\"2\">");
+            htmlStr.append("<tr>\n" +
+                    "<th>字段</th>\n" +
+                    "<th>类型</th>\n" +
+                    "<th>字段描述</th>\n" +
+                    "<th>不为空</th>\n" +
+                    "<th>默认值</th>\n" +
+                    " </tr>");
+
+            List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableStructure(ds, table);
+            TableInfo tableInfo = new TableInfo();
+            tableInfo.setTableName(table);
+            tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableComment(ds, table).getTableComment());
+            TableStructVo.TableStruct tableStruct = new TableStructVo.TableStruct();
+            tableStruct.setTableInfo(tableInfo);
+            tableStruct.setTableFieldList(tableFields);
+
+            for (TableField field : tableFields) {
+                htmlStr.append("<tr>");
+                htmlStr.append("<td>").append(field.getFieldName()).append("</td>");
+                htmlStr.append("<td>").append(field.getType()).append("</td>");
+                htmlStr.append("<td>").append(field.getComment()).append("</td>");
+                htmlStr.append("<td>").append(field.getNullable()).append("</td>");
+                htmlStr.append("<td>").append(field.getColumnDefault()).append("</td>");
+                htmlStr.append("</tr>");
+            }
+
+            System.out.println(htmlStr.toString());
+
+            htmlStr.append("</table></div>");
+        }
+        ServletOutputStream stream = null;
+        try {
+            stream = response.getOutputStream();
+//
+//            response.setContentType("text/plain");
+//            response.setCharacterEncoding("utf-8");
+//            response.setHeader("Content-disposition",
+//                    "attachment;filename*=utf-8''" +
+//                            ds + ".html");
+            stream.write(htmlStr.toString().getBytes(StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            // ignore exception..
+        } finally {
+            stream.close();
+        }
+
+    }
+
+    /**
      * Java 表实体 生成
-     * @return
      */
     public String tableJavaCode(String ds, String table) {
         String rt = (String) ShowDbCache.cache().computeIfAbsent(ShowDbCache.buildCacheKey(ds, "tableJavaCode", table),
