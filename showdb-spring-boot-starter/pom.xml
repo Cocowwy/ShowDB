@@ -12,9 +12,10 @@
         <version>1.0.0</version>
     </parent>
 
-    <description>相关引用集成</description>
+    <description>ShowDB起步</description>
 
     <dependencies>
+
         <dependency>
             <groupId>cn.cocowwy</groupId>
             <artifactId>showdb-spring-boot-autoconfigure</artifactId>
@@ -23,5 +24,6 @@
             <groupId>cn.cocowwy</groupId>
             <artifactId>showdb-core</artifactId>
         </dependency>
+
     </dependencies>
 </project>
