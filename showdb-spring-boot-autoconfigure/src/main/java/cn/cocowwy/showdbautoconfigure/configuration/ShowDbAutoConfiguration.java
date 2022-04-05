@@ -7,6 +7,8 @@ import cn.cocowwy.showdbcore.exception.ShowDbException;
 import cn.cocowwy.showdbcore.strategy.SqlExecuteStrategy;
 import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import cn.cocowwy.showdbcore.util.EndpointUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -43,7 +45,7 @@ import java.util.stream.Collectors;
 @ConditionalOnProperty(name = "showdb.enable", havingValue = "true")
 @AutoConfigureBefore(SqlExecuteStrategy.class)
 public class ShowDbAutoConfiguration implements InitializingBean {
-
+    private static final Log logger = LogFactory.getLog(ShowDbAutoConfiguration.class);
     private final DataSource dataSource;
     private final ShowDbProperties properties;
 
@@ -66,10 +68,20 @@ public class ShowDbAutoConfiguration implements InitializingBean {
         GlobalContext.setDataSourcesTypeMap(dataSourcesTypeMap);
 
         ShowDbFactory.INSTANCE.init();
+        bannerLog();
     }
 
     @Override
     public void afterPropertiesSet() throws SQLException {
         EndpointUtil.setEnableSet(properties.getEndpoint());
+    }
+
+    private void bannerLog() {
+        logger.info("\n███████╗██╗  ██╗ ██████╗ ██╗    ██╗██████╗ ██████╗\n" +
+                "██╔════╝██║  ██║██╔═══██╗██║    ██║██╔══██╗██╔══██╗\n" +
+                "███████╗███████║██║   ██║██║ █╗ ██║██║  ██║██████╔╝\n" +
+                "╚════██║██╔══██║██║   ██║██║███╗██║██║  ██║██╔══██╗\n" +
+                "███████║██║  ██║╚██████╔╝╚███╔███╔╝██████╔╝██████╔╝\n" +
+                "╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚══╝╚══╝ ╚═════╝ ╚═════╝\nCocowwy\nhttps://github.com/Cocowwy/ShowDB");
     }
 }
