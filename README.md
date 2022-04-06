@@ -37,7 +37,7 @@
 ```yml
 showdb:
   enable: true
-  endpoint: monitor-master-slave,monitor-ip-con,'*'  
+  endpoint: monitor-master-slave,monitor-ip-connection,'*'  
 ```
   
 **endpoint可选值如下：**
@@ -45,7 +45,7 @@ showdb:
 |  ----  | ----  |
 | * | 所有 |
 | monitor-master-slave  | 主从信息监控 |
-| monitor-ip-con  | IP连接监控 |
+| monitor-ip-connection  | IP连接监控 |
 
 **当前支持数据源如下：**
 |  数据源   | 是否支持  |
