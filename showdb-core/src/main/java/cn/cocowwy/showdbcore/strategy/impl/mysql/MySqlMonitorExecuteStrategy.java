@@ -100,6 +100,6 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySq
             dsInfo.setRecords(rs.getLong("records"));
             return dsInfo;
         });
-        return CollectionUtils.firstElement(tableInfos);
+        return CollectionUtils.lastElement(tableInfos);
     }
 }

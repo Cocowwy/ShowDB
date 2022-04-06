@@ -22,7 +22,7 @@ public class MySqlConfigExecuteStrategy implements ConfigExecuteStrategy, MySqlE
     public String OsEnv(String ds) {
         String sql = "show variables like 'version_compile_os'";
         List<String> rts = ShowDbFactory.getJdbcTemplate(ds).query(sql, (rs, i) -> rs.getString("Value"));
-        return CollectionUtils.firstElement(rts);
+        return CollectionUtils.lastElement(rts);
     }
 
     /**
@@ -33,7 +33,7 @@ public class MySqlConfigExecuteStrategy implements ConfigExecuteStrategy, MySqlE
     public String DbVersion(String ds) {
         String sql = "show variables like 'version'";
         List<String> rts = ShowDbFactory.getJdbcTemplate(ds).query(sql, (rs, i) -> rs.getString("Value"));
-        return CollectionUtils.firstElement(rts);
+        return CollectionUtils.lastElement(rts);
     }
 
     /**
@@ -44,6 +44,6 @@ public class MySqlConfigExecuteStrategy implements ConfigExecuteStrategy, MySqlE
     public String baseDir(String ds) {
         String sql = "show variables like 'basedir'";
         List<String> rts = ShowDbFactory.getJdbcTemplate(ds).query(sql, (rs, i) -> rs.getString("Value"));
-        return CollectionUtils.firstElement(rts);
+        return CollectionUtils.lastElement(rts);
     }
 }

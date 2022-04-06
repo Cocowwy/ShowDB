@@ -95,7 +95,7 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
                             return ti;
                         });
 
-        return CollectionUtils.firstElement(rts);
+        return CollectionUtils.lastElement(rts);
     }
 
     /**
