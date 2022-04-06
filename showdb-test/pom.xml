@@ -8,15 +8,9 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>cn.cocowwy</groupId>
     <artifactId>showdb-test</artifactId>
     <name>showdb-test</name>
-
-    <description>showdb-test</description>
-
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
+    <description>ShowDB测试模块</description>
 
     <dependencies>
         <dependency>
@@ -50,7 +44,6 @@
             <artifactId>lombok</artifactId>
             <version>1.18.12</version>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -69,5 +62,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

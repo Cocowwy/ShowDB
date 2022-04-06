@@ -2,20 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>cn.cocowwy</groupId>
-    <artifactId>showdb-spring-boot-starter</artifactId>
-    <name>showdb-spring-boot-starter</name>
-
     <parent>
         <groupId>cn.cocowwy</groupId>
         <artifactId>ShowDB</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <description>ShowDB起步</description>
+    <artifactId>showdb-spring-boot-starter</artifactId>
+    <name>showdb-spring-boot-starter</name>
+    <description>ShowDB starter</description>
 
     <dependencies>
-
         <dependency>
             <groupId>cn.cocowwy</groupId>
             <artifactId>showdb-spring-boot-autoconfigure</artifactId>
@@ -24,6 +21,6 @@
             <groupId>cn.cocowwy</groupId>
             <artifactId>showdb-core</artifactId>
         </dependency>
-
     </dependencies>
+
 </project>

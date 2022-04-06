@@ -8,25 +8,14 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>cn.cocowwy</groupId>
     <artifactId>showdb-web</artifactId>
     <name>showdb-web</name>
-
-    <description>showdb web</description>
-
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
+    <description>ShowDB web模块，接口即业务层</description>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -40,27 +29,6 @@
             <groupId>cn.cocowwy</groupId>
             <artifactId>showdb-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cn.cocowwy</groupId>
-            <artifactId>showdb-core</artifactId>
-        </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

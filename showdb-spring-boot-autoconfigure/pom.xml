@@ -8,15 +8,9 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>cn.cocowwy</groupId>
     <artifactId>showdb-spring-boot-autoconfigure</artifactId>
     <name>showdb-spring-boot-autoconfigure</name>
-
-    <description>showdb自动配置类</description>
-
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
+    <description>ShowDB Spring Boot autoconfigure</description>
 
     <dependencies>
         <dependency>
@@ -33,4 +27,5 @@
             <artifactId>showdb-web</artifactId>
         </dependency>
     </dependencies>
+
 </project>
