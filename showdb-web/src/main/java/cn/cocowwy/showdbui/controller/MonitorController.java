@@ -38,7 +38,7 @@ public class MonitorController {
      * 当前数据源所对应数据库的 IP客户端连接数
      * @return
      */
-    @Endpoint(EndpointEnum.MONITOR_IP_CON)
+    @Endpoint(EndpointEnum.MONITOR_IP_CONNECTION)
     @GetMapping("/ipCountInfo")
     public Res<List<IpCount>> ipCountInfo(@PathVariable("ds")String ds) {
         return Res.success(monitorService.ipCountInfo(ds));

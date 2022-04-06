@@ -54,7 +54,9 @@
                             {{currentDataSourceMasterSlaveInfo.masterRetryCount}}
                         </el-descriptions-item>
                         <el-descriptions-item label="slave I/O线程状态（Slave_IO_State）">
-                            {{currentDataSourceMasterSlaveInfo.slaveIOState}}
+                            <div style="color:black;font-weight:bold;font-size: large">
+                                {{currentDataSourceMasterSlaveInfo.slaveIOState}}
+                            </div>
                         </el-descriptions-item>
                         <el-descriptions-item label="Slave_IO_Running">
                             <div style="color:#8de013;font-weight:bold;font-size: large"
@@ -103,8 +105,12 @@
                 <el-popconfirm title="是否导出当前数据源所有表SQL创建语句？" @confirm="dbCreateStatement">
                     <el-button icon="el-icon-document" type="primary" slot="reference">建表语句导出</el-button>
                 </el-popconfirm>
-                <el-button style="background-color: #1d2009;border-color: black;color: white;"
-                           type="primary" icon="el-icon-star-on" size="x-large" @click="starIt">star</el-button>
+                <el-tooltip class="item" effect="dark" content="star~" placement="bottom">
+                    <el-button style="background-color: #1d2009;border-color: black;color: white;"
+                               type="primary" icon="el-icon-star-on" size="x-large" @click="starIt">star
+                    </el-button>
+                </el-tooltip>
+
             </div>
 
             <div style="display: flex;align-items: center">
@@ -203,11 +209,11 @@
 
             <!--IP客户端信息-->
             <el-card style="margin-top: 12px;width:50%" class="box-card"
-                     v-if="currentDataSourceInfo!=null" shadow="hover">
+                     v-if="ipConInfo!=null" shadow="hover">
                 <div slot="header" class="clearfix">
                     <span style="font-size: 32px;font-weight: 700;">客户端连接信息</span>
                 </div>
-                <el-table :data="currentDataSourceInfo.ipConCounts" border>
+                <el-table :data="ipConInfo" border>
                     <el-table-column prop="ip" label="IP"></el-table-column>
                     <el-table-column prop="count" label="连接数量"></el-table-column>
                 </el-table>
@@ -253,12 +259,12 @@
             <el-descriptions-item label="表描述">{{tableDetailInformation.tableInfo.tableComment}}</el-descriptions-item>
             <el-descriptions-item label="行数">{{tableDetailInformation.tableInfo.rows}}</el-descriptions-item>
             <el-descriptions-item label="数据大小">{{(tableDetailInformation.tableInfo.dataSize / 1024 /
-                1024).toFixed(2)}}MB
+                    1024).toFixed(2)}}MB
                 /
                 {{tableDetailInformation.tableInfo.dataSize}}B
             </el-descriptions-item>
             <el-descriptions-item label="索引大小">{{(tableDetailInformation.tableInfo.indexSie / 1024 /
-                1024).toFixed(2)}}MB
+                    1024).toFixed(2)}}MB
                 /
                 {{tableDetailInformation.tableInfo.indexSie}}B
             </el-descriptions-item>

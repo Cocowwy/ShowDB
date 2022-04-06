@@ -2,7 +2,6 @@ package cn.cocowwy.showdbcore.aspect;
 
 import cn.cocowwy.showdbcore.annotation.Endpoint;
 import cn.cocowwy.showdbcore.entities.Res;
-import cn.cocowwy.showdbcore.exception.ErrorDefinition;
 import cn.cocowwy.showdbcore.util.EndpointUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -36,7 +35,7 @@ public class EndpointAspect {
     public Object around(ProceedingJoinPoint point, Endpoint endpoint) throws Throwable {
         Boolean passOnMethod = EndpointUtil.canPass(endpoint.value());
         if (!passOnMethod) {
-            return Res.error(ErrorDefinition.UNUSE_ENDPOINT);
+            return Res.success();
         }
         return point.proceed();
     }

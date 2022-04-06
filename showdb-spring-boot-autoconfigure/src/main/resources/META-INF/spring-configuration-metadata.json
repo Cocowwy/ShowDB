@@ -10,13 +10,13 @@
     {
       "name": "showdb.enable",
       "type": "java.lang.Boolean",
-      "description": "whether to use ShowDB",
+      "description": "Whether to use ShowDB",
       "defaultValue": true
     },
     {
       "name": "showdb.endpoint",
       "type": "java.util.Set",
-      "description": "which function you want to use, you should split with ',', default '*' is use all",
+      "description": "Which function you want to use, please split with ',', default '*' is use all",
       "defaultValue": "*"
     }
   ]

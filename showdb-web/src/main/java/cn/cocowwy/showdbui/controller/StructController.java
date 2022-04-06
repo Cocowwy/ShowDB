@@ -88,7 +88,7 @@ public class StructController {
     }
 
     /**
-     * 文档版本
+     * 表文档生成
      * @return
      */
     @GetMapping("/dsTableDoc/{ds}")
@@ -97,7 +97,7 @@ public class StructController {
     }
 
     /**
-     * 文档版本
+     * SQL库创建语句
      * @return
      */
     @GetMapping("/dbCreateStatement/{ds}")

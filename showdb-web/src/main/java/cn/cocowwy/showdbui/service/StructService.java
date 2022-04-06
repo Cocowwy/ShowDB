@@ -183,7 +183,7 @@ public class StructService {
                     htmlStr.append("<td>").append(field.getType()).append("</td>");
                     htmlStr.append("<td>").append(field.getPk().equals(Boolean.TRUE) ? "是" : "").append("</td>");
                     htmlStr.append("<td>").append(field.getComment()).append("</td>");
-                    htmlStr.append("<td>").append(field.getNullable()).append("</td>");
+                    htmlStr.append("<td>").append(field.getNullable().equals(Boolean.TRUE) ? "是" : "").append("</td>");
                     htmlStr.append("<td>").append(field.getColumnDefault() == null ? "" : field.getColumnDefault()).append("</td>").append("</tr>");
                 }
                 htmlStr.append("</table></div>");

@@ -17,6 +17,7 @@ public class EndpointUtil {
     public static void setEnableSet(Set<String> endpoints) {
         if (endpoints.contains(EndpointEnum.ALL.getName())) {
             GlobalContext.enableAllEndpoint();
+            return;
         }
 
         Set<EndpointEnum> enableEndpoint = GlobalContext.getEnableEndpoint();
@@ -34,6 +35,8 @@ public class EndpointUtil {
      */
     public static Boolean canPass(EndpointEnum ed) {
         return GlobalContext.getEnableEndpoint().contains(ed)
-                || ed.equals(EndpointEnum.ALL) ? Boolean.TRUE : Boolean.FALSE;
+                || ed.equals(EndpointEnum.ALL)
+                || GlobalContext.getEnableEndpoint().contains(EndpointEnum.ALL)
+                ? Boolean.TRUE : Boolean.FALSE;
     }
 }

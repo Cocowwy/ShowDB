@@ -12,6 +12,8 @@ var app = new Vue({
         tableNameList: [],
         // 搜索框选择值
         queryTableName: '',
+        // IP连接信息：
+        ipConInfo: null,
         // loadiong..
         loadingTables: true,
         loadingDataSource: false,
@@ -54,6 +56,7 @@ var app = new Vue({
                 that.tableStructByPage(that.tableStructSize, that.tableStructPageNumber);
                 that.tableNames();
                 that.slaveInfo();
+                that.ipCon();
                 that.loadingClose();
             })
         },
@@ -277,6 +280,22 @@ var app = new Vue({
                 var filename = that.currentDataSource + '.html';
                 that.downLoad(response, filename)
 
+            });
+        },
+
+        /**
+         * IP连接查询
+         */
+        ipCon() {
+            var that = this;
+            axios.get('/showdb/monitor/' + this.currentDataSource + '/ipCountInfo').then(function (res) {
+                that.loadingOpen()
+                if (res.data.code !== 200) {
+                    alert(res.data.msg);
+                    return;
+                }
+                that.ipConInfo = res.data.data
+                that.loadingClose()
             });
         },
 

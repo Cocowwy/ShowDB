@@ -98,7 +98,6 @@ public class ConfigService {
                 dsInfo.setOsEnv(getOsEnv(ds));
                 dsInfo.setTableSchema(DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds));
                 dsInfo.setBaseDir(this.getBaseDir(ds));
-                dsInfo.setIpConCounts(monitorService.ipCountInfo(ds));
                 return dsInfo;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
