@@ -21,13 +21,9 @@ public enum EndpointEnum {
      */
     MONITOR_MASTER_SLAVE("monitor-master-slave"),
     /**
-     * 表信息监控
+     * IP监控
      */
-    MONITOR_TABLE("monitor-table"),
-    /**
-     * 数据库监控
-     */
-    MONITOR_DATABASE("monitor-database");
+    MONITOR_IP_CON("monitor-ip-con");
 
     private String name;
     private static final Map<String, EndpointEnum> map = new HashMap<String, EndpointEnum>();
