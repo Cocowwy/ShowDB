@@ -12,7 +12,8 @@
 
 
 ## 🧰如何使用？？  
-- 在SpringBoot项目的pom.xml文件中引入依赖（稳定版还未上，目前可 🍔:**食用** 快照版）
+- 在SpringBoot项目的pom.xml文件中引入依赖
+**最新快照版本**
 ```xml
 <dependency>
     <groupId>cn.cocowwy</groupId>
@@ -20,6 +21,15 @@
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
+**稳定版（稳定版还未上，目前可🍔食用快照版）**
+```xml
+<dependency>
+    <groupId>cn.cocowwy</groupId>
+    <artifactId>ShowDB</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
 - 项目中已经配置好数据源/多数据源
 - 浏览器中访问该路径：```/db```，即可自动生成当前项目里的所有数据源文档页面
 
