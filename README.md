@@ -1,7 +1,7 @@
 # 📖ShowDB
 :zap: 拆箱即用的数据库文档工具，自动将SpringBoot项目中的所有数据源文档可视化，同时监控数据库相关的信息，如主从状态，配置等 :zap:  
 
-## Features
+## ✋Features
 - 1 拆箱即用，引入pom文件，即可使用
 - 2 UI界面丰富
 - 3 文档可视化，能对数据库表结构一览无余，支持模糊搜索
@@ -11,8 +11,8 @@
 - 7 支持表详细信息查询，建表SQL查询，Java实体类代码生成等
 
 
-## 如何使用？？  
-- 在SpringBoot项目的pom.xml文件中引入依赖（稳定版还未上，目前可 **食用** 快照版）
+## 🧰如何使用？？  
+- 在SpringBoot项目的pom.xml文件中引入依赖（稳定版还未上，目前可 🍔:**食用** 快照版）
 ```xml
 <dependency>
     <groupId>cn.cocowwy</groupId>
@@ -27,32 +27,32 @@
 **上图的Demo中，该项目存在三个数据源，同时其中一个数据源开启了主从，ShowDB对当前项目中所有的数据源进行了统一的文档管理，以及数据源信息监控**
 
 
-## 版本选择
+## 🏷️版本选择
 |  环境   | 版本号  |
 |  ----  | ----  |
 | JDK | 1.8+ |
-| SpringBoot | 2.x+ |
+| SpringBoot | 2.3.9.RELEASE+ |
 
-**yml配置**
+## 🔧**yml配置**
 ```yml
 showdb:
   enable: true
   endpoint: monitor-master-slave,monitor-ip-connection,'*'  
 ```
   
-**endpoint可选值如下：**
+## 🔧**endpoint可选值如下：**
 |  endpoint   | 说明  |
 |  ----  | ----  |
 | * | 所有 |
 | monitor-master-slave  | 主从信息监控 |
 | monitor-ip-connection  | IP连接监控 |
 
-**当前支持数据源如下：**
+## 📄**当前支持数据源如下：**
 |  数据源   | 是否支持  |
 |  ----  | ----  |
 | MySQL | 支持 |
 
-**包模块说明：**
+## 📦**包模块说明：**
 |  包名   | 说明  |
 |  ----  | ----  |
 | showdb-core | SQL核心执行逻辑，内部缓存等 |
