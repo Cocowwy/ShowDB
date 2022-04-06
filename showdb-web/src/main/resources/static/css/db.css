@@ -21,13 +21,13 @@
 }
 
 /*右侧数据源 beanName*/
-.el-descriptions__title{
+.el-descriptions__title {
     font-size: 32px;
     font-weight: 700;
 }
 
 /*表格标题大小*/
-.clearfix{
+.clearfix {
     font-size: 28px;
 }
 
@@ -35,4 +35,9 @@
 .el-alert--success.is-light {
     background-color: #e9f7e1;
     color: #40a110;
+}
+
+.el-alert__title {
+    font-size: 20px;
+    line-height: 18px;
 }

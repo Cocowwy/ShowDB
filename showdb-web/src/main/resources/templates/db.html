@@ -13,7 +13,8 @@
 </head>
 <body>
 <dev id="ShowDB">
-    <el-alert style="font-weight: bold" title="拆箱即用的数据库文档开源工具，会自动根据SpringBoot项目中已存在的数据源（多数据源），生成文档以及数据库监控信息等 v1.0.0"
+    <el-alert style="font-weight: bold"
+              title="拆箱即用的数据库文档开源工具，会自动根据SpringBoot项目中已存在的数据源（多数据源），生成文档以及数据库监控信息等 v1.0.0"
               type="success"
               @close="starIt" center>
 
@@ -25,19 +26,61 @@
                       description="暂未检测到当前数据源存在主从信息"
                       v-if="currentDataSourceMasterSlaveInfo==null">
             </el-empty>
-            <el-card style="margin-top: 200px" class="box-card" v-if="currentDataSourceMasterSlaveInfo!=null">
-                <div >
+            <el-card style="margin-top: 200px;overflow-x: auto" class="box-card"
+                     v-if="currentDataSourceMasterSlaveInfo!=null"
+                     shadow="hover">
+                <div>
                     <el-descriptions title="主从信息" direction="vertical" :column="1" border>
-                        <el-descriptions-item label="主机IP（Master_Host）">{{currentDataSourceMasterSlaveInfo.masterHost}}</el-descriptions-item>
-                        <el-descriptions-item label="主从复制用户（Master_User）">{{currentDataSourceMasterSlaveInfo.masterUser}}</el-descriptions-item>
-                        <el-descriptions-item label="主机端口（Master_Port）">{{currentDataSourceMasterSlaveInfo.masterPort}}</el-descriptions-item>
-                        <el-descriptions-item label="从库滞后时长（SQL_Delay）">{{currentDataSourceMasterSlaveInfo.sqlDelay}}</el-descriptions-item>
-                        <el-descriptions-item label="连接主库失败最多的重试次数（Master_Retry_Count）">{{currentDataSourceMasterSlaveInfo.masterRetryCount}}</el-descriptions-item>
-                        <el-descriptions-item label="slave I/O线程状态（Slave_IO_State）">{{currentDataSourceMasterSlaveInfo.slaveIOState}}</el-descriptions-item>
-                        <el-descriptions-item label="Slave_IO_Running">{{currentDataSourceMasterSlaveInfo.slaveIORunning}}</el-descriptions-item>
-                        <el-descriptions-item label="Slave_SQL_Running">{{currentDataSourceMasterSlaveInfo.slaveSQLRunning}}</el-descriptions-item>
-                        <el-descriptions-item label="Relay_Log_File">{{currentDataSourceMasterSlaveInfo.relayLogFile}}</el-descriptions-item>
-                        <el-descriptions-item label="Master_Log_File">{{currentDataSourceMasterSlaveInfo.masterLogFile}}</el-descriptions-item>
+                        <el-descriptions-item label="主机IP（Master_Host）">
+                            {{currentDataSourceMasterSlaveInfo.masterHost}}
+                        </el-descriptions-item>
+                        <el-descriptions-item label="主从复制用户（Master_User）">
+                            {{currentDataSourceMasterSlaveInfo.masterUser}}
+                        </el-descriptions-item>
+                        <el-descriptions-item label="主机端口（Master_Port）">
+                            {{currentDataSourceMasterSlaveInfo.masterPort}}
+                        </el-descriptions-item>
+                        <el-descriptions-item label="从库滞后时长（SQL_Delay），单位：秒">
+                            <div style="color:#8de013;font-weight:bold;font-size: large"
+                                 v-if="currentDataSourceMasterSlaveInfo.sqlDelay==0">
+                                {{currentDataSourceMasterSlaveInfo.sqlDelay}}
+                            </div>
+                            <div style="color:red;font-weight:bold;font-size: large"
+                                 v-if="currentDataSourceMasterSlaveInfo.sqlDelay!=0">
+                                {{currentDataSourceMasterSlaveInfo.sqlDelay}}
+                            </div>
+                        </el-descriptions-item>
+                        <el-descriptions-item label="连接主库失败最多的重试次数（Master_Retry_Count）">
+                            {{currentDataSourceMasterSlaveInfo.masterRetryCount}}
+                        </el-descriptions-item>
+                        <el-descriptions-item label="slave I/O线程状态（Slave_IO_State）">
+                            {{currentDataSourceMasterSlaveInfo.slaveIOState}}
+                        </el-descriptions-item>
+                        <el-descriptions-item label="Slave_IO_Running">
+                            <div style="color:#8de013;font-weight:bold;font-size: large"
+                                 v-if="currentDataSourceMasterSlaveInfo.slaveIORunning=='Yes'">
+                                {{currentDataSourceMasterSlaveInfo.slaveIORunning}}
+                            </div>
+                            <div style="color:red;font-weight:bold;font-size: large"
+                                 v-if="currentDataSourceMasterSlaveInfo.slaveIORunning!='Yes'">
+                                {{currentDataSourceMasterSlaveInfo.slaveIORunning}}
+                            </div>
+                        </el-descriptions-item>
+                        <el-descriptions-item label="Slave_SQL_Running">
+                            <div style="color:#8de013;font-weight:bold;font-size: large"
+                                 v-if="currentDataSourceMasterSlaveInfo.slaveSQLRunning=='Yes'">
+                                {{currentDataSourceMasterSlaveInfo.slaveSQLRunning}}
+                            </div>
+                            <div style="color:red;font-weight:bold;font-size: large"
+                                 v-if="currentDataSourceMasterSlaveInfo.slaveSQLRunning!='Yes'">
+                                {{currentDataSourceMasterSlaveInfo.slaveSQLRunning}}
+                            </div>
+                        </el-descriptions-item>
+                        <el-descriptions-item label="Relay_Log_File">{{currentDataSourceMasterSlaveInfo.relayLogFile}}
+                        </el-descriptions-item>
+                        <el-descriptions-item label="Master_Log_File">
+                            {{currentDataSourceMasterSlaveInfo.masterLogFile}}
+                        </el-descriptions-item>
                     </el-descriptions>
                 </div>
             </el-card>
@@ -77,7 +120,7 @@
             </div>
 
 
-            <el-card v-for="(item,index) in  tableStruct" class="box-card" style="margin-top: 18px">
+            <el-card v-for="(item,index) in  tableStruct" class="box-card" style="margin-top: 18px" shadow="hover">
                 <div slot="header" class="clearfix">
                     <span style="font-weight: bolder">{{item.tableInfo.tableName}}&nbsp{{item.tableInfo.tableComment}}</span>
                     <el-button style="font-size: 18px;float: right; padding: 3px 3px" type="text"
@@ -131,37 +174,42 @@
         </el-main>
 
         <!--右侧数据源-->
-        <el-aside width="35%" style="margin-top: 58px;">
-
+        <el-aside width="33%" style="margin-top: -33px;">
             <el-image v-if="currentDataSourceInfo!=null&&currentDataSourceInfo.dsProductName==='MySQL'"
                       style="width: 228px; height: 228px" th:src="@{img/mysql.png}"></el-image>
-
-            <!--数据源信息-->
-            <el-descriptions style="font-size: medium" v-if="currentDataSourceInfo!=null"
-                             :title="currentDataSourceInfo.beanName"
-                             column="1">
-                <el-descriptions-item label="类型">
-                    <el-tag size="large" type="info">{{currentDataSourceInfo.dsProductName}}</el-tag>
-                </el-descriptions-item>
-                <el-descriptions-item label="版本号">
-                    <el-tag size="large" type="success"> {{currentDataSourceInfo.dbVersion}}</el-tag>
-                </el-descriptions-item>
-                <el-descriptions-item label="数据库">{{currentDataSourceInfo.tableSchema}}</el-descriptions-item>
-                <el-descriptions-item label="系统">{{currentDataSourceInfo.osEnv}}</el-descriptions-item>
-                <el-descriptions-item label="用户">{{currentDataSourceInfo.username}}</el-descriptions-item>
-                <el-descriptions-item label="记录数">{{currentDataSourceInfo.records}}行</el-descriptions-item>
-                <el-descriptions-item label="数据量">{{currentDataSourceInfo.dataSize}}MB</el-descriptions-item>
-                <el-descriptions-item label="索引量">{{currentDataSourceInfo.indexSize}}MB</el-descriptions-item>
-                <el-descriptions-item label="路径">{{currentDataSourceInfo.baseDir}}</el-descriptions-item>
-                <el-descriptions-item label="URL">{{currentDataSourceInfo.url}}</el-descriptions-item>
-            </el-descriptions>
+            <el-card style="width:68%;overflow-x: auto" class="box-card"
+                     v-if="currentDataSourceInfo!=null" shadow="hover">
+                <el-descriptions direction="vertical" :column="1" border v-if="currentDataSourceInfo!=null"
+                                 shadow="hover"
+                                 :title="currentDataSourceInfo.beanName">
+                    <el-descriptions-item label="类型">
+                        <el-tag size="large" type="info">{{currentDataSourceInfo.dsProductName}}</el-tag>
+                    </el-descriptions-item>
+                    <el-descriptions-item label="版本号">
+                        <el-tag size="large" type="success"> {{currentDataSourceInfo.dbVersion}}</el-tag>
+                    </el-descriptions-item>
+                    <el-descriptions-item label="数据库">{{currentDataSourceInfo.tableSchema}}</el-descriptions-item>
+                    <el-descriptions-item label="系统">{{currentDataSourceInfo.osEnv}}</el-descriptions-item>
+                    <el-descriptions-item label="用户">{{currentDataSourceInfo.username}}</el-descriptions-item>
+                    <el-descriptions-item label="记录数">{{currentDataSourceInfo.records}}行</el-descriptions-item>
+                    <el-descriptions-item label="数据量">{{currentDataSourceInfo.dataSize}}MB</el-descriptions-item>
+                    <el-descriptions-item label="索引量">{{currentDataSourceInfo.indexSize}}MB</el-descriptions-item>
+                    <el-descriptions-item label="路径">{{currentDataSourceInfo.baseDir}}</el-descriptions-item>
+                    <el-descriptions-item label="URL" width="100%">{{currentDataSourceInfo.url}}</el-descriptions-item>
+                </el-descriptions>
+            </el-card>
 
             <!--IP客户端信息-->
-            <el-table v-if="currentDataSourceInfo!=null" :data="currentDataSourceInfo.ipConCounts" border
-                      style="margin-top: 12px;width:50%">
-                <el-table-column prop="ip" label="IP"></el-table-column>
-                <el-table-column prop="count" label="连接数量"></el-table-column>
-            </el-table>
+            <el-card style="margin-top: 12px;width:50%" class="box-card"
+                     v-if="currentDataSourceInfo!=null" shadow="hover">
+                <div slot="header" class="clearfix">
+                    <span style="font-size: 32px;font-weight: 700;">IP占用连接信息</span>
+                </div>
+                <el-table :data="currentDataSourceInfo.ipConCounts" border>
+                    <el-table-column prop="ip" label="IP"></el-table-column>
+                    <el-table-column prop="count" label="连接数量"></el-table-column>
+                </el-table>
+            </el-card>
         </el-aside>
     </el-container>
 
@@ -199,14 +247,16 @@
 
     <!--表 详细信息-->
     <el-dialog :title="tableDetailTableName" :visible.sync="tableDetailDialog" width="38%">
-        <el-descriptions v-if="tableDetailInformation!=null">
+        <el-descriptions v-if="tableDetailInformation!=null">版本号
             <el-descriptions-item label="表描述">{{tableDetailInformation.tableInfo.tableComment}}</el-descriptions-item>
             <el-descriptions-item label="行数">{{tableDetailInformation.tableInfo.rows}}</el-descriptions-item>
-            <el-descriptions-item label="数据大小">{{(tableDetailInformation.tableInfo.dataSize / 1024 / 1024).toFixed(2)}}MB
+            <el-descriptions-item label="数据大小">{{(tableDetailInformation.tableInfo.dataSize / 1024 /
+                1024).toFixed(2)}}MB
                 /
                 {{tableDetailInformation.tableInfo.dataSize}}B
             </el-descriptions-item>
-            <el-descriptions-item label="索引大小">{{(tableDetailInformation.tableInfo.indexSie / 1024 / 1024).toFixed(2)}}MB
+            <el-descriptions-item label="索引大小">{{(tableDetailInformation.tableInfo.indexSie / 1024 /
+                1024).toFixed(2)}}MB
                 /
                 {{tableDetailInformation.tableInfo.indexSie}}B
             </el-descriptions-item>
@@ -223,7 +273,7 @@
             <el-descriptions-item label="创建时间">{{tableDetailInformation.tableInfo.createTime}}</el-descriptions-item>
             <el-descriptions-item label="更新时间">{{tableDetailInformation.tableInfo.updateTime}}</el-descriptions-item>
         </el-descriptions>
-        <span slot="footer" class="dialog-footer">
+        <span slot="footer" style="text" class="dialog-footer">
     <el-button type="primary" @click="tableDetailDialog = false">确 定</el-button>
   </span>
     </el-dialog>

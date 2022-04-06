@@ -261,46 +261,44 @@ var app = new Vue({
          * 表结构文档导出
          */
         dsTableDoc() {
-            // axios.get('/showdb/struct/dsTableDoc/' + this.currentDataSource).then(function (res) {
-            //     if (res.data.code !== 200) {
-            //         alert(res.data.msg);
-            //         return;
-            //     }
-            //     // new Blob([data])用来创建URL的file对象或者blob对象
-            //     let url = window.URL.createObjectURL(new Blob([res.data]));
-            //     // 生成一个a标签
-            //     let link = document.createElement("a");
-            //     link.style.display = "none";
-            //     link.href = url;
-            //     // 生成时间戳
-            //     let timestamp=new Date().getTime();
-            //     link.download = timestamp + ".pdf";
-            //     document.body.appendChild(link);
-            //     link.click();
-            // });
+            var that = this
+            this.loadingOpen();
             axios({
                 method: "GET",
                 url: '/showdb/struct/dsTableDoc/' + this.currentDataSource,
                 responseType: 'blob'
             }).then(response => {
-                let blob = new Blob([res.data], { type: "application/vnd.ms-excel" });//type是文件类，详情可以参阅blob文件类型
-                // 创建新的URL并指向File对象或者Blob对象的地址
-                const blobURL = window.URL.createObjectURL(blob)
-                // 创建a标签，用于跳转至下载链接
-                const tempLink = document.createElement('a')
-                tempLink.style.display = 'none'
-                tempLink.href = blobURL
-                tempLink.setAttribute('download', decodeURI(res.headers['content-disposition'].split(';')[1].split('=')[1]))
-                // 兼容：某些浏览器不支持HTML5的download属性
-                if (typeof tempLink.download === 'undefined') {
-                    tempLink.setAttribute('target', '_blank')
+                that.$notify({
+                    title: '成功',
+                    duration: 3000,
+                    message: that.currentDataSource + '表结构导出成功！',
+                });
+                that.loadingClose();
+                var filename = that.currentDataSource + '.html';
+                // 将二进制流转为blob
+                const blob = new Blob([response.data], {type: 'application/octet-stream'})
+                if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                    // 兼容IE，window.navigator.msSaveBlob：以本地方式保存文件
+                    window.navigator.msSaveBlob(blob, decodeURI(filename))
+                } else {
+                    // 创建新的URL并指向File对象或者Blob对象的地址
+                    const blobURL = window.URL.createObjectURL(blob)
+                    // 创建a标签，用于跳转至下载链接
+                    const tempLink = document.createElement('a')
+                    tempLink.style.display = 'none'
+                    tempLink.href = blobURL
+                    tempLink.setAttribute('download', decodeURI(filename))
+                    // 兼容：某些浏览器不支持HTML5的download属性
+                    if (typeof tempLink.download === 'undefined') {
+                        tempLink.setAttribute('target', '_blank')
+                    }
+                    // 挂载a标签
+                    document.body.appendChild(tempLink)
+                    tempLink.click()
+                    document.body.removeChild(tempLink)
+                    // 释放blob URL地址
+                    window.URL.revokeObjectURL(blobURL)
                 }
-                // 挂载a标签
-                document.body.appendChild(tempLink)
-                tempLink.click()
-                document.body.removeChild(tempLink)
-                // 释放blob URL地址
-                window.URL.revokeObjectURL(blobURL)
             });
         },
 

@@ -152,9 +152,9 @@ public class StructService {
     public void dsTableDoc(HttpServletResponse response, String ds) throws IOException {
 
         StringBuilder htmlStr = new StringBuilder();
+        htmlStr.append("<div style='margin-left: 20%'><h1>").append(ds).append("</h1></div>");
         for (String table : this.tableNames(ds)) {
-            htmlStr.append("<div style='margin-top:20px'><table border=\"2\">");
-            htmlStr.append("<tr>\n" +
+            htmlStr.append("<div style='margin-top:20px'><div style='margin-left=20%'><table border='2'>").append("<tr>\n" +
                     "<th>字段</th>\n" +
                     "<th>类型</th>\n" +
                     "<th>字段描述</th>\n" +
@@ -171,28 +171,17 @@ public class StructService {
             tableStruct.setTableFieldList(tableFields);
 
             for (TableField field : tableFields) {
-                htmlStr.append("<tr>");
-                htmlStr.append("<td>").append(field.getFieldName()).append("</td>");
+                htmlStr.append("<tr>").append("<td>").append(field.getFieldName()).append("</td>");
                 htmlStr.append("<td>").append(field.getType()).append("</td>");
                 htmlStr.append("<td>").append(field.getComment()).append("</td>");
                 htmlStr.append("<td>").append(field.getNullable()).append("</td>");
-                htmlStr.append("<td>").append(field.getColumnDefault()).append("</td>");
-                htmlStr.append("</tr>");
+                htmlStr.append("<td>").append(field.getColumnDefault() == null ? "" : field.getColumnDefault()).append("</td>").append("</tr>");
             }
-
-            System.out.println(htmlStr.toString());
-
-            htmlStr.append("</table></div>");
         }
+        htmlStr.append("</div></table></div></div>");
         ServletOutputStream stream = null;
         try {
             stream = response.getOutputStream();
-//
-//            response.setContentType("text/plain");
-//            response.setCharacterEncoding("utf-8");
-//            response.setHeader("Content-disposition",
-//                    "attachment;filename*=utf-8''" +
-//                            ds + ".html");
             stream.write(htmlStr.toString().getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
             // ignore exception..
