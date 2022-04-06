@@ -34,10 +34,8 @@ showdb:
 |  endpoint   | 说明  |
 |  ----  | ----  |
 | * | 所有 |
-| structure  | 表结构 |
-| monitor-master-slave  | 主从监控 |
-| monitor-table  | 表监控 |
-| monitor-database  | 数据库监控 |  
+| MONITOR_MASTER_SLAVE  | 主从信息监控 |
+| MONITOR_IP_CON  | IP连接监控 |
 
 **当前支持数据源如下：**
 |  数据源   | 是否支持  |
