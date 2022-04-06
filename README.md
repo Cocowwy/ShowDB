@@ -8,7 +8,7 @@
 - 引入ShowDB的starter，并且在配置文件中自定义配置
 - 浏览器中访问该接口：```/db```  
 - 即可自动生成当前项目里的数据源的文档可视化页面
-![2eabd8d5b822d7ab97e2375f7f1cc37](https://user-images.githubusercontent.com/63331147/161767659-388c0cf6-f309-40ce-aad9-74fff61ccc04.jpg)
+![73849dd9319e33d555677d1acf6745f](https://user-images.githubusercontent.com/63331147/161917411-9808b386-590d-409a-b2dd-196f27f40ff6.jpg)
 **上图的实例中，该项目存在三个数据源，同时其中一个数据源开启了主从，ShowDB对当前项目中所有的数据源进行了统一的文档管理，以及数据源信息监控**
 
 
@@ -34,10 +34,8 @@ showdb:
 |  endpoint   | 说明  |
 |  ----  | ----  |
 | * | 所有 |
-| structure  | 表结构 |
-| monitor-master-slave  | 主从监控 |
-| monitor-table  | 表监控 |
-| monitor-database  | 数据库监控 |  
+| MONITOR_MASTER_SLAVE  | 主从信息监控 |
+| MONITOR_IP_CON  | IP连接监控 |
 
 **当前支持数据源如下：**
 |  数据源   | 是否支持  |
