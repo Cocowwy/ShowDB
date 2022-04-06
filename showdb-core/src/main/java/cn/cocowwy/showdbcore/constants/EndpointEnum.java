@@ -13,10 +13,6 @@ public enum EndpointEnum {
      */
     ALL("*"),
     /**
-     * 结构
-     */
-    STRUCTURE("structure"),
-    /**
      * 主从信息监控
      */
     MONITOR_MASTER_SLAVE("monitor-master-slave"),

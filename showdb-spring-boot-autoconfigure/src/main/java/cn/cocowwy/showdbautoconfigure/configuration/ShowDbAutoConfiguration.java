@@ -85,8 +85,7 @@ public class ShowDbAutoConfiguration implements InitializingBean {
                 "╚════██║██╔══██║██║   ██║██║███╗██║██║  ██║██╔══██╗\n" +
                 "███████║██║  ██║╚██████╔╝╚███╔███╔╝██████╔╝██████╔╝\n" +
                 "╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚══╝╚══╝ ╚═════╝ ╚═════╝" +
-                "\nCreateBy：Cocowwy" +
-                "\nGit地址：https://github.com/Cocowwy/ShowDB" +
-                "\nShowDB 启动成功！");
+                "\nCreateBy: Cocowwy" +
+                "\nGit地址：https://github.com/Cocowwy/ShowDB");
     }
 }

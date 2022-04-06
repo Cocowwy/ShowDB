@@ -30,7 +30,6 @@ public class StructController {
      * Get the structure of all tables
      * @return
      */
-    @Endpoint(EndpointEnum.STRUCTURE)
     @GetMapping("/{ds}/{pageSize}/{pageNumber}")
     public Res<TableStructVo> tableStruct(@PathVariable("ds") String ds,
                                           @PathVariable("pageSize") Integer pageSize,
@@ -44,7 +43,6 @@ public class StructController {
      * @param table 表名
      * @return
      */
-    @Endpoint(EndpointEnum.STRUCTURE)
     @GetMapping("/{ds}/create/{table}")
     public Res<String> tableCreateStatement(@PathVariable("ds") String ds, @PathVariable("table") String table) {
         return Res.success(structService.tableCreateStatement(ds, table));
@@ -55,7 +53,6 @@ public class StructController {
      *
      * @return
      */
-    @Endpoint(EndpointEnum.STRUCTURE)
     @GetMapping("/{ds}/java/{table}")
     public Res<String> tableJavaCode(@PathVariable("ds") String ds, @PathVariable("table") String table) {
         return Res.success(structService.tableJavaCode(ds, table));
@@ -66,7 +63,6 @@ public class StructController {
      * @param table
      * @return 表结构
      */
-    @Endpoint(EndpointEnum.STRUCTURE)
     @GetMapping("/{ds}/{pageSize}/{pageNumber}/{table}")
     public Res<TableStructVo> tableStruct(@PathVariable("ds") String ds, @PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber, @PathVariable("table") String table) {
         return Res.success(structService.tableStruct(ds, pageSize, pageNumber, table));
@@ -77,7 +73,6 @@ public class StructController {
      * @param table
      * @return 表结构
      */
-    @Endpoint(EndpointEnum.STRUCTURE)
     @GetMapping("/{ds}/{table}/detailInfo")
     public Res<TableStructVo> tableDetailInfo(@PathVariable("ds") String ds, @PathVariable("table") String table) {
         return Res.success(structService.tableDetailInfo(ds, table));
@@ -99,5 +94,14 @@ public class StructController {
     @GetMapping("/dsTableDoc/{ds}")
     public void dsTableDoc(HttpServletResponse response, @PathVariable("ds") String ds) throws IOException {
         structService.dsTableDoc(response, ds);
+    }
+
+    /**
+     * 文档版本
+     * @return
+     */
+    @GetMapping("/dbCreateStatement/{ds}")
+    public void dbCreateStatement(HttpServletResponse response, @PathVariable("ds") String ds) throws IOException {
+        structService.dbCreateStatement(response, ds);
     }
 }

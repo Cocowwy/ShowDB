@@ -146,39 +146,52 @@ public class StructService {
     }
 
     /**
-     * pdf 生成
+     * 数据库文档生成
      * @param response
      */
     public void dsTableDoc(HttpServletResponse response, String ds) throws IOException {
+        String key = ShowDbCache.buildCacheKey(ds, "dsTableDoc", ds);
+        StringBuilder htmlStr = (StringBuilder) ShowDbCache.get(key);
+        if (htmlStr == null) {
+            htmlStr = new StringBuilder("<div style='margin-left: 20%'><h1>").append(ds).append("</h1></div><div>");
+            for (String table : this.tableNames(ds)) {
+                List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableStructure(ds, table);
+                TableInfo tableInfo = new TableInfo();
+                tableInfo.setTableName(table);
+                tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableComment(ds, table).getTableComment());
+                TableStructVo.TableStruct tableStruct = new TableStructVo.TableStruct();
+                tableStruct.setTableInfo(tableInfo);
+                tableStruct.setTableFieldList(tableFields);
 
-        StringBuilder htmlStr = new StringBuilder();
-        htmlStr.append("<div style='margin-left: 20%'><h1>").append(ds).append("</h1></div>");
-        for (String table : this.tableNames(ds)) {
-            htmlStr.append("<div style='margin-top:20px'><div style='margin-left=20%'><table border='2'>").append("<tr>\n" +
-                    "<th>字段</th>\n" +
-                    "<th>类型</th>\n" +
-                    "<th>字段描述</th>\n" +
-                    "<th>不为空</th>\n" +
-                    "<th>默认值</th>\n" +
-                    " </tr>");
+                htmlStr.append("<div style='margin-top:20px;margin-left:20%'>")
+                        .append("<h2>")
+                        .append(table).append("  ")
+                        .append(tableInfo.getTableComment())
+                        .append("</h2>")
+                        .append("<table border='2'>")
+                        .append("<tr>\n" +
+                                "<th>字段</th>\n" +
+                                "<th>类型</th>\n" +
+                                "<th>主鍵</th>\n" +
+                                "<th>字段描述</th>\n" +
+                                "<th>不为空</th>\n" +
+                                "<th>默认值</th>\n" +
+                                " </tr>");
 
-            List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableStructure(ds, table);
-            TableInfo tableInfo = new TableInfo();
-            tableInfo.setTableName(table);
-            tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableComment(ds, table).getTableComment());
-            TableStructVo.TableStruct tableStruct = new TableStructVo.TableStruct();
-            tableStruct.setTableInfo(tableInfo);
-            tableStruct.setTableFieldList(tableFields);
-
-            for (TableField field : tableFields) {
-                htmlStr.append("<tr>").append("<td>").append(field.getFieldName()).append("</td>");
-                htmlStr.append("<td>").append(field.getType()).append("</td>");
-                htmlStr.append("<td>").append(field.getComment()).append("</td>");
-                htmlStr.append("<td>").append(field.getNullable()).append("</td>");
-                htmlStr.append("<td>").append(field.getColumnDefault() == null ? "" : field.getColumnDefault()).append("</td>").append("</tr>");
+                for (TableField field : tableFields) {
+                    htmlStr.append("<tr>").append("<td>").append(field.getFieldName()).append("</td>");
+                    htmlStr.append("<td>").append(field.getType()).append("</td>");
+                    htmlStr.append("<td>").append(field.getPk().equals(Boolean.TRUE) ? "是" : "").append("</td>");
+                    htmlStr.append("<td>").append(field.getComment()).append("</td>");
+                    htmlStr.append("<td>").append(field.getNullable()).append("</td>");
+                    htmlStr.append("<td>").append(field.getColumnDefault() == null ? "" : field.getColumnDefault()).append("</td>").append("</tr>");
+                }
+                htmlStr.append("</table></div>");
             }
+            htmlStr.append("</div>");
+            ShowDbCache.put(key, htmlStr);
         }
-        htmlStr.append("</div></table></div></div>");
+
         ServletOutputStream stream = null;
         try {
             stream = response.getOutputStream();
@@ -189,6 +202,35 @@ public class StructService {
             stream.close();
         }
 
+    }
+
+    /**
+     * DB SQL
+     * @param response
+     * @param ds
+     * @throws IOException
+     */
+    public void dbCreateStatement(HttpServletResponse response, String ds) throws IOException {
+        String key = ShowDbCache.buildCacheKey(ds, "createDbStatement", ds);
+        StringBuilder text = (StringBuilder) ShowDbCache.get(key);
+        if (text == null) {
+            text = new StringBuilder("CREATE DATABASE ").append(ds).append(";\n");
+            for (String table : this.tableNames(ds)) {
+                text.append("-- ").append(table).append(";\n");
+                text.append("DROP TABLE IF EXISTS '").append(table).append("'").append(";\n");
+                text.append(this.tableCreateStatement(ds, table)).append(";\n\n");
+            }
+        }
+
+        ServletOutputStream stream = null;
+        try {
+            stream = response.getOutputStream();
+            stream.write(text.toString().getBytes(StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            // ignore exception..
+        } finally {
+            stream.close();
+        }
     }
 
     /**

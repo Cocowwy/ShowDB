@@ -275,33 +275,67 @@ var app = new Vue({
                 });
                 that.loadingClose();
                 var filename = that.currentDataSource + '.html';
-                // 将二进制流转为blob
-                const blob = new Blob([response.data], {type: 'application/octet-stream'})
-                if (typeof window.navigator.msSaveBlob !== 'undefined') {
-                    // 兼容IE，window.navigator.msSaveBlob：以本地方式保存文件
-                    window.navigator.msSaveBlob(blob, decodeURI(filename))
-                } else {
-                    // 创建新的URL并指向File对象或者Blob对象的地址
-                    const blobURL = window.URL.createObjectURL(blob)
-                    // 创建a标签，用于跳转至下载链接
-                    const tempLink = document.createElement('a')
-                    tempLink.style.display = 'none'
-                    tempLink.href = blobURL
-                    tempLink.setAttribute('download', decodeURI(filename))
-                    // 兼容：某些浏览器不支持HTML5的download属性
-                    if (typeof tempLink.download === 'undefined') {
-                        tempLink.setAttribute('target', '_blank')
-                    }
-                    // 挂载a标签
-                    document.body.appendChild(tempLink)
-                    tempLink.click()
-                    document.body.removeChild(tempLink)
-                    // 释放blob URL地址
-                    window.URL.revokeObjectURL(blobURL)
-                }
+                that.downLoad(response, filename)
+
             });
         },
 
+        /**
+         * 导出数据库文件
+         */
+        dbCreateStatement() {
+            var that = this
+            this.loadingOpen();
+            axios({
+                method: "GET",
+                url: '/showdb/struct/dbCreateStatement/' + this.currentDataSource,
+                responseType: 'blob'
+            }).then(response => {
+                that.$notify({
+                    title: '成功',
+                    duration: 3000,
+                    message: that.currentDataSource + '建表语句导出成功！',
+                });
+                that.loadingClose();
+                var filename = that.currentDataSource + '.txt';
+                that.downLoad(response, filename)
+            });
+        },
+
+        /**
+         * 文件下载
+         * @param filename
+         */
+        downLoad(response, filename) {
+            // 将二进制流转为blob
+            const blob = new Blob([response.data], {type: 'application/octet-stream'})
+            if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                // 兼容IE，window.navigator.msSaveBlob：以本地方式保存文件
+                window.navigator.msSaveBlob(blob, decodeURI(filename))
+            } else {
+                // 创建新的URL并指向File对象或者Blob对象的地址
+                const blobURL = window.URL.createObjectURL(blob)
+                // 创建a标签，用于跳转至下载链接
+                const tempLink = document.createElement('a')
+                tempLink.style.display = 'none'
+                tempLink.href = blobURL
+                tempLink.setAttribute('download', decodeURI(filename))
+                // 兼容：某些浏览器不支持HTML5的download属性
+                if (typeof tempLink.download === 'undefined') {
+                    tempLink.setAttribute('target', '_blank')
+                }
+                // 挂载a标签
+                document.body.appendChild(tempLink)
+                tempLink.click()
+                document.body.removeChild(tempLink)
+                // 释放blob URL地址
+                window.URL.revokeObjectURL(blobURL)
+            }
+        },
+
+        /**
+         * github主页跳转
+         */
         starIt() {
             window.open("https://github.com/Cocowwy/ShowDB");
         }

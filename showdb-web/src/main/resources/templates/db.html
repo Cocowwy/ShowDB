@@ -95,14 +95,16 @@
 
             <div style="margin-top: 18px">
                 <el-popconfirm title="数据库结构发生变化需手动清理缓存？" @confirm="cleanCache">
-                    <el-button type="info" slot="reference">清理缓存</el-button>
+                    <el-button icon="el-icon-delete" type="info" slot="reference">清理缓存</el-button>
                 </el-popconfirm>
                 <el-popconfirm title="是否生成当前数据源所有表结构文档？" @confirm="dsTableDoc">
-                    <el-button type="primary" slot="reference">表结构文档导出</el-button>
+                    <el-button icon="el-icon-document" type="primary" slot="reference">表结构文档导出</el-button>
                 </el-popconfirm>
-                <el-popconfirm title="是否导出当前数据源所有表SQL创建语句？">
-                    <el-button type="primary" slot="reference">建表语句导出</el-button>
+                <el-popconfirm title="是否导出当前数据源所有表SQL创建语句？" @confirm="dbCreateStatement">
+                    <el-button icon="el-icon-document" type="primary" slot="reference">建表语句导出</el-button>
                 </el-popconfirm>
+                <el-button style="background-color: #1d2009;border-color: black;color: white;"
+                           type="primary" icon="el-icon-star-on" size="x-large" @click="starIt">star</el-button>
             </div>
 
             <div style="display: flex;align-items: center">
@@ -203,7 +205,7 @@
             <el-card style="margin-top: 12px;width:50%" class="box-card"
                      v-if="currentDataSourceInfo!=null" shadow="hover">
                 <div slot="header" class="clearfix">
-                    <span style="font-size: 32px;font-weight: 700;">IP占用连接信息</span>
+                    <span style="font-size: 32px;font-weight: 700;">客户端连接信息</span>
                 </div>
                 <el-table :data="currentDataSourceInfo.ipConCounts" border>
                     <el-table-column prop="ip" label="IP"></el-table-column>
