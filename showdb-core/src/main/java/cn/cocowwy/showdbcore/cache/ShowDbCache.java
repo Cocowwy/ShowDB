@@ -1,10 +1,7 @@
 package cn.cocowwy.showdbcore.cache;
 
-import cn.cocowwy.showdbcore.config.GlobalContext;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 
 /**
  * ShowDB的简易缓存工具
@@ -50,7 +47,7 @@ public class ShowDbCache {
         return String.format("%s#%s#%s", ds, biz, label);
     }
 
-    public static Map<String, Object>  cache() {
+    public static Map<String, Object> cache() {
         return CACHE;
     }
 }

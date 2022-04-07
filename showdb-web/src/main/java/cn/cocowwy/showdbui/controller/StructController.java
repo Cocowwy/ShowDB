@@ -1,7 +1,5 @@
 package cn.cocowwy.showdbui.controller;
 
-import cn.cocowwy.showdbcore.annotation.Endpoint;
-import cn.cocowwy.showdbcore.constants.EndpointEnum;
 import cn.cocowwy.showdbcore.entities.Res;
 import cn.cocowwy.showdbcore.entities.TableStructVo;
 import cn.cocowwy.showdbui.service.StructService;

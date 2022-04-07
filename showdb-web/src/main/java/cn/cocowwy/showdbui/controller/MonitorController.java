@@ -5,10 +5,12 @@ import cn.cocowwy.showdbcore.constants.EndpointEnum;
 import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.Res;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
-import cn.cocowwy.showdbcore.exception.ErrorDefinition;
 import cn.cocowwy.showdbui.service.MonitorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -40,7 +42,7 @@ public class MonitorController {
      */
     @Endpoint(EndpointEnum.MONITOR_IP_CONNECTION)
     @GetMapping("/ipCountInfo")
-    public Res<List<IpCount>> ipCountInfo(@PathVariable("ds")String ds) {
+    public Res<List<IpCount>> ipCountInfo(@PathVariable("ds") String ds) {
         return Res.success(monitorService.ipCountInfo(ds));
     }
 }

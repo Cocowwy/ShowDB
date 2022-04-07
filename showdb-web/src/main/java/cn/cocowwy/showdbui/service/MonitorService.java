@@ -56,7 +56,7 @@ public class MonitorService {
         // 不走缓存，仅仅标记当前数据源是否开启主从复制
         if (!ShowDbCache.cache().containsKey(key)) {
             SlaveStatus slaveStatus = MONITOR_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).slaveStatus(ds);
-            if(slaveStatus==null){
+            if (slaveStatus == null) {
                 // 未开启主从同步，标记即可
                 ShowDbCache.put(key, "un-use");
             }
