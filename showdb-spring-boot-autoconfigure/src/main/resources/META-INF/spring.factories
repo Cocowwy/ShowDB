@@ -1,2 +1,4 @@
 # Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=cn.cocowwy.showdbautoconfigure.configuration.ShowDBAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.cocowwy.showdb.configuration.ShowDbAutoConfiguration
+

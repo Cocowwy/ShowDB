@@ -1,4 +1,4 @@
-package cn.cocowwy.showdbautoconfigure.configuration;
+package cn.cocowwy.showdb.configuration;
 
 import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.config.ShowDbFactory;

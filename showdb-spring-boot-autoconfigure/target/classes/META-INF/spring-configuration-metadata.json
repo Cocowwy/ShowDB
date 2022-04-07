@@ -2,8 +2,8 @@
   "groups": [
     {
       "name": "ShowDB",
-      "type": "cn.cocowwy.showdbautoconfigure.configuration.ShowDBProperties",
-      "sourceType": "cn.cocowwy.showdbautoconfigure.configuration.ShowDBProperties"
+      "type": "cn.cocowwy.showdb.configuration.ShowDBProperties",
+      "sourceType": "cn.cocowwy.showdb.configuration.ShowDBProperties"
     }
   ],
   "properties": [
