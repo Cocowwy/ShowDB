@@ -6,14 +6,14 @@
 
     <groupId>cn.cocowwy</groupId>
     <artifactId>ShowDB</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <modules>
         <module>showdb-spring-boot-autoconfigure</module>
         <module>showdb-web</module>
         <module>showdb-core</module>
         <module>showdb-spring-boot-starter</module>
-        <module>showdb-test</module>
+<!--        <module>showdb-test</module>-->
     </modules>
 
     <packaging>pom</packaging>
@@ -35,7 +35,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <showdb.version>1.0.0-SNAPSHOT</showdb.version>
+        <showdb.version>1.0.0</showdb.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
