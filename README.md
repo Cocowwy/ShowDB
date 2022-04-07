@@ -71,5 +71,7 @@ showdb:
 | showdb-test | 测试模块，内含多数据源demo，测试sql等，quickstart 戳这儿 |
 | showdb-web | web模块，视图和业务处理 |
 
-
+## 待开发的功能..
+增加对于MySQL数据库 长事务信息查询
+敏感信息做预警通知
 
