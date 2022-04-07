@@ -12,7 +12,7 @@
 
 
 ## 🧰如何使用？？  
-- 在SpringBoot项目的pom.xml文件中引入依赖
+- 在SpringBoot项目的pom.xml文件中引入依赖  
 **最新快照版本**
 ```xml
 <dependency>
@@ -21,7 +21,7 @@
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
-**稳定版（稳定版还未上，目前可🍔食用快照版）**
+- **稳定版（稳定版还未上，目前可🍔食用快照版）**
 ```xml
 <dependency>
     <groupId>cn.cocowwy</groupId>
