@@ -3,7 +3,6 @@ package cn.cocowwy.showdbcore.strategy;
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
-import cn.cocowwy.showdbcore.entities.TableInfo;
 
 import java.util.List;
 
