@@ -21,7 +21,19 @@
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
-- **稳定版（稳定版还未上，目前可🍔食用快照版）**
+**注意，快照版的使用，需要带上下面的参数，因为默认是不会走 snapshots 的**
+```xml
+<repositories>
+    <repository>
+        <id>showdb-snapshots</id>
+        <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
+</repositories>
+```
+**稳定版（稳定版还未上！，目前先🍔食用快照版）**
 ```xml
 <dependency>
     <groupId>cn.cocowwy</groupId>
