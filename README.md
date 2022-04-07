@@ -1,7 +1,10 @@
-# 📖ShowDB [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+# 📖ShowDB   
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
+## 🐰简介
 :zap: 拆箱即用的数据库文档工具，自动将SpringBoot项目中的所有数据源文档可视化，同时监控数据库相关的信息，如主从状态，配置等 :zap:  
 
-## 为啥开发这个？
+## 🍺为啥开发这个？ 
 - 在使用**screw**的时候，需要配置数据源的连接信息，然后才会生成一个基于当前连接信息的数据库文档🤪  
 - 但是这个文档是不可变的，因为每次数据库修改，难道需要重新生成文档嘛？但是如果多数源的话，难道就要多次配置吗❔   
 - 那么大漏特漏 😵
@@ -61,9 +64,9 @@ showdb:
 - 浏览器中访问该路径：```/db```，即可自动生成当前项目里的所有数据源文档页面
 
 **如果是多数据源如何接入？**
-- 如何配置呢，可以参考 ```showdb-test``` 这个moudle，或者参考下面这块代码（这是本人的例子，多数据源的注入并不一定这么写，环境里只要存在多数据源，就会自动给你配置好）：
-- **ps：**如果需要一份多业务库的综合的文档，你可以单独启动一个SpringBoot项目，然后将所有的业务库都注入进这个服务，这样能当做一个唯一的入口来做统一的业务数据库文档
-** YML**
+- 如何配置呢，可以参考 ```showdb-test``` 这个moudle，或者参考下面这块代码（这是本人的例子，多数据源的注入并不一定这么写，环境里只要存在多数据源，就会自动给你配置好）  
+
+**yml**
 ```yml
 spring:
   application:
@@ -87,7 +90,7 @@ spring:
       url: jdbc:mysql://IP:3306/pms?&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
       username: 
       password: 
-`` 
+``` 
 
 **数据源注入**
 ```java
@@ -121,6 +124,7 @@ spring:
 ```
 ![73849dd9319e33d555677d1acf6745f](https://user-images.githubusercontent.com/63331147/161917411-9808b386-590d-409a-b2dd-196f27f40ff6.jpg)
 - **上图的Demo中，该项目存在三个数据源，同时其中一个数据源开启了主从，ShowDB对当前项目中所有的数据源进行了统一的文档管理，以及数据源信息监控**
+- **ps：如果需要一份多业务库的综合的文档，你可以单独启动一个SpringBoot项目，然后将所有的业务库都注入进这个服务，这样能当做一个唯一的入口来做统一的业务数据库文档**
 
 ## 🏷️版本选择
 |  环境   | 版本号  |
