@@ -16,8 +16,8 @@
 **最新快照版本**
 ```xml
 <dependency>
-    <groupId>cn.cocowwy</groupId>
-    <artifactId>ShowDB</artifactId>
+    <artifactId>showdb-spring-boot-starter</artifactId>
+    <name>showdb-spring-boot-starter</name>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
@@ -25,7 +25,7 @@
 ```xml
 <dependency>
     <groupId>cn.cocowwy</groupId>
-    <artifactId>ShowDB</artifactId>
+    <artifactId>showdb-spring-boot-starter</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
