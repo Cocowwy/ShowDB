@@ -24,7 +24,7 @@
 ## 🧰如何使用？？  
 - 在SpringBoot项目的pom.xml文件中引入依赖  
 
-**最新快照版本**
+**最新快照版本 用来食用刚开发，还在测试使用的功能🍔**
 ```xml
 <dependency>
     <groupId>cn.cocowwy</groupId>
@@ -44,7 +44,7 @@
     </repository>
 </repositories>
 ```
-**稳定版（稳定版还未上！目前先🍔食用快照版）**
+**稳定版☕**
 ```xml
 <dependency>
     <groupId>cn.cocowwy</groupId>
