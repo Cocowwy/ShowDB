@@ -40,7 +40,7 @@
     </repository>
 </repositories>
 ```
-**稳定版（稳定版还未上！，目前先🍔食用快照版）**
+**稳定版（稳定版还未上！目前先🍔食用快照版）**
 ```xml
 <dependency>
     <groupId>cn.cocowwy</groupId>
