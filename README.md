@@ -1,4 +1,4 @@
-# 📖ShowDB
+# 📖ShowDB [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 :zap: 拆箱即用的数据库文档工具，自动将SpringBoot项目中的所有数据源文档可视化，同时监控数据库相关的信息，如主从状态，配置等 :zap:  
 
 ## 为啥开发这个？
