@@ -20,6 +20,7 @@
 
 ## 🧰如何使用？？  
 - 在SpringBoot项目的pom.xml文件中引入依赖  
+
 **最新快照版本**
 ```xml
 <dependency>
@@ -49,12 +50,77 @@
 </dependency>
 ```
 
-- 项目中已经配置好数据源/多数据源
+ **yml配置🔧**
+```yml
+showdb:
+  enable: true
+  endpoint: '*'  
+```
+
+- 项目中已经配置好单数据源（多数据源看下面的例子）
 - 浏览器中访问该路径：```/db```，即可自动生成当前项目里的所有数据源文档页面
 
-![73849dd9319e33d555677d1acf6745f](https://user-images.githubusercontent.com/63331147/161917411-9808b386-590d-409a-b2dd-196f27f40ff6.jpg)
-**上图的Demo中，该项目存在三个数据源，同时其中一个数据源开启了主从，ShowDB对当前项目中所有的数据源进行了统一的文档管理，以及数据源信息监控**
+**如果是多数据源如何接入？**
+- 如何配置呢，可以参考 ```showdb-test``` 这个moudle，或者参考下面这块代码（这是本人的例子，多数据源的注入并不一定这么写，环境里只要存在多数据源，就会自动给你配置好）：
+- **ps：**如果需要一份多业务库的综合的文档，你可以单独启动一个SpringBoot项目，然后将所有的业务库都注入进这个服务，这样能当做一个唯一的入口来做统一的业务数据库文档
+** YML**
+```yml
+spring:
+  application:
+    name: ShowDB-TEST
+  datasource:
+    cms:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://IP:3306/cms?&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+      username: 
+      password: 
+    oms:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://IP:3306/oms?&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+      username: 
+      password: 
+    pms:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://IP:3306/pms?&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+      username: 
+      password: 
+`` 
 
+**数据源注入**
+```java
+    /**
+     * 数据源1配置
+     */
+    @Bean(name = "cms", destroyMethod = "close", initMethod = "init")
+    @ConfigurationProperties(prefix = "spring.datasource.cms")
+    @Primary
+    public DruidDataSource createDataSource1Source() {
+        return DruidDataSourceBuilder.create().build();
+    }
+
+    /**
+     * 数据源2配置
+     */
+    @Bean(name = "oms", destroyMethod = "close", initMethod = "init")
+    @ConfigurationProperties(prefix = "spring.datasource.oms")
+    public DruidDataSource createDataSource2Source() {
+        return DruidDataSourceBuilder.create().build();
+    }
+
+    /**
+     * 数据源3配置
+     */
+    @Bean(name = "pms", destroyMethod = "close", initMethod = "init")
+    @ConfigurationProperties(prefix = "spring.datasource.pms")
+    public DruidDataSource createDataSource3Source() {
+        return DruidDataSourceBuilder.create().build();
+    }
+```
+![73849dd9319e33d555677d1acf6745f](https://user-images.githubusercontent.com/63331147/161917411-9808b386-590d-409a-b2dd-196f27f40ff6.jpg)
+- **上图的Demo中，该项目存在三个数据源，同时其中一个数据源开启了主从，ShowDB对当前项目中所有的数据源进行了统一的文档管理，以及数据源信息监控**
 
 ## 🏷️版本选择
 |  环境   | 版本号  |
@@ -62,12 +128,6 @@
 | JDK | 1.8+ |
 | SpringBoot | 2.3.9.RELEASE+ |
 
-## 🔧**yml配置**
-```yml
-showdb:
-  enable: true
-  endpoint: monitor-master-slave,monitor-ip-connection,'*'  
-```
   
 ## 🔧**endpoint可选值如下：**
 |  endpoint   | 说明  |
@@ -96,3 +156,6 @@ showdb:
 - 敏感触点做预警通知  
 - 适配多种不同类型的数据库
 - UI界面的更加美观（这也是最难的）  
+
+## END🍕
+欢迎提issue和pr~
