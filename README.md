@@ -9,8 +9,8 @@
 - 但是这个文档是不可变的，因为每次数据库修改，难道需要重新生成文档嘛？但是如果多数源的话，难道就要多次配置吗❔   
 - 那么大漏特漏 😵
 - 从根本上来说，这个文档的生成需要一个数据源🍎 
-- 而现如今微服务基本都会连接上数据源，所以如果能够对**SpringBoot项目中已经存在的数据源/多数据源，自动生成文档，那么会更迎合Javaer的使用习惯** 🐥    
-- 既然已经拿到数据源了，**那么同时也可以对数据源进行一些信息的监控，如比较关心的主从状态，客户端连接，一些数据库的配置信息等等，这些也都能集成进来，使其更符合ShowDB的名字**🎠
+- 而现如今微服务基本都会连接上数据源，所以如果能够对**SpringBoot项目中已经存在的数据源/多数据源，自动生成文档，那么会更迎合Javaer的使用习惯，就像swagger一样，拆箱即用，且支持用户的一些自定义配置** 🐥    
+- 既然环境中已经存在数据源了，**那么同时也可以对数据源进行一些信息的监控，如比较关心的主从状态，客户端连接，一些数据库的配置信息等等，这些也都能集成进来，使其更符合ShowDB的名字**🎠
 
 ## ✋Features
 - 1 **拆箱即用**，引入pom文件，即可使用
@@ -24,7 +24,15 @@
 ## 🧰如何使用？？  
 - 在SpringBoot项目的pom.xml文件中引入依赖  
 
-**最新快照版本 用来食用刚开发，还在测试使用的功能🍔**
+**稳定版☕**
+```xml
+<dependency>
+    <groupId>cn.cocowwy</groupId>
+    <artifactId>showdb-spring-boot-starter</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+**如果要食用最新的快照版本（还在测试使用的功能），使用如下依赖🍔**
 ```xml
 <dependency>
     <groupId>cn.cocowwy</groupId>
@@ -43,14 +51,6 @@
         </snapshots>
     </repository>
 </repositories>
-```
-**稳定版☕**
-```xml
-<dependency>
-    <groupId>cn.cocowwy</groupId>
-    <artifactId>showdb-spring-boot-starter</artifactId>
-    <version>1.0.0</version>
-</dependency>
 ```
 
  **yml配置🔧**
