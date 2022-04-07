@@ -4,6 +4,8 @@ import cn.cocowwy.showdbcore.cache.ShowDbCache;
 import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.exception.ShowDbException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -16,6 +18,8 @@ import java.util.Map;
  * @create 2022-03-03-10:03
  */
 public class DataSourcePropUtil {
+    private static final Log logger = LogFactory.getLog(DataSourcePropUtil.class);
+
     /**
      * 根据当前数据源的bean名称，获取到数据源枚举
      * @param dataSourceBeanName
@@ -36,6 +40,9 @@ public class DataSourcePropUtil {
                             default:
                                 throw new ShowDbException("The data source is not supported");
                         }
+                    } catch (NullPointerException np) {
+                        throw new ShowDbException(String.format("The connection to the database [beanName=%s] is abnormal," +
+                                " please verify the configuration is correct", dataSourceBeanName));
                     } catch (Exception throwables) {
                         throwables.printStackTrace();
                     } finally {
