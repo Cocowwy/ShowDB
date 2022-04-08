@@ -24,7 +24,7 @@
 ## 🧰如何使用？？  
 - 在SpringBoot项目的pom.xml文件中引入依赖  
 
-**稳定版☕**
+**稳定版☕** [地址戳这儿](https://search.maven.org/artifact/cn.cocowwy/showdb-spring-boot-starter)
 ```xml
 <dependency>
     <groupId>cn.cocowwy</groupId>
