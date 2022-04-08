@@ -57,7 +57,12 @@ public class DataSourcePropUtil {
                 });
     }
 
-    public static String getBeanName(DataSource dataSource) throws SQLException {
+    /**
+     * 根据数据源，获取当前数据源的Bean名称
+     * @param dataSource
+     * @return
+     */
+    public static String getBeanName(DataSource dataSource) {
         for (Map.Entry<String, DataSource> entry : GlobalContext.getDataSourcesMap().entrySet()) {
             if (entry.getValue().equals(dataSource)) {
                 return entry.getKey();
@@ -67,7 +72,7 @@ public class DataSourcePropUtil {
     }
 
     /**
-     * 获取MySQL环境的数据源的schema，通过字符串截取，走缓存
+     * 获取MySQL环境的数据源的schema(通过字符串截取URL)，走缓存
      * @return
      */
     public static String getMysqlSchemaFromDataSourceBeanName(String beanName) {

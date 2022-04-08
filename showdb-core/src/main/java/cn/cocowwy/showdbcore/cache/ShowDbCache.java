@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ShowDbCache {
     /**
-     * 通用key：ds#biz#label
+     * 通用 key：ds#biz#label
      * ds 数据源类型
      * biz 业务标识
      * label 唯一标识

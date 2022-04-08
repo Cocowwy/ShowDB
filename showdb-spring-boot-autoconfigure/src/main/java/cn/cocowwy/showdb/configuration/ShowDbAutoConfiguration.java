@@ -46,7 +46,6 @@ import java.util.stream.Collectors;
 @AutoConfigureBefore(SqlExecuteStrategy.class)
 public class ShowDbAutoConfiguration implements InitializingBean {
     private static final Log logger = LogFactory.getLog(ShowDbAutoConfiguration.class);
-    private final DataSource dataSource;
     private final ShowDbProperties properties;
 
     public ShowDbAutoConfiguration(ShowDbProperties properties, ApplicationContext applicationContext) {
@@ -54,9 +53,6 @@ public class ShowDbAutoConfiguration implements InitializingBean {
         if (CollectionUtils.isEmpty(dataSources)) {
             throw new ShowDbException("cant find datasource (bean) ,please config it and restart");
         }
-        String datasourceName = CollectionUtils.firstElement(dataSources);
-        // Inject default data source
-        this.dataSource = (DataSource) applicationContext.getBean(datasourceName);
         this.properties = properties;
         Map<String, DataSource> dataSourcesMap = dataSources.stream()
                 .collect(Collectors.toMap(Function.identity(), beanName -> (DataSource) applicationContext.getBean(beanName)));
@@ -72,7 +68,7 @@ public class ShowDbAutoConfiguration implements InitializingBean {
     }
 
     @Override
-    public void afterPropertiesSet() throws SQLException {
+    public void afterPropertiesSet() {
         EndpointUtil.setEnableSet(properties.getEndpoint());
     }
 

@@ -13,7 +13,7 @@
         <module>showdb-web</module>
         <module>showdb-core</module>
         <module>showdb-spring-boot-starter</module>
-<!--        <module>showdb-test</module>-->
+        <module>showdb-test</module>
     </modules>
 
     <packaging>pom</packaging>

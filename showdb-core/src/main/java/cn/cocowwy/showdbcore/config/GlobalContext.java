@@ -15,7 +15,6 @@ import java.util.Set;
  * @create 2022-03-03-12:51
  */
 public class GlobalContext {
-    private static final Log logger = LogFactory.getLog(GlobalContext.class);
     /**
      * 已开启端点的功能集合
      */
