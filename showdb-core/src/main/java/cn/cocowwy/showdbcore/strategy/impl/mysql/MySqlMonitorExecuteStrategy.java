@@ -4,6 +4,7 @@ import cn.cocowwy.showdbcore.config.ShowDbFactory;
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
+import cn.cocowwy.showdbcore.entities.TranscationalStatus;
 import cn.cocowwy.showdbcore.strategy.MonitorExecuteStrategy;
 import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.springframework.stereotype.Component;
@@ -58,6 +59,22 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySq
             ss.setMasterLogFile(rs.getString("Master_Log_File"));
             return ss;
         });
+        // todo mock test data
+        if (ds.equals("oms")) {
+            SlaveStatus mock = new SlaveStatus();
+            mock.setSlaveIOState("Waiting for master to send event");
+            mock.setMasterHost("localhost");
+            mock.setMasterUser("photorepl");
+            mock.setMasterPort("3301");
+            mock.setMasterRetryCount("86400");
+            mock.setSlaveIORunning("Yes");
+            mock.setSlaveSQLRunning("NO");
+            mock.setSqlDelay("0");
+            mock.setRelayLogFile("mysqld-relay-bin.005201");
+            mock.setMasterLogFile("mysql-bin.001822");
+            return mock;
+        }
+        // ------------mock---------------
 
         return CollectionUtils.lastElement(ipCounts);
     }
@@ -84,5 +101,28 @@ public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySq
             return dsInfo;
         });
         return CollectionUtils.lastElement(tableInfos);
+    }
+
+    /**
+     * 查询当前运行事务
+     * @param ds 当前数据源
+     * @return 当前正在运行的事务
+     */
+    @Override
+    public  List<TranscationalStatus>  transcationalStatus(String ds) {
+        String sql = "select * from information_schema.innodb_trx";
+        return ShowDbFactory.getJdbcTemplate(ds).query(String.format(sql,
+                DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds)), (rs, i) -> {
+            TranscationalStatus status = new TranscationalStatus();
+            status.setTrxId(rs.getString("trx_id"));
+            status.setTrxState(rs.getString("trx_state"));
+            status.setTrxWeight(rs.getString("trx_weight"));
+            status.setTrxStarted(rs.getString("trx_started"));
+            status.setTrxMysqlThreadId(rs.getString("trx_mysql_thread_id"));
+            status.setTrxQuery(rs.getString("trx_query"));
+            status.setTrxRowsModified(rs.getString("trx_rows_modified"));
+            status.setTrxIsolationLevel(rs.getString("trx_isolation_level"));
+            return status;
+        });
     }
 }

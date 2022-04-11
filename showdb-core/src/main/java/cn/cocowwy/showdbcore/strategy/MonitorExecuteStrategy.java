@@ -3,6 +3,7 @@ package cn.cocowwy.showdbcore.strategy;
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
+import cn.cocowwy.showdbcore.entities.TranscationalStatus;
 
 import java.util.List;
 
@@ -29,4 +30,10 @@ public interface MonitorExecuteStrategy extends SqlExecuteStrategy {
      * @return
      */
     DsInfo dsInfo(String ds);
+
+    /**
+     * 查询当前运行事务
+     * @param ds
+     */
+    List<TranscationalStatus> transcationalStatus(String ds);
 }
