@@ -19,7 +19,7 @@ import java.util.List;
  * @create 2022-03-03-21:23
  */
 @RestController
-@RequestMapping("/showdb/config")
+@RequestMapping("showdb/config")
 public class ConfigController {
     @Autowired
     private ConfigService configService;
@@ -28,7 +28,7 @@ public class ConfigController {
      * 获取连接数据源相关信息
      * @return
      */
-    @GetMapping("/dsInfo")
+    @GetMapping("dsInfo")
     public Res<List<DsInfo>> getDsInfo() {
         return Res.success(configService.getDsInfo());
     }
@@ -37,7 +37,7 @@ public class ConfigController {
      * 清除缓存
      * @return
      */
-    @DeleteMapping("/cleanCache")
+    @DeleteMapping("cleanCache")
     public Res<Void> cleanCache() {
         ShowDbCache.clean();
         return Res.success();

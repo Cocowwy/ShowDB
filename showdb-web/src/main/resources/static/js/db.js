@@ -357,7 +357,18 @@ var app = new Vue({
          */
         starIt() {
             window.open("https://github.com/Cocowwy/ShowDB");
+        },
+
+        /**
+         * 展现ShowDB的URL
+         * @param url
+         */
+        showDsUrl(url){
+            this.$message({
+                message: url,
+            });
         }
+
     },
 
     // 加载页面初始化数据

@@ -19,7 +19,7 @@ import java.util.List;
  * @create 2022-03-03-19:01
  */
 @RestController
-@RequestMapping("/showdb/monitor/{ds}")
+@RequestMapping("showdb/monitor/{ds}")
 public class MonitorController {
     @Autowired
     private MonitorService monitorService;
@@ -30,7 +30,7 @@ public class MonitorController {
      * @return
      */
     @Endpoint(EndpointEnum.MONITOR_MASTER_SLAVE)
-    @GetMapping("/masterSlaveInfo")
+    @GetMapping("masterSlaveInfo")
     public Res<SlaveStatus> masterSlaveInfo(@PathVariable("ds") String ds) {
         SlaveStatus info = monitorService.masterSlaveInfo(ds);
         return Res.success(info);
@@ -41,7 +41,7 @@ public class MonitorController {
      * @return
      */
     @Endpoint(EndpointEnum.MONITOR_IP_CONNECTION)
-    @GetMapping("/ipCountInfo")
+    @GetMapping("ipCountInfo")
     public Res<List<IpCount>> ipCountInfo(@PathVariable("ds") String ds) {
         return Res.success(monitorService.ipCountInfo(ds));
     }
