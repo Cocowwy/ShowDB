@@ -2,8 +2,6 @@ package cn.cocowwy.showdbcore.config;
 
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.constants.EndpointEnum;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import javax.sql.DataSource;
 import java.util.HashSet;

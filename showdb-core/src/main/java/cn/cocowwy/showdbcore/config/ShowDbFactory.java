@@ -16,8 +16,7 @@ import java.util.Map;
 public class ShowDbFactory {
     private static final Log logger = LogFactory.getLog(ShowDbFactory.class);
     public static final ShowDbFactory INSTANCE = new ShowDbFactory();
-    private static JdbcTemplate jdbcTemplate;
-    private static Map<String, JdbcTemplate> jdbcTemplatePool = new HashMap<>(1);
+    private static final Map<String, JdbcTemplate> jdbcTemplatePool = new HashMap<>(1);
 
     private ShowDbFactory() {
     }

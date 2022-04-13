@@ -54,24 +54,24 @@ public class Runner implements ApplicationRunner {
 
     @Transactional(rollbackFor = Exception.class)
     public void test2() throws InterruptedException, SQLException {
-        System.out.println( "beagin transactional");
-        DataSource oms = GlobalContext.getDataSourcesMap().get("oms");
-        JdbcTemplate template = new JdbcTemplate(oms);
-
-
-        List<Object> query = template.query("select * from oms.oms_cart_item", (rw, o) -> null);
-
-        template.execute("delete from oms.oms_cart_item where id = 13");
-
-
-        Connection conn = template.getDataSource().getConnection();
-        conn.getAutoCommit();
-        conn.setAutoCommit(false);
-        conn.commit();
-        // 30m 的长事务
-        Thread.sleep(30000L);
-
-        throw new RuntimeException("test");
+//        System.out.println( "beagin transactional");
+//        DataSource oms = GlobalContext.getDataSourcesMap().get("oms");
+//        JdbcTemplate template = new JdbcTemplate(oms);
+//
+//
+//        List<Object> query = template.query("select * from oms.oms_cart_item", (rw, o) -> null);
+//
+//        template.execute("delete from oms.oms_cart_item where id = 13");
+//
+//
+//        Connection conn = template.getDataSource().getConnection();
+//        conn.getAutoCommit();
+//        conn.setAutoCommit(false);
+//        conn.commit();
+//        // 30m 的长事务
+//        Thread.sleep(30000L);
+//
+//        throw new RuntimeException("test");
     }
 
     private void test1() throws SQLException {
