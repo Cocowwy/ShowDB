@@ -23,7 +23,13 @@ public class ShowDbProperties {
      *   monitor-master-slave     监控主从库延迟
      *   monitor-table            监控表数据，大小索引等
      */
-    private Set<String> endpoint =  Collections.singleton("*");
+    private Set<String> endpoint = Collections.singleton("*");
+    /**
+     * 缓存刷新时间
+     * 小于0时 不自动刷新，默认值为 -1
+     * 单位为 秒
+     */
+    private Long refresh;
 
     public boolean isEnable() {
         return enable;
@@ -39,5 +45,13 @@ public class ShowDbProperties {
 
     public void setEndpoint(Set<String> endpoint) {
         this.endpoint = endpoint;
+    }
+
+    public Long getRefresh() {
+        return refresh;
+    }
+
+    public void setRefresh(Long refresh) {
+        this.refresh = refresh;
     }
 }
