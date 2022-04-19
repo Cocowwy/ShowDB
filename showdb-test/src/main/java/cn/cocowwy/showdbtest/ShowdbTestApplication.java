@@ -18,7 +18,7 @@ public class ShowdbTestApplication {
     //=========模拟多数据源测试============
 
     /**
-     * 数据源1配置
+     * 数据源 1 配置
      */
     @Bean(name = "cms", destroyMethod = "close", initMethod = "init")
     @ConfigurationProperties(prefix = "spring.datasource.cms")
@@ -28,7 +28,7 @@ public class ShowdbTestApplication {
     }
 
     /**
-     * 数据源2配置
+     * 数据源 2 配置
      */
     @Bean(name = "oms", destroyMethod = "close", initMethod = "init")
     @ConfigurationProperties(prefix = "spring.datasource.oms")
@@ -37,7 +37,7 @@ public class ShowdbTestApplication {
     }
 
     /**
-     * 数据源3配置
+     * 数据源 3 配置
      */
     @Bean(name = "pms", destroyMethod = "close", initMethod = "init")
     @ConfigurationProperties(prefix = "spring.datasource.pms")

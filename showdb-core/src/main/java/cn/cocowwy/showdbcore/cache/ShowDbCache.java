@@ -1,10 +1,10 @@
 package cn.cocowwy.showdbcore.cache;
 
-import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +30,7 @@ public class ShowDbCache {
     /**
      * 缓存清除器
      */
-    private static ScheduledThreadPoolExecutor cleanTask;
+    private static ScheduledThreadPoolExecutor cleanExecutor;
 
     public static Object put(String key, Object value) {
         return CACHE.put(key, value);
@@ -67,10 +67,11 @@ public class ShowDbCache {
 
     public static void addCachaTask(Long timeout) {
         if (timeout <= 0L) {
+            logger.info("Cache cleaning not registered");
             return;
         }
 
-        cleanTask = new ScheduledThreadPoolExecutor(1, r -> {
+        cleanExecutor = new ScheduledThreadPoolExecutor(1, r -> {
             final Thread t = new Thread("ShowDB-Cache");
             if (t.getPriority() != Thread.NORM_PRIORITY) {
                 t.setPriority(Thread.NORM_PRIORITY);
@@ -78,6 +79,13 @@ public class ShowDbCache {
             t.setDaemon(Boolean.TRUE);
             return t;
         });
-        cleanTask.scheduleAtFixedRate(ShowDbCache::clean, timeout, timeout, TimeUnit.SECONDS);
+        cleanExecutor.scheduleAtFixedRate(ShowDbCache::clean, timeout, timeout, TimeUnit.SECONDS);
+        logger.info("Cache cleaning registered");
+    }
+
+    public static void shutdownCleanCache() {
+        if (Objects.nonNull(cleanExecutor)) {
+            cleanExecutor.shutdown();
+        }
     }
 }

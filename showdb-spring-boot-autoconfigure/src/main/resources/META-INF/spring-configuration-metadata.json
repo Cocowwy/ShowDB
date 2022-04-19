@@ -18,6 +18,12 @@
       "type": "java.util.Set",
       "description": "Which function you want to use, please split with ',', default '*' is use all",
       "defaultValue": "*"
+    },
+    {
+      "name": "showdb.refresh",
+      "type": "java.lang.Long",
+      "description": "ShowDB cache expiration time，If it is less than 0, it will not expire, and the unit is seconds.",
+      "defaultValue": "-1"
     }
   ]
 }

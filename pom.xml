@@ -6,7 +6,7 @@
 
     <groupId>cn.cocowwy</groupId>
     <artifactId>ShowDB</artifactId>
-    <version>1.0.0</version>
+    <version>${showdb.version}</version>
 
     <modules>
         <module>showdb-spring-boot-autoconfigure</module>
@@ -34,8 +34,9 @@
     </developers>
 
     <properties>
+        <showdb.version>1.0.1-SNAPSHOT</showdb.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <showdb.version>1.0.0</showdb.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>

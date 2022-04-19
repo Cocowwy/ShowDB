@@ -1,5 +1,6 @@
 package cn.cocowwy.showdb.configuration;
 
+import cn.cocowwy.showdbcore.cache.ShowDbCache;
 import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.config.ShowDbFactory;
 import cn.cocowwy.showdbcore.constants.DBEnum;
@@ -63,8 +64,7 @@ public class ShowDbAutoConfiguration implements InitializingBean {
         GlobalContext.setDataSourcesTypeMap(dataSourcesTypeMap);
 
         ShowDbFactory.INSTANCE.init();
-
-
+        ShowDbCache.addCachaTask(this.properties.getRefresh());
         bannerLog();
     }
 

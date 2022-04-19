@@ -26,7 +26,6 @@ public class ShowDbFactory {
         GlobalContext.getDataSourcesMap().entrySet().forEach(e -> {
             jdbcTemplatePool.put(e.getKey(), new JdbcTemplate(e.getValue()));
             logger.info(String.format("ShowDB register DataSource [%s]", e.getKey()));
-
         });
     }
 
