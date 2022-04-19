@@ -1,7 +1,13 @@
 package cn.cocowwy.showdbcore.cache;
 
+import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * ShowDB的简易缓存工具
@@ -11,6 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @create 2022-03-03-21:37
  */
 public class ShowDbCache {
+    private static final Log logger = LogFactory.getLog(ShowDbCache.class);
+
     /**
      * 通用 key：ds#biz#label
      * ds 数据源类型
@@ -18,6 +26,11 @@ public class ShowDbCache {
      * label 唯一标识
      */
     private static final Map<String, Object> CACHE = new ConcurrentHashMap<>(16);
+
+    /**
+     * 缓存清除器
+     */
+    private static ScheduledThreadPoolExecutor cleanTask;
 
     public static Object put(String key, Object value) {
         return CACHE.put(key, value);
@@ -32,6 +45,7 @@ public class ShowDbCache {
     }
 
     public static void clean() {
+        logger.info("Clean ShowDB Cache");
         CACHE.clear();
     }
 
@@ -49,5 +63,21 @@ public class ShowDbCache {
 
     public static Map<String, Object> cache() {
         return CACHE;
+    }
+
+    public static void addCachaTask(Long timeout) {
+        if (timeout <= 0L) {
+            return;
+        }
+
+        cleanTask = new ScheduledThreadPoolExecutor(1, r -> {
+            final Thread t = new Thread("ShowDB-Cache");
+            if (t.getPriority() != Thread.NORM_PRIORITY) {
+                t.setPriority(Thread.NORM_PRIORITY);
+            }
+            t.setDaemon(Boolean.TRUE);
+            return t;
+        });
+        cleanTask.scheduleAtFixedRate(ShowDbCache::clean, timeout, timeout, TimeUnit.SECONDS);
     }
 }

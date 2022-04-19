@@ -20,7 +20,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.CollectionUtils;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +63,8 @@ public class ShowDbAutoConfiguration implements InitializingBean {
         GlobalContext.setDataSourcesTypeMap(dataSourcesTypeMap);
 
         ShowDbFactory.INSTANCE.init();
+
+
         bannerLog();
     }
 
