@@ -102,7 +102,7 @@ spring:
     @Bean(name = "cms", destroyMethod = "close", initMethod = "init")
     @ConfigurationProperties(prefix = "spring.datasource.cms")
     @Primary
-    public DruidDataSource createDataSource1Source() {
+    public DruidDataSource createDataSource1() {
         return DruidDataSourceBuilder.create().build();
     }
 
@@ -111,7 +111,7 @@ spring:
      */
     @Bean(name = "oms", destroyMethod = "close", initMethod = "init")
     @ConfigurationProperties(prefix = "spring.datasource.oms")
-    public DruidDataSource createDataSource2Source() {
+    public DruidDataSource createDataSource2() {
         return DruidDataSourceBuilder.create().build();
     }
 
@@ -120,7 +120,7 @@ spring:
      */
     @Bean(name = "pms", destroyMethod = "close", initMethod = "init")
     @ConfigurationProperties(prefix = "spring.datasource.pms")
-    public DruidDataSource createDataSource3Source() {
+    public DruidDataSource createDataSource3() {
         return DruidDataSourceBuilder.create().build();
     }
 ```
