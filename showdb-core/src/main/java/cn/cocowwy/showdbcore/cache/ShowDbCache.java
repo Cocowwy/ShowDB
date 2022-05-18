@@ -45,7 +45,7 @@ public class ShowDbCache {
     }
 
     public static void clean() {
-        logger.info("Clean ShowDB Cache");
+        logger.info("Clean ShowDB cache");
         CACHE.clear();
     }
 
@@ -71,14 +71,7 @@ public class ShowDbCache {
             return;
         }
 
-        cleanExecutor = new ScheduledThreadPoolExecutor(1, r -> {
-            final Thread t = new Thread("ShowDB-Cache");
-            if (t.getPriority() != Thread.NORM_PRIORITY) {
-                t.setPriority(Thread.NORM_PRIORITY);
-            }
-            t.setDaemon(Boolean.TRUE);
-            return t;
-        });
+        cleanExecutor = new ScheduledThreadPoolExecutor(1);
         cleanExecutor.scheduleAtFixedRate(ShowDbCache::clean, timeout, timeout, TimeUnit.SECONDS);
         logger.info("Cache cleaning registered");
     }
