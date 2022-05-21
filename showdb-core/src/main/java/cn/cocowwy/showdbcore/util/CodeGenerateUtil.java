@@ -46,76 +46,76 @@ public class CodeGenerateUtil {
         return colName;
     }
 
-    public static String getType(String dataType){
-        String type="";
-        if("tinyint".equals(substringBefore(dataType, "("))){
-            type="Byte";
+    public static String getType(String dataType) {
+        String type = "";
+        if ("tinyint".equals(substringBefore(dataType, "("))) {
+            type = "Byte";
         }
-        if("smallint".equals(substringBefore(dataType, "("))){
-            type="Short";
+        if ("smallint".equals(substringBefore(dataType, "("))) {
+            type = "Short";
         }
-        if("mediumint".equals(substringBefore(dataType, "("))){
-            type="Integer";
+        if ("mediumint".equals(substringBefore(dataType, "("))) {
+            type = "Integer";
         }
-        if("int".equals(substringBefore(dataType, "("))){
-            type="Integer";
+        if ("int".equals(substringBefore(dataType, "("))) {
+            type = "Integer";
         }
-        if("integer".equals(substringBefore(dataType, "("))){
-            type="Integer";
+        if ("integer".equals(substringBefore(dataType, "("))) {
+            type = "Integer";
         }
-        if("bigint".equals(substringBefore(dataType, "("))){
-            type="Long";
+        if ("bigint".equals(substringBefore(dataType, "("))) {
+            type = "Long";
         }
-        if("bit".equals(substringBefore(dataType, "("))){
-            type="Boolean";
+        if ("bit".equals(substringBefore(dataType, "("))) {
+            type = "Boolean";
         }
-        if("double".equals(substringBefore(dataType, "("))){
-            type="Double";
+        if ("double".equals(substringBefore(dataType, "("))) {
+            type = "Double";
         }
-        if("float".equals(substringBefore(dataType, "("))){
-            type="Float";
+        if ("float".equals(substringBefore(dataType, "("))) {
+            type = "Float";
         }
-        if("decimal".equals(substringBefore(dataType, "("))){
-            type="Long";
+        if ("decimal".equals(substringBefore(dataType, "("))) {
+            type = "Long";
         }
-        if("char".equals(substringBefore(dataType, "("))){
-            type="String";
+        if ("char".equals(substringBefore(dataType, "("))) {
+            type = "String";
         }
-        if("varchar".equals(substringBefore(dataType, "("))){
-            type="String";
+        if ("varchar".equals(substringBefore(dataType, "("))) {
+            type = "String";
         }
-        if("date".equals(substringBefore(dataType, "("))){
-            type="Date";
+        if ("date".equals(substringBefore(dataType, "("))) {
+            type = "Date";
         }
-        if("time".equals(substringBefore(dataType, "("))){
-            type="Date";
+        if ("time".equals(substringBefore(dataType, "("))) {
+            type = "Date";
         }
-        if("year".equals(substringBefore(dataType, "("))){
-            type="Date";
+        if ("year".equals(substringBefore(dataType, "("))) {
+            type = "Date";
         }
-        if("timestamp".equals(substringBefore(dataType, "("))){
-            type="Timestamp";
+        if ("timestamp".equals(substringBefore(dataType, "("))) {
+            type = "Timestamp";
         }
-        if("datetime".equals(substringBefore(dataType, "("))){
-            type="Timestamp";
+        if ("datetime".equals(substringBefore(dataType, "("))) {
+            type = "Timestamp";
         }
-        if("tinytext".equals(substringBefore(dataType, "("))){
-            type="String";
+        if ("tinytext".equals(substringBefore(dataType, "("))) {
+            type = "String";
         }
-        if("enum".equals(substringBefore(dataType, "("))){
-            type="String";
+        if ("enum".equals(substringBefore(dataType, "("))) {
+            type = "String";
         }
-        if("set".equals(substringBefore(dataType, "("))){
-            type="String";
+        if ("set".equals(substringBefore(dataType, "("))) {
+            type = "String";
         }
-        if("text".equals(substringBefore(dataType, "("))){
-            type="String";
+        if ("text".equals(substringBefore(dataType, "("))) {
+            type = "String";
         }
-        if("mediumtext".equals(substringBefore(dataType, "("))){
-            type="String";
+        if ("mediumtext".equals(substringBefore(dataType, "("))) {
+            type = "String";
         }
-        if("longtext".equals(substringBefore(dataType, "("))){
-            type="String";
+        if ("longtext".equals(substringBefore(dataType, "("))) {
+            type = "String";
         }
         return type;
     }
