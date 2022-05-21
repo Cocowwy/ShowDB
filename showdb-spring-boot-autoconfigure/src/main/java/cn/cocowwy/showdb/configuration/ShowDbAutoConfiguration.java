@@ -76,6 +76,6 @@ public class ShowDbAutoConfiguration implements InitializingBean {
     private void bannerLog() {
         logger.info("ShowDB started successfully!" +
                 "\nCreateBy: Cocowwy" +
-                "\nGit地址：https://github.com/Cocowwy/ShowDB");
+                "\nGithub地址：https://github.com/Cocowwy/ShowDB");
     }
 }
