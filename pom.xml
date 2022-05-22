@@ -6,7 +6,7 @@
 
     <groupId>cn.cocowwy</groupId>
     <artifactId>ShowDB</artifactId>
-    <version>${showdb.version}</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <modules>
         <module>showdb-spring-boot-autoconfigure</module>
