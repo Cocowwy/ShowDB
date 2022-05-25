@@ -6,6 +6,7 @@ import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
+import cn.cocowwy.showdbcore.entities.TranscationalStatus;
 import cn.cocowwy.showdbcore.strategy.MonitorExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +74,15 @@ public class MonitorService {
         return (DsInfo) ShowDbCache.cache()
                 .computeIfAbsent(ShowDbCache.buildCacheKey(ds, "dsInfo", ds),
                         (key) -> MONITOR_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).dsInfo(ds));
+    }
+
+    /**
+     * 事务监控
+     * 实时，不走缓存
+     * @param ds
+     * @return
+     */
+    public List<TranscationalStatus> transcationalStatus(String ds) {
+        return MONITOR_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).transcationalStatus(ds);
     }
 }

@@ -14,6 +14,8 @@ var app = new Vue({
         queryTableName: '',
         // IP连接信息：
         ipConInfo: null,
+        // 事务信息
+        trxInfos: [],
         // loadiong..
         loadingTables: true,
         loadingDataSource: false,
@@ -353,6 +355,23 @@ var app = new Vue({
         },
 
         /**
+         * 查询事务信息
+         */
+        trxInfo() {
+            console.log("--->")
+            var that = this;
+            axios.get('/showdb/monitor/' + this.currentDataSource + '/trxInfo').then(function (res) {
+                that.loadingOpen()
+                if (res.data.code !== 200) {
+                    alert(res.data.msg);
+                    return;
+                }
+                that.trxInfos = res.data.data
+                that.loadingClose()
+            });
+        },
+
+        /**
          * github主页跳转
          */
         starIt() {
@@ -363,7 +382,7 @@ var app = new Vue({
          * 展现ShowDB的URL
          * @param url
          */
-        showDsUrl(url){
+        showDsUrl(url) {
             this.$message({
                 message: url,
             });

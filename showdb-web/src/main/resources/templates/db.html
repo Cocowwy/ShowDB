@@ -5,7 +5,7 @@
     <title>ShowDB</title>
     <!--相关引入-->
     <link rel="shortcut icon" th:href="@{img/database.png}">
-<!--    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>-->
+    <!--    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>-->
     <script th:src="@{js/vue.min.js}"></script>
     <script th:src="@{js/axios.min.js}"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
@@ -106,6 +106,7 @@
                 <el-popconfirm title="是否导出当前数据源所有表SQL创建语句？" @confirm="dbCreateStatement">
                     <el-button icon="el-icon-document" type="primary" slot="reference">建表语句导出</el-button>
                 </el-popconfirm>
+                <el-button icon="el-icon-document" type="primary" slot="reference" @click="trxInfo">查看DB事务</el-button>
                 <el-tooltip class="item" effect="dark" content="star~" placement="bottom">
                     <el-button style="background-color: #1d2009;border-color: black;color: white;"
                                type="primary" icon="el-icon-star-on" size="x-large" @click="starIt">star

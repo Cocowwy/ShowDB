@@ -73,6 +73,7 @@ public class ShowDbAutoConfiguration implements InitializingBean {
         EndpointUtil.setEnableSet(properties.getEndpoint());
     }
 
+
     private void bannerLog() {
         logger.info("ShowDB started successfully!" +
                 "\nCreateBy: Cocowwy" +

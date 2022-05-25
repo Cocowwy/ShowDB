@@ -5,6 +5,7 @@ import cn.cocowwy.showdbcore.constants.EndpointEnum;
 import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.Res;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
+import cn.cocowwy.showdbcore.entities.TranscationalStatus;
 import cn.cocowwy.showdbui.service.MonitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,14 +49,13 @@ public class MonitorController {
 
     /**
      * 事务查询
-     * https://blog.csdn.net/weixin_34321977/article/details/92516068?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~aggregatepage~first_rank_ecpm_v1~rank_v31_ecpm-10-92516068-null-null.pc_agg_new_rank&utm_term=mysql+%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E4%BA%8B%E5%8A%A1&spm=1000.2123.3001.4430
      * @param ds
      * @return
      */
     @Endpoint(EndpointEnum.MONITOR_PERFORMANCE)
     @GetMapping("trxInfo")
-    public Res<List<Void>> trxInfo(@PathVariable("ds") String ds) {
-        return Res.success(null);
+    public Res<List<TranscationalStatus>> trxInfo(@PathVariable("ds") String ds) {
+        return Res.success(monitorService.transcationalStatus(ds));
     }
 }
-
+//https://blog.csdn.net/weixin_34321977/article/details/92516068?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~aggregatepage~first_rank_ecpm_v1~rank_v31_ecpm-10-92516068-null-null.pc_agg_new_rank&utm_term=mysql+%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E4%BA%8B%E5%8A%A1&spm=1000.2123.3001.4430

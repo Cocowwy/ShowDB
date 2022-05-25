@@ -31,6 +31,11 @@ public class ShowDbProperties {
      */
     private Long refresh;
 
+    /**
+     * 自定义
+     */
+    private Customize customize;
+
     public boolean isEnable() {
         return enable;
     }
@@ -54,4 +59,10 @@ public class ShowDbProperties {
     public void setRefresh(Long refresh) {
         this.refresh = refresh;
     }
+
+    public static class Customize {
+        private String topAlert;
+        private String desc;
+    }
+
 }
