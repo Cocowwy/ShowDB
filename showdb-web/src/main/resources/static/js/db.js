@@ -19,6 +19,8 @@ var app = new Vue({
         // loadiong..
         loadingTables: true,
         loadingDataSource: false,
+        // 事务详情表格
+        transDialogTableVisible: false,
 
         // 分页表结构
         tableStructSize: 5,
@@ -358,17 +360,17 @@ var app = new Vue({
          * 查询事务信息
          */
         trxInfo() {
-            console.log("--->")
             var that = this;
-            axios.get('/showdb/monitor/' + this.currentDataSource + '/trxInfo').then(function (res) {
-                that.loadingOpen()
-                if (res.data.code !== 200) {
-                    alert(res.data.msg);
-                    return;
-                }
-                that.trxInfos = res.data.data
-                that.loadingClose()
-            });
+            axios.get('/showdb/monitor/' + this.currentDataSource + '/trxInfo')
+                .then(function (res) {
+                    that.loadingOpen()
+                    if (res.data.code !== 200) {
+                        alert(res.data.msg);
+                        return;
+                    }
+                    that.trxInfos = res.data.data
+                    that.loadingClose()
+                });
         },
 
         /**

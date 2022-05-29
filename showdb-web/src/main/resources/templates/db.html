@@ -227,7 +227,6 @@
         </el-aside>
     </el-container>
 
-
     <!--表创建语句弹框-->
     <el-dialog
             :title="createStatementTableName"
@@ -257,7 +256,6 @@
     <el-button type="primary" @click="createJavaCodeDialog = false">确 定</el-button>
   </span>
     </el-dialog>
-
 
     <!--表 详细信息-->
     <el-dialog :title="tableDetailTableName" :visible.sync="tableDetailDialog" width="38%">
@@ -290,6 +288,13 @@
         <span slot="footer" style="text" class="dialog-footer">
     <el-button type="primary" @click="tableDetailDialog = false">确 定</el-button>
   </span>
+    </el-dialog>
+
+    <!--数据源事务-->
+    <el-dialog title="事务详情" :visible.sync="transDialogTableVisible">
+        <el-table :data="trxInfos">
+            <el-table-column property="date" label="日期" width="150"></el-table-column>
+        </el-table>
     </el-dialog>
 </dev>
 
