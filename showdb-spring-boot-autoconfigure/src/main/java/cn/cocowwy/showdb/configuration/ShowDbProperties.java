@@ -61,8 +61,30 @@ public class ShowDbProperties {
     }
 
     public static class Customize {
+        /**
+         * 首页alert文案
+         */
         private String topAlert;
+        /**
+         * 描述
+         */
         private String desc;
+
+        public String getTopAlert() {
+            return topAlert;
+        }
+
+        public void setTopAlert(String topAlert) {
+            this.topAlert = topAlert;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
     }
 
 }
