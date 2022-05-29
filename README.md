@@ -34,22 +34,14 @@
     <version>1.0.0</version>
 </dependency>
 ```
-**如果要食用最新的快照版本（还在测试使用的功能），使用如下依赖🍔**
+**如果要食用最新的快照版本（还在测试使用的功能），使用如下依赖🍔**  
+**注意，快照版的使用，需要带上下面的参数，因为默认是不会走 snapshots 的**
 ```xml
 <dependency>
     <groupId>cn.cocowwy</groupId>
     <artifactId>showdb-spring-boot-starter</artifactId>
     <version>1.0.1-SNAPSHOT</version>
 </dependency>
-``` 
-当前快照版较稳定版新增功能：  
-- 自定义缓存清理时长  
-- 部分JS代码由CDN迁移至内部代码，以提供稳定的前端脚本
-- 修复了一些已知问题  
-  
-  
-**注意，快照版的使用，需要带上下面的参数，因为默认是不会走 snapshots 的**
-```xml
 <repositories>
     <repository>
         <id>showdb-snapshots</id>
@@ -59,7 +51,11 @@
         </snapshots>
     </repository>
 </repositories>
-```
+``` 
+当前快照版较稳定版新增功能：  
+- 自定义缓存清理时长  
+- 部分JS代码由CDN迁移至内部代码，以提供稳定的前端脚本
+- 修复了一些已知问题  
 
  **yml配置🔧**
 ```yml

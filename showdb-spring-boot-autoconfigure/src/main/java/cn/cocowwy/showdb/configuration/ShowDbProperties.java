@@ -29,7 +29,7 @@ public class ShowDbProperties {
      * 小于0时 不自动刷新，默认值为 -1
      * 单位为 秒
      */
-    private Long refresh;
+    private Long refresh = -1L;
 
     /**
      * 自定义
