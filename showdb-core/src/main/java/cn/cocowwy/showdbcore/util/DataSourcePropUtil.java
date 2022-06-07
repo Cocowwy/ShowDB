@@ -40,11 +40,9 @@ public class DataSourcePropUtil {
                             default:
                                 throw new ShowDbException("The data source is not supported");
                         }
-                    } catch (NullPointerException np) {
+                    } catch (NullPointerException | SQLException np) {
                         throw new ShowDbException(String.format("The connection to the database [beanName=%s] is abnormal," +
                                 " please verify the configuration is correct", dataSourceBeanName));
-                    } catch (Exception throwables) {
-                        throwables.printStackTrace();
                     } finally {
                         try {
                             // fix：修复不释放连接的bug
