@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: ShowDB-TEST
+  datasource:
+    cms:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://xxxxxxx:3306/cms?&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: xxxxxxx
+    oms:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://xxxxxxx:3306/oms?&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: xxxxxxx
+    pms:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://xxxxxxx:3306/pms?&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: xxxxxxx
+showdb:
+  enable: true
+  endpoint: '*'
+  refresh: 5
+
+server:
+  port: 8888
