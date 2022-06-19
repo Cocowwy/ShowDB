@@ -361,16 +361,16 @@ var app = new Vue({
          */
         trxInfo() {
             var that = this;
-            axios.get('/showdb/monitor/' + this.currentDataSource + '/trxInfo')
-                .then(function (res) {
-                    that.loadingOpen()
-                    if (res.data.code !== 200) {
-                        alert(res.data.msg);
-                        return;
-                    }
-                    that.trxInfos = res.data.data
-                    that.loadingClose()
-                });
+            this.loadingOpen()
+            axios.get('/showdb/monitor/' + this.currentDataSource + '/trxInfo').then(function (res) {
+                if (res.data.code !== 200) {
+                    alert(res.data.msg);
+                    return;
+                }
+                that.trxInfos = res.data.data
+                that.transDialogTableVisible = true
+                that.loadingClose()
+            });
         },
 
         /**
