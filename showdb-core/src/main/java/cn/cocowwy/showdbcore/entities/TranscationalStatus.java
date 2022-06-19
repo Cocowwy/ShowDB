@@ -32,30 +32,6 @@ package cn.cocowwy.showdbcore.entities;
  * @create 2022-04-04-20:31
  */
 public class TranscationalStatus {
-    //    trx_id
-//    trx_state
-//    trx_started
-//    trx_requested_lock_id
-//    trx_wait_started
-//    trx_weight
-//    trx_mysql_thread_id
-//    trx_query
-//    trx_operation_state
-//    trx_tables_in_use
-//    trx_tables_locked
-//    trx_lock_structs
-//    trx_lock_memory_bytes
-//    trx_rows_locked
-//    trx_rows_modified
-//    trx_concurrency_tickets
-//    trx_isolation_level
-//    trx_unique_checks
-//    trx_foreign_key_checks
-//    trx_last_foreign_key_error
-//    trx_adaptive_hash_latched
-//    trx_adaptive_hash_timeout
-//    trx_is_read_only
-//    trx_autocommit_non_locking
     private String trxId;
     private String trxState;
     private String trxStarted;

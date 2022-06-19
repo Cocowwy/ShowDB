@@ -293,7 +293,30 @@
     <!--数据源事务-->
     <el-dialog title="事务详情" :visible.sync="transDialogTableVisible">
         <el-table :data="trxInfos">
-            <el-table-column property="date" label="日期" width="150"></el-table-column>
+            <el-table-column property="trx_id" label="trxId" width="150"></el-table-column>
+            <el-table-column property="trx_state" label="trxState" width="150"></el-table-column>
+            <el-table-column property="trx_started" label="trxStarted" width="150"></el-table-column>
+            <el-table-column property="trx_requested_lock_id" label="trxRequestedLockId" width="150"></el-table-column>
+            <el-table-column property="trx_wait_started" label="trxWaitStarted" width="150"></el-table-column>
+            <el-table-column property="trx_weight" label="trxWeight" width="150"></el-table-column>
+            <el-table-column property="trx_mysql_thread_id" label="trxMysqlThreadId" width="150"></el-table-column>
+            <el-table-column property="trx_query" label="trxQuery" width="150"></el-table-column>
+            <el-table-column property="trx_operation_state" label="trxOperationState" width="150"></el-table-column>
+            <el-table-column property="trx_tables_in_use" label="trxTablesInUse" width="150"></el-table-column>
+            <el-table-column property="trx_tables_locked" label="trxTablesLocked" width="150"></el-table-column>
+            <el-table-column property="trx_lock_structs" label="trxLockStructs" width="150"></el-table-column>
+            <el-table-column property="trx_lock_memory_bytes" label="trxLockMemoryBytes" width="150"></el-table-column>
+            <el-table-column property="trx_rows_locked" label="trxRowsLocked" width="150"></el-table-column>
+            <el-table-column property="trx_rows_modified" label="trxRowsModified" width="150"></el-table-column>
+            <el-table-column property="trx_concurrency_tickets" label="trxConcurrencyTickets" width="150"></el-table-column>
+            <el-table-column property="trx_isolation_level" label="trxIsolationLevel" width="150"></el-table-column>
+            <el-table-column property="trx_unique_checks" label="trxUniqueChecks" width="150"></el-table-column>
+            <el-table-column property="trx_foreign_key_checks" label="trxForeignKeyChecks" width="150"></el-table-column>
+            <el-table-column property="trx_last_foreign_key_error" label="trxLastForeignKeyError" width="150"></el-table-column>
+            <el-table-column property="trx_adaptive_hash_latched" label="trxAdaptiveHashLatched" width="150"></el-table-column>
+            <el-table-column property="trx_adaptive_hash_timeout" label="trxAdaptiveHashTimeout" width="150"></el-table-column>
+            <el-table-column property="trx_is_read_only" label="trxIsReadOnly" width="150"></el-table-column>
+            <el-table-column property="trx_autocommit_non_locking" label="trxAutocommitNonLocking" width="150"></el-table-column>
         </el-table>
     </el-dialog>
 </dev>
