@@ -1,6 +1,8 @@
 var app = new Vue({
     el: '#ShowDB',
     data: {
+        // 用户自定义信息
+        customize: null,
         // 数据源信息
         dataSorucesInfo: [],
         // 当前选择的数据源
@@ -388,13 +390,27 @@ var app = new Vue({
             this.$message({
                 message: url,
             });
-        }
+        },
 
+        /**
+         * 获取用户自定义的信息
+         */
+        getCustomize() {
+            var that = this;
+            axios.get('/showdb/config/customize').then(function (res) {
+                if (res.data.code !== 200) {
+                    alert(res.data.msg);
+                    return;
+                }
+                that.customize = res.data.data
+            });
+        }
     },
 
     // 加载页面初始化数据
     mounted: function () {
         this.dsInfo();
+        this.getCustomize();
         console.log('作者：Cocowwy  Github：https://github.com/Cocowwy/ShowDB\n'
             + '███████╗██╗  ██╗ ██████╗ ██╗    ██╗██████╗ ██████╗ \n' +
             '██╔════╝██║  ██║██╔═══██╗██║    ██║██╔══██╗██╔══██╗\n' +

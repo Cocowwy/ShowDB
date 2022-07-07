@@ -24,6 +24,12 @@
       "type": "java.lang.Long",
       "description": "ShowDB cache expiration time，If it is less than 0, it will not expire, and the unit is seconds.",
       "defaultValue": "-1"
+    },
+    {
+      "name": "customize",
+      "type": "cn.cocowwy.showdb.configuration.ShowDbProperties.Customize",
+      "description": "Customize",
+      "defaultValue": null
     }
   ]
 }

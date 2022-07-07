@@ -13,14 +13,21 @@
 </head>
 <body>
 <dev id="ShowDB">
-    <el-alert style="font-weight: bold"
-              title="拆箱即用的数据库文档开源工具，会自动根据SpringBoot项目中已存在的数据源（多数据源），生成文档以及数据库监控信息等 v1.0.0"
+    <!--顶部laery-->
+    <el-alert style="font-weight: bold" v-if="customize!=null"
+              :title="customize.topAlert"
               type="success"
               @close="starIt" center>
-
     </el-alert>
+
     <el-container>
         <el-aside width="20%">
+            <!--customize-->
+            {{customize}}
+
+            <el-image style="width: 150px; height: 150px" :src="customize.img" ></el-image>
+
+
             <!--IDEA的飘红不管-->
             <el-empty style="margin-top: 155px" th:image="@{img/masterSlave.png}"
                       description="暂未检测到当前数据源存在主从信息"
@@ -226,6 +233,7 @@
         </el-aside>
     </el-container>
 
+
     <!--表创建语句弹框-->
     <el-dialog
             :title="createStatementTableName"
@@ -307,15 +315,21 @@
             <el-table-column property="trx_lock_memory_bytes" label="trxLockMemoryBytes" width="150"></el-table-column>
             <el-table-column property="trx_rows_locked" label="trxRowsLocked" width="150"></el-table-column>
             <el-table-column property="trx_rows_modified" label="trxRowsModified" width="150"></el-table-column>
-            <el-table-column property="trx_concurrency_tickets" label="trxConcurrencyTickets" width="150"></el-table-column>
+            <el-table-column property="trx_concurrency_tickets" label="trxConcurrencyTickets"
+                             width="150"></el-table-column>
             <el-table-column property="trx_isolation_level" label="trxIsolationLevel" width="150"></el-table-column>
             <el-table-column property="trx_unique_checks" label="trxUniqueChecks" width="150"></el-table-column>
-            <el-table-column property="trx_foreign_key_checks" label="trxForeignKeyChecks" width="150"></el-table-column>
-            <el-table-column property="trx_last_foreign_key_error" label="trxLastForeignKeyError" width="150"></el-table-column>
-            <el-table-column property="trx_adaptive_hash_latched" label="trxAdaptiveHashLatched" width="150"></el-table-column>
-            <el-table-column property="trx_adaptive_hash_timeout" label="trxAdaptiveHashTimeout" width="150"></el-table-column>
+            <el-table-column property="trx_foreign_key_checks" label="trxForeignKeyChecks"
+                             width="150"></el-table-column>
+            <el-table-column property="trx_last_foreign_key_error" label="trxLastForeignKeyError"
+                             width="150"></el-table-column>
+            <el-table-column property="trx_adaptive_hash_latched" label="trxAdaptiveHashLatched"
+                             width="150"></el-table-column>
+            <el-table-column property="trx_adaptive_hash_timeout" label="trxAdaptiveHashTimeout"
+                             width="150"></el-table-column>
             <el-table-column property="trx_is_read_only" label="trxIsReadOnly" width="150"></el-table-column>
-            <el-table-column property="trx_autocommit_non_locking" label="trxAutocommitNonLocking" width="150"></el-table-column>
+            <el-table-column property="trx_autocommit_non_locking" label="trxAutocommitNonLocking"
+                             width="150"></el-table-column>
         </el-table>
     </el-dialog>
 </dev>

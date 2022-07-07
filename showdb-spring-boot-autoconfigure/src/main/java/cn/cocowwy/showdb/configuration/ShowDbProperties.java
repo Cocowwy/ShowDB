@@ -18,10 +18,10 @@ public class ShowDbProperties {
     private boolean enable = true;
     /**
      * 开启功能端点 以逗号分割
-     *   *                        默认，代表开启所有功能，生产环境不建议开启
-     *   structure                表结构，以及扩展功能
-     *   monitor-master-slave     监控主从库延迟
-     *   monitor-table            监控表数据，大小索引等
+     * *                        默认，代表开启所有功能，生产环境不建议开启
+     * structure                表结构，以及扩展功能
+     * monitor-master-slave     监控主从库延迟
+     * monitor-table            监控表数据，大小索引等
      */
     private Set<String> endpoint = Collections.singleton("*");
     /**
@@ -60,15 +60,35 @@ public class ShowDbProperties {
         this.refresh = refresh;
     }
 
+    public Customize getCustomize() {
+        return customize;
+    }
+
+    public void setCustomize(Customize customize) {
+        this.customize = customize;
+    }
+
     public static class Customize {
         /**
          * 首页alert文案
          */
         private String topAlert;
         /**
+         * 创建者
+         */
+        private String creator;
+        /**
+         * 邮箱
+         */
+        private String email;
+        /**
          * 描述
          */
         private String desc;
+        /**
+         * icon 图标地址
+         */
+        private String img;
 
         public String getTopAlert() {
             return topAlert;
@@ -78,12 +98,36 @@ public class ShowDbProperties {
             this.topAlert = topAlert;
         }
 
+        public String getCreator() {
+            return creator;
+        }
+
+        public void setCreator(String creator) {
+            this.creator = creator;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
         public String getDesc() {
             return desc;
         }
 
         public void setDesc(String desc) {
             this.desc = desc;
+        }
+
+        public String getImg() {
+            return img;
+        }
+
+        public void setImg(String img) {
+            this.img = img;
         }
     }
 

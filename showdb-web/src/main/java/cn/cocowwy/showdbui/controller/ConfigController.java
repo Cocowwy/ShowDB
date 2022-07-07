@@ -1,6 +1,8 @@
 package cn.cocowwy.showdbui.controller;
 
 import cn.cocowwy.showdbcore.cache.ShowDbCache;
+import cn.cocowwy.showdbcore.config.GlobalContext;
+import cn.cocowwy.showdbcore.entities.Customize;
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.Res;
 import cn.cocowwy.showdbui.service.ConfigService;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 配置相关
@@ -26,6 +29,7 @@ public class ConfigController {
 
     /**
      * 获取连接数据源相关信息
+     *
      * @return
      */
     @GetMapping("dsInfo")
@@ -35,11 +39,22 @@ public class ConfigController {
 
     /**
      * 清除缓存
+     *
      * @return
      */
     @DeleteMapping("cleanCache")
     public Res<Void> cleanCache() {
         ShowDbCache.clean();
         return Res.success();
+    }
+
+    /**
+     * 自定义
+     *
+     * @return
+     */
+    @GetMapping("customize")
+    public Res<Customize> customize() {
+        return Res.success(GlobalContext.getCustomize());
     }
 }

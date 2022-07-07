@@ -52,8 +52,9 @@ public class ShowDbCache {
     /**
      * 缓存键构造
      * Cache key construction
-     * @param ds 数据源
-     * @param biz 业务标识
+     *
+     * @param ds    数据源
+     * @param biz   业务标识
      * @param label 唯一标识
      * @return
      */
@@ -67,7 +68,7 @@ public class ShowDbCache {
 
     public static void addCachaTask(Long timeout) {
         if (timeout <= 0L) {
-            logger.info("Cache cleaning not registered");
+            logger.info("Cache cleaning can't be registered, the timeout is " + timeout);
             return;
         }
 
