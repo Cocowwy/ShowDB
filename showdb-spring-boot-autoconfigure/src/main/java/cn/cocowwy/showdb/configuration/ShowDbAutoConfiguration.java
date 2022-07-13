@@ -79,7 +79,7 @@ public class ShowDbAutoConfiguration implements InitializingBean {
     /**
      * 构造用户自定义信息
      */
-    public Customize buildCustomize(ShowDbProperties.Customize customize) {
+    public Customize buildCustomize(cn.cocowwy.showdb.configuration.Customize customize) {
         // set defalut
         if (customize == null) {
             Customize defalut = new Customize();

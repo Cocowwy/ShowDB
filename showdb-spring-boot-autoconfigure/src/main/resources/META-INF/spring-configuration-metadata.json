@@ -26,10 +26,18 @@
       "defaultValue": "-1"
     },
     {
-      "name": "customize",
-      "type": "cn.cocowwy.showdb.configuration.ShowDbProperties.Customize",
+      "name": "showdb.customize",
+      "type": "cn.cocowwy.showdb.configuration.Customize",
       "description": "Customize",
-      "defaultValue": null
+      "defaultValue": null,
+      "properties": [
+        {
+          "name": "showdb.customize.topAlert",
+          "type": "java.lang.String",
+          "description": "top alert",
+          "defaultValue": null
+        }
+      ]
     }
   ]
 }
