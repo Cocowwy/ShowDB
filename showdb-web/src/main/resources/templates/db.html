@@ -23,77 +23,16 @@
     <el-container>
         <el-aside width="20%">
             <!--customize-->
-            {{customize}}
-
-            <el-image style="width: 150px; height: 150px" :src="customize.img" ></el-image>
-
-
-            <!--IDEA的飘红不管-->
-            <el-empty style="margin-top: 155px" th:image="@{img/masterSlave.png}"
-                      description="暂未检测到当前数据源存在主从信息"
-                      v-if="currentDataSourceMasterSlaveInfo==null">
-            </el-empty>
-            <el-card style="margin-top: 10px;overflow-x: auto" class="box-card"
-                     v-if="currentDataSourceMasterSlaveInfo!=null"
-                     shadow="hover">
-                <div>
-                    <el-descriptions title="主从信息" direction="vertical" :column="1" border>
-                        <el-descriptions-item label="主机IP（Master_Host）">
-                            {{currentDataSourceMasterSlaveInfo.masterHost}}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="主从复制用户（Master_User）">
-                            {{currentDataSourceMasterSlaveInfo.masterUser}}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="主机端口（Master_Port）">
-                            {{currentDataSourceMasterSlaveInfo.masterPort}}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="从库滞后时长（SQL_Delay），单位：秒">
-                            <div style="color:#8de013;font-weight:bold;font-size: large"
-                                 v-if="currentDataSourceMasterSlaveInfo.sqlDelay==0">
-                                {{currentDataSourceMasterSlaveInfo.sqlDelay}}
-                            </div>
-                            <div style="color:red;font-weight:bold;font-size: large"
-                                 v-if="currentDataSourceMasterSlaveInfo.sqlDelay!=0">
-                                {{currentDataSourceMasterSlaveInfo.sqlDelay}}
-                            </div>
-                        </el-descriptions-item>
-                        <el-descriptions-item label="连接主库失败最多的重试次数（Master_Retry_Count）">
-                            {{currentDataSourceMasterSlaveInfo.masterRetryCount}}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="slave I/O线程状态（Slave_IO_State）">
-                            <div style="color:black;font-weight:bold;font-size: large">
-                                {{currentDataSourceMasterSlaveInfo.slaveIOState}}
-                            </div>
-                        </el-descriptions-item>
-                        <el-descriptions-item label="Slave_IO_Running">
-                            <div style="color:#8de013;font-weight:bold;font-size: large"
-                                 v-if="currentDataSourceMasterSlaveInfo.slaveIORunning=='Yes'">
-                                {{currentDataSourceMasterSlaveInfo.slaveIORunning}}
-                            </div>
-                            <div style="color:red;font-weight:bold;font-size: large"
-                                 v-if="currentDataSourceMasterSlaveInfo.slaveIORunning!='Yes'">
-                                {{currentDataSourceMasterSlaveInfo.slaveIORunning}}
-                            </div>
-                        </el-descriptions-item>
-                        <el-descriptions-item label="Slave_SQL_Running">
-                            <div style="color:#8de013;font-weight:bold;font-size: large"
-                                 v-if="currentDataSourceMasterSlaveInfo.slaveSQLRunning=='Yes'">
-                                {{currentDataSourceMasterSlaveInfo.slaveSQLRunning}}
-                            </div>
-                            <div style="color:red;font-weight:bold;font-size: large"
-                                 v-if="currentDataSourceMasterSlaveInfo.slaveSQLRunning!='Yes'">
-                                {{currentDataSourceMasterSlaveInfo.slaveSQLRunning}}
-                            </div>
-                        </el-descriptions-item>
-                        <el-descriptions-item label="Relay_Log_File">{{currentDataSourceMasterSlaveInfo.relayLogFile}}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="Master_Log_File">
-                            {{currentDataSourceMasterSlaveInfo.masterLogFile}}
-                        </el-descriptions-item>
-                    </el-descriptions>
+            <el-card :body-style="{ padding: '0px' }" style="width: 75%;margin-left: 15%;margin-top: 10%">
+                <img v-if="customize!=null" :src="customize.img" class="image" style="width: 100%;display: block;">
+                <div style="padding: 14px;">
+                    <span style="font-size: large">👤  {{customize.creator}}</span><br>
+                    <span style="font-size: large">📮  {{customize.email}}</span><br>
+                    <span style="font-size: large">🗒  {{customize.desc}}</span><br>
                 </div>
             </el-card>
         </el-aside>
+
         <!--表结构信息-->
         <el-main v-loading="loadingTables" width="48%" style="margin: 10px">
             <div v-loading="loadingDataSource">
@@ -229,6 +168,76 @@
                     <el-table-column prop="ip" label="IP"></el-table-column>
                     <el-table-column prop="count" label="连接数量"></el-table-column>
                 </el-table>
+            </el-card>
+
+
+            <!--主从信息  IDEA的飘红不管-->
+            <el-card style="margin-top: 12px;width:80%" class="box-card"
+                     v-if="currentDataSourceMasterSlaveInfo==null"
+                     shadow="hover">
+                <el-empty th:image="@{img/masterSlave.png}"
+                          description="暂未检测到当前数据源存在主从信息">
+                </el-empty>
+            </el-card>
+            <el-card style="margin-top: 12px;width:80%" class="box-card"
+                     v-if="currentDataSourceMasterSlaveInfo"
+                     shadow="hover">
+                <div>
+                    <el-descriptions title="主从信息" direction="vertical" :column="1" border>
+                        <el-descriptions-item label="主机IP（Master_Host）">
+                            {{currentDataSourceMasterSlaveInfo.masterHost}}
+                        </el-descriptions-item>
+                        <el-descriptions-item label="主从复制用户（Master_User）">
+                            {{currentDataSourceMasterSlaveInfo.masterUser}}
+                        </el-descriptions-item>
+                        <el-descriptions-item label="主机端口（Master_Port）">
+                            {{currentDataSourceMasterSlaveInfo.masterPort}}
+                        </el-descriptions-item>
+                        <el-descriptions-item label="从库滞后时长（SQL_Delay），单位：秒">
+                            <div style="color:#8de013;font-weight:bold;font-size: large"
+                                 v-if="currentDataSourceMasterSlaveInfo.sqlDelay==0">
+                                {{currentDataSourceMasterSlaveInfo.sqlDelay}}
+                            </div>
+                            <div style="color:red;font-weight:bold;font-size: large"
+                                 v-if="currentDataSourceMasterSlaveInfo.sqlDelay!=0">
+                                {{currentDataSourceMasterSlaveInfo.sqlDelay}}
+                            </div>
+                        </el-descriptions-item>
+                        <el-descriptions-item label="连接主库失败最多的重试次数（Master_Retry_Count）">
+                            {{currentDataSourceMasterSlaveInfo.masterRetryCount}}
+                        </el-descriptions-item>
+                        <el-descriptions-item label="slave I/O线程状态（Slave_IO_State）">
+                            <div style="color:black;font-weight:bold;font-size: large">
+                                {{currentDataSourceMasterSlaveInfo.slaveIOState}}
+                            </div>
+                        </el-descriptions-item>
+                        <el-descriptions-item label="Slave_IO_Running">
+                            <div style="color:#8de013;font-weight:bold;font-size: large"
+                                 v-if="currentDataSourceMasterSlaveInfo.slaveIORunning=='Yes'">
+                                {{currentDataSourceMasterSlaveInfo.slaveIORunning}}
+                            </div>
+                            <div style="color:red;font-weight:bold;font-size: large"
+                                 v-if="currentDataSourceMasterSlaveInfo.slaveIORunning!='Yes'">
+                                {{currentDataSourceMasterSlaveInfo.slaveIORunning}}
+                            </div>
+                        </el-descriptions-item>
+                        <el-descriptions-item label="Slave_SQL_Running">
+                            <div style="color:#8de013;font-weight:bold;font-size: large"
+                                 v-if="currentDataSourceMasterSlaveInfo.slaveSQLRunning=='Yes'">
+                                {{currentDataSourceMasterSlaveInfo.slaveSQLRunning}}
+                            </div>
+                            <div style="color:red;font-weight:bold;font-size: large"
+                                 v-if="currentDataSourceMasterSlaveInfo.slaveSQLRunning!='Yes'">
+                                {{currentDataSourceMasterSlaveInfo.slaveSQLRunning}}
+                            </div>
+                        </el-descriptions-item>
+                        <el-descriptions-item label="Relay_Log_File">{{currentDataSourceMasterSlaveInfo.relayLogFile}}
+                        </el-descriptions-item>
+                        <el-descriptions-item label="Master_Log_File">
+                            {{currentDataSourceMasterSlaveInfo.masterLogFile}}
+                        </el-descriptions-item>
+                    </el-descriptions>
+                </div>
             </el-card>
         </el-aside>
     </el-container>

@@ -68,13 +68,13 @@ public class ShowDbCache {
 
     public static void addCachaTask(Long timeout) {
         if (timeout <= 0L) {
-            logger.info("Cache cleaning can't be registered, the timeout is " + timeout);
+            logger.info("Cache cleaning unregistered, the timeout is " + timeout);
             return;
         }
 
         cleanExecutor = new ScheduledThreadPoolExecutor(1);
         cleanExecutor.scheduleAtFixedRate(ShowDbCache::clean, timeout, timeout, TimeUnit.SECONDS);
-        logger.info("Cache cleaning registered");
+        logger.info("ShowDB cache cleaner registered");
     }
 
     public static void shutdownCleanCache() {

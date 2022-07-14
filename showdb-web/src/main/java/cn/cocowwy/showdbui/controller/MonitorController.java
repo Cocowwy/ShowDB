@@ -28,7 +28,7 @@ public class MonitorController {
 
     /**
      * 数据库主从连接信息
-     * -MySQL 仅开启主从之后有返回值
+     * - MySQL 仅开启主从之后有返回值
      *
      * @return
      */
@@ -36,7 +36,15 @@ public class MonitorController {
     @GetMapping("masterSlaveInfo")
     public Res<SlaveStatus> masterSlaveInfo(@PathVariable("ds") String ds) {
         SlaveStatus info = monitorService.masterSlaveInfo(ds);
-        return Res.success(info);
+        //todo
+        SlaveStatus mock = new SlaveStatus();
+        mock.setMasterHost("3306");
+        mock.setMasterPort("3306");
+        mock.setMasterUser("3306");
+        if (ds.equals("cms")) {
+            return Res.success(info);
+        }
+        return Res.success(mock);
     }
 
     /**
@@ -62,8 +70,7 @@ public class MonitorController {
 //        return Res.success(monitorService.transcationalStatus(ds));
         TranscationalStatus a = new TranscationalStatus();
         a.setTrxId("d2");
-        ;
+        a.setTrxAdaptiveHashLatched("d2xx");
         return Res.success(Arrays.asList(a));
     }
 }
-//https://blog.csdn.net/weixin_34321977/article/details/92516068?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~aggregatepage~first_rank_ecpm_v1~rank_v31_ecpm-10-92516068-null-null.pc_agg_new_rank&utm_term=mysql+%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E4%BA%8B%E5%8A%A1&spm=1000.2123.3001.4430

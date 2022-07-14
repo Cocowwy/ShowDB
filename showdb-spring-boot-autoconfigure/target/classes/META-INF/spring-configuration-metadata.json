@@ -26,9 +26,39 @@
       "defaultValue": "-1"
     },
     {
-      "name": "customize",
-      "type": "cn.cocowwy.showdb.configuration.ShowDbProperties.Customize",
+      "name": "showdb.customize",
+      "type": "cn.cocowwy.showdb.configuration.Customize",
       "description": "Customize",
+      "defaultValue": null
+    },
+    {
+      "name": "showdb.customize.top-alert",
+      "type": "java.lang.String",
+      "description": "top alert",
+      "defaultValue": null
+    },
+    {
+      "name": "showdb.customize.creator",
+      "type": "java.lang.String",
+      "description": "creator",
+      "defaultValue": null
+    },
+    {
+      "name": "showdb.customize.email",
+      "type": "java.lang.String",
+      "description": "email",
+      "defaultValue": null
+    },
+    {
+      "name": "showdb.customize.desc",
+      "type": "java.lang.String",
+      "description": "description",
+      "defaultValue": null
+    },
+    {
+      "name": "showdb.customize.img",
+      "type": "java.lang.String",
+      "description": "img",
       "defaultValue": null
     }
   ]

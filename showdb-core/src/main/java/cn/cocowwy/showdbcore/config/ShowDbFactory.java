@@ -23,9 +23,9 @@ public class ShowDbFactory {
 
     public void init() {
         //fix：多次切换数据源 new JdbcTemplate 占用资源，需要改为map
-        GlobalContext.getDataSourcesMap().entrySet().forEach(e -> {
-            jdbcTemplatePool.put(e.getKey(), new JdbcTemplate(e.getValue()));
-            logger.info(String.format("ShowDB register DataSource [%s]", e.getKey()));
+        GlobalContext.getDataSourcesMap().forEach((key, value) -> {
+            jdbcTemplatePool.put(key, new JdbcTemplate(value));
+            logger.info(String.format("ShowDB register DataSource [%s]", key));
         });
     }
 
