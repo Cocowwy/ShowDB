@@ -36,15 +36,23 @@ public class MonitorController {
     @GetMapping("masterSlaveInfo")
     public Res<SlaveStatus> masterSlaveInfo(@PathVariable("ds") String ds) {
         SlaveStatus info = monitorService.masterSlaveInfo(ds);
-        //todo
-        SlaveStatus mock = new SlaveStatus();
-        mock.setMasterHost("3306");
-        mock.setMasterPort("3306");
-        mock.setMasterUser("3306");
-        if (ds.equals("cms")) {
-            return Res.success(info);
-        }
-        return Res.success(mock);
+        return Res.success(info);
+        //----------mock--------------
+//        if (ds.equals("oms")) {
+//            SlaveStatus mock = new SlaveStatus();
+//            mock.setSlaveIOState("Waiting for master to send event");
+//            mock.setMasterHost("localhost");
+//            mock.setMasterUser("photorepl");
+//            mock.setMasterPort("3301");
+//            mock.setMasterRetryCount("86400");
+//            mock.setSlaveIORunning("Yes");
+//            mock.setSlaveSQLRunning("NO");
+//            mock.setSqlDelay("0");
+//            mock.setRelayLogFile("mysqld-relay-bin.005201");
+//            mock.setMasterLogFile("mysql-bin.001822");
+//            return Res.success(info);
+//        }
+        //------------mock--------------
     }
 
     /**
@@ -67,10 +75,6 @@ public class MonitorController {
     @Endpoint(EndpointEnum.MONITOR_PERFORMANCE)
     @GetMapping("trxInfo")
     public Res<List<TranscationalStatus>> trxInfo(@PathVariable("ds") String ds) {
-//        return Res.success(monitorService.transcationalStatus(ds));
-        TranscationalStatus a = new TranscationalStatus();
-        a.setTrxId("d2");
-        a.setTrxAdaptiveHashLatched("d2xx");
-        return Res.success(Arrays.asList(a));
+        return Res.success(monitorService.transcationalStatus(ds));
     }
 }
