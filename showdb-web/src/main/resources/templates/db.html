@@ -23,8 +23,9 @@
     <el-container>
         <el-aside width="20%">
             <!--customize-->
-            <el-card :body-style="{ padding: '0px' }" style="width: 75%;margin-left: 15%;margin-top: 10%">
-                <img v-if="customize!=null" :src="customize.img" class="image" style="width: 100%;display: block;">
+            <el-card v-if="customize" :body-style="{ padding: '0px' }"
+                     style="width: 75%;margin-left: 15%;margin-top: 10%" shadow="hover">
+                <img :src="customize.img" class="image" style="width: 100%;display: block;">
                 <div style="padding: 14px;">
                     <span style="font-size: large">👤  {{customize.creator}}</span><br>
                     <span style="font-size: large">📮  {{customize.email}}</span><br>
@@ -309,7 +310,7 @@
     <!--数据源事务-->
     <el-dialog title="事务详情" :visible.sync="transDialogTableVisible">
         <el-table :data="trxInfos">
-            <el-table-column property="trx_id" label="trxId" width="150"></el-table-column>
+            <el-table-column property="trxId" label="trxId" width="150"></el-table-column>
             <el-table-column property="trx_state" label="trxState" width="150"></el-table-column>
             <el-table-column property="trx_started" label="trxStarted" width="150"></el-table-column>
             <el-table-column property="trx_requested_lock_id" label="trxRequestedLockId" width="150"></el-table-column>
