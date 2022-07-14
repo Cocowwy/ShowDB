@@ -128,7 +128,7 @@ spring:
         return DruidDataSourceBuilder.create().build();
     }
 ```
-![73849dd9319e33d555677d1acf6745f](https://user-images.githubusercontent.com/63331147/161917411-9808b386-590d-409a-b2dd-196f27f40ff6.jpg)
+![image](https://user-images.githubusercontent.com/63331147/178964041-4c476602-f11e-450b-a83b-46993b5c05cd.png)
 - **上图的Demo中，该项目存在三个数据源，同时其中一个数据源开启了主从，ShowDB对当前项目中所有的数据源进行了统一的文档管理，以及数据源信息监控**
 - **ps：如果需要一份多业务库的综合的文档，你可以单独启动一个SpringBoot项目，然后将所有的业务库都注入进这个服务，这样能当做一个唯一的入口来做统一的业务数据库文档**
 
