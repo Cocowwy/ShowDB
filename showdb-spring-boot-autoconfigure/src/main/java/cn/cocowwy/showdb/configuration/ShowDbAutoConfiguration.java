@@ -26,6 +26,7 @@ import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -80,20 +81,13 @@ public class ShowDbAutoConfiguration implements InitializingBean {
      * 构造用户自定义信息
      */
     public Customize buildCustomize(cn.cocowwy.showdb.configuration.Customize customize) {
-        // set defalut
-        if (customize == null) {
-            Customize defalut = new Customize();
-            defalut.setTopAlert("拆箱即用的数据库文档开源工具，会自动根据SpringBoot项目中已存在的数据源（多数据源），生成文档以及数据库监控信息等 v1.0.0");
-            defalut.setCreator("Cocowwy");
-            defalut.setEmail("514658459@qq.com");
-            defalut.setDesc("https://github.com/Cocowwy/ShowDB");
-            defalut.setImg("https://avatars.githubusercontent.com/u/63331147?s=96&v=4");
-            return defalut;
-        }
         // customize
-        Customize copy = new Customize();
-        BeanUtils.copyProperties(customize, copy);
-        return copy;
+        if (Objects.nonNull(customize)) {
+            Customize cst = new Customize();
+            BeanUtils.copyProperties(customize, cst);
+            return cst;
+        }
+        return null;
     }
 
     private void bannerLog() {
