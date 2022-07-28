@@ -32,6 +32,7 @@
                     <span style="font-size: large">🗒  {{customize.desc}}</span><br>
                 </div>
             </el-card>
+            <el-empty v-if="customize==null" description="暂无自定义描述信息"></el-empty>
         </el-aside>
 
         <!--表结构信息-->
@@ -52,7 +53,8 @@
                 <el-popconfirm title="是否导出当前数据源所有表SQL创建语句？" @confirm="dbCreateStatement">
                     <el-button icon="el-icon-document" type="primary" slot="reference">建表语句导出</el-button>
                 </el-popconfirm>
-                <el-button icon="el-icon-document" type="primary" slot="reference" @click="trxInfo">查看DB事务</el-button>
+                <el-button icon="el-icon-document" type="primary" slot="reference" @click="trxInfo">查看DB事务
+                </el-button>
                 <el-tooltip class="item" effect="dark" content="star~" placement="bottom">
                     <el-button style="background-color: #1d2009;border-color: black;color: white;"
                                type="primary" icon="el-icon-star-on" size="x-large" @click="starIt">star
@@ -277,7 +279,8 @@
     <!--表 详细信息-->
     <el-dialog :title="tableDetailTableName" :visible.sync="tableDetailDialog" width="38%">
         <el-descriptions v-if="tableDetailInformation!=null">版本号
-            <el-descriptions-item label="表描述">{{tableDetailInformation.tableInfo.tableComment}}</el-descriptions-item>
+            <el-descriptions-item label="表描述">{{tableDetailInformation.tableInfo.tableComment}}
+            </el-descriptions-item>
             <el-descriptions-item label="行数">{{tableDetailInformation.tableInfo.rows}}</el-descriptions-item>
             <el-descriptions-item label="数据大小">{{(tableDetailInformation.tableInfo.dataSize / 1024 /
                 1024).toFixed(2)}}MB
@@ -299,8 +302,10 @@
 
             <el-descriptions-item label="存储引擎">{{tableDetailInformation.tableInfo.engine}}</el-descriptions-item>
             <el-descriptions-item label="字符集">{{tableDetailInformation.tableInfo.collation}}</el-descriptions-item>
-            <el-descriptions-item label="创建时间">{{tableDetailInformation.tableInfo.createTime}}</el-descriptions-item>
-            <el-descriptions-item label="更新时间">{{tableDetailInformation.tableInfo.updateTime}}</el-descriptions-item>
+            <el-descriptions-item label="创建时间">{{tableDetailInformation.tableInfo.createTime}}
+            </el-descriptions-item>
+            <el-descriptions-item label="更新时间">{{tableDetailInformation.tableInfo.updateTime}}
+            </el-descriptions-item>
         </el-descriptions>
         <span slot="footer" style="text" class="dialog-footer">
     <el-button type="primary" @click="tableDetailDialog = false">确 定</el-button>
