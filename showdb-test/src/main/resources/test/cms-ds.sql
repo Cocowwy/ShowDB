@@ -1,5 +1,4 @@
-create database cms
-
+create database cms;
 
 -- ----------------------------
 -- Table structure for cms_help

@@ -40,11 +40,9 @@ public class DataSourcePropUtil {
                             default:
                                 throw new ShowDbException("The data source is not supported");
                         }
-                    } catch (NullPointerException np) {
+                    } catch (NullPointerException | SQLException np) {
                         throw new ShowDbException(String.format("The connection to the database [beanName=%s] is abnormal," +
                                 " please verify the configuration is correct", dataSourceBeanName));
-                    } catch (Exception throwables) {
-                        throwables.printStackTrace();
                     } finally {
                         try {
                             // fix：修复不释放连接的bug
@@ -57,7 +55,12 @@ public class DataSourcePropUtil {
                 });
     }
 
-    public static String getBeanName(DataSource dataSource) throws SQLException {
+    /**
+     * 根据数据源，获取当前数据源的Bean名称
+     * @param dataSource
+     * @return
+     */
+    public static String getBeanName(DataSource dataSource) {
         for (Map.Entry<String, DataSource> entry : GlobalContext.getDataSourcesMap().entrySet()) {
             if (entry.getValue().equals(dataSource)) {
                 return entry.getKey();
@@ -67,7 +70,7 @@ public class DataSourcePropUtil {
     }
 
     /**
-     * 获取MySQL环境的数据源的schema，通过字符串截取，走缓存
+     * 获取MySQL环境的数据源的schema(通过字符串截取URL)，走缓存
      * @return
      */
     public static String getMysqlSchemaFromDataSourceBeanName(String beanName) {

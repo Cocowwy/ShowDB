@@ -1,4 +1,4 @@
-create database pms
+create database pms;
 
 
 -- ----------------------------

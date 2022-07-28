@@ -19,7 +19,11 @@ public enum EndpointEnum {
     /**
      * IP监控
      */
-    MONITOR_IP_CONNECTION("monitor-ip-connection");
+    MONITOR_IP_CONNECTION("monitor-ip-connection"),
+    /**
+     * 性能监控，事务，锁，等
+     */
+    MONITOR_PERFORMANCE("monitor-performance");
 
     private String name;
     private static final Map<String, EndpointEnum> map = new HashMap<String, EndpointEnum>();

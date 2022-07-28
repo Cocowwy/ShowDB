@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: ShowDB-TEST
+  datasource:
+    cms:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://xxxxx/cms?&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: xxxxx
+    oms:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://xxxxx/oms?&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: xxxxx
+    pms:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://xxxxx/pms?&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: xxxxx
+
+showdb:
+  enable: true
+  endpoint: '*'
+  refresh: 500
+  customize:
+    top-alert: 数据源文档工具 V1.0.1
+    creator: Cocowwy
+    img: https://avatars.githubusercontent.com/u/63331147?s=400&u=d12524532cc111c9ec069f1aa754e702289a587c&v=4
+    email: 514658459@qq.com
+    desc: 数据源可视化工具ShowDB，自动监控SpringBoot项目已存在数据源，自动生成数据库文档，数据源监控信息等
+
+server:
+  port: 8888

@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 
 /**
  * 接口权限
+ * Interface permissions
  * @author Cocowwy
  * @create 2022-03-03-20:54
  */

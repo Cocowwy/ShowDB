@@ -18,7 +18,7 @@ import java.util.List;
  * @create 2022-03-03-18:58
  */
 @RestController
-@RequestMapping("/showdb/struct")
+@RequestMapping("showdb/struct")
 public class StructController {
     @Autowired
     private StructService structService;
@@ -28,7 +28,7 @@ public class StructController {
      * Get the structure of all tables
      * @return
      */
-    @GetMapping("/{ds}/{pageSize}/{pageNumber}")
+    @GetMapping("{ds}/{pageSize}/{pageNumber}")
     public Res<TableStructVo> tableStruct(@PathVariable("ds") String ds,
                                           @PathVariable("pageSize") Integer pageSize,
                                           @PathVariable("pageNumber") Integer pageNumber) {
@@ -41,7 +41,7 @@ public class StructController {
      * @param table 表名
      * @return
      */
-    @GetMapping("/{ds}/create/{table}")
+    @GetMapping("{ds}/create/{table}")
     public Res<String> tableCreateStatement(@PathVariable("ds") String ds, @PathVariable("table") String table) {
         return Res.success(structService.tableCreateStatement(ds, table));
     }
@@ -51,7 +51,7 @@ public class StructController {
      *
      * @return
      */
-    @GetMapping("/{ds}/java/{table}")
+    @GetMapping("{ds}/java/{table}")
     public Res<String> tableJavaCode(@PathVariable("ds") String ds, @PathVariable("table") String table) {
         return Res.success(structService.tableJavaCode(ds, table));
     }
@@ -61,7 +61,7 @@ public class StructController {
      * @param table
      * @return 表结构
      */
-    @GetMapping("/{ds}/{pageSize}/{pageNumber}/{table}")
+    @GetMapping("{ds}/{pageSize}/{pageNumber}/{table}")
     public Res<TableStructVo> tableStruct(@PathVariable("ds") String ds, @PathVariable("pageSize") Integer pageSize, @PathVariable("pageNumber") Integer pageNumber, @PathVariable("table") String table) {
         return Res.success(structService.tableStruct(ds, pageSize, pageNumber, table));
     }
@@ -71,7 +71,7 @@ public class StructController {
      * @param table
      * @return 表结构
      */
-    @GetMapping("/{ds}/{table}/detailInfo")
+    @GetMapping("{ds}/{table}/detailInfo")
     public Res<TableStructVo> tableDetailInfo(@PathVariable("ds") String ds, @PathVariable("table") String table) {
         return Res.success(structService.tableDetailInfo(ds, table));
     }
@@ -80,7 +80,7 @@ public class StructController {
      * 获取所有的表名称集合
      * @return
      */
-    @GetMapping("/{ds}/all")
+    @GetMapping("{ds}/all")
     public Res<List<String>> tableNames(@PathVariable("ds") String ds) {
         return Res.success(structService.tableNames(ds));
     }
@@ -89,7 +89,7 @@ public class StructController {
      * 表文档生成
      * @return
      */
-    @GetMapping("/dsTableDoc/{ds}")
+    @GetMapping("dsTableDoc/{ds}")
     public void dsTableDoc(HttpServletResponse response, @PathVariable("ds") String ds) throws IOException {
         structService.dsTableDoc(response, ds);
     }
@@ -98,7 +98,7 @@ public class StructController {
      * SQL库创建语句
      * @return
      */
-    @GetMapping("/dbCreateStatement/{ds}")
+    @GetMapping("dbCreateStatement/{ds}")
     public void dbCreateStatement(HttpServletResponse response, @PathVariable("ds") String ds) throws IOException {
         structService.dbCreateStatement(response, ds);
     }

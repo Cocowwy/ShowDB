@@ -16,18 +16,16 @@ import java.util.Map;
 public class ShowDbFactory {
     private static final Log logger = LogFactory.getLog(ShowDbFactory.class);
     public static final ShowDbFactory INSTANCE = new ShowDbFactory();
-    private static JdbcTemplate jdbcTemplate;
-    private static Map<String, JdbcTemplate> jdbcTemplatePool = new HashMap<>(1);
+    private static final Map<String, JdbcTemplate> jdbcTemplatePool = new HashMap<>(1);
 
     private ShowDbFactory() {
     }
 
     public void init() {
         //fix：多次切换数据源 new JdbcTemplate 占用资源，需要改为map
-        GlobalContext.getDataSourcesMap().entrySet().forEach(e -> {
-            jdbcTemplatePool.put(e.getKey(), new JdbcTemplate(e.getValue()));
-            logger.info(String.format("ShowDB register DataSource [%s]", e.getKey()));
-
+        GlobalContext.getDataSourcesMap().forEach((key, value) -> {
+            jdbcTemplatePool.put(key, new JdbcTemplate(value));
+            logger.info(String.format("ShowDB register DataSource [%s]", key));
         });
     }
 
