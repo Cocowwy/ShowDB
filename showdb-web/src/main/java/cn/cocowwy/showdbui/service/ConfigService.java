@@ -65,10 +65,26 @@ public class ConfigService {
                 (k) -> CONFIG_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).DbVersion(ds));
     }
 
+    /**
+     * 获取base路径
+     * @param ds
+     * @return
+     */
     private String getBaseDir(String ds) {
         String key = ShowDbCache.buildCacheKey(ds, "db", "baseDir");
         return (String) ShowDbCache.cache().computeIfAbsent(key,
                 (k) -> CONFIG_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).baseDir(ds));
+    }
+
+    /**
+     * 获取事务隔离级别
+     * @param ds
+     * @return
+     */
+    private String getTransactionIsolation(String ds) {
+        String key = ShowDbCache.buildCacheKey(ds, "db", "getTransactionIsolation");
+        return (String) ShowDbCache.cache().computeIfAbsent(key,
+                (k) -> CONFIG_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).transactionIsolation(ds));
     }
 
     /**
@@ -99,6 +115,7 @@ public class ConfigService {
                 dsInfo.setOsEnv(getOsEnv(ds));
                 dsInfo.setTableSchema(DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds));
                 dsInfo.setBaseDir(this.getBaseDir(ds));
+                dsInfo.setTransactionIsolation(this.getTransactionIsolation(ds));
                 return dsInfo;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

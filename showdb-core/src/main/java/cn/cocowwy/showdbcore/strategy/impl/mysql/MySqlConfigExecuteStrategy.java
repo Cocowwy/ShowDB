@@ -72,6 +72,18 @@ public class MySqlConfigExecuteStrategy implements ConfigExecuteStrategy, MySqlE
     }
 
     /**
+     * 获取事务隔离级别
+     * @param ds 数据源
+     * @return
+     */
+    @Override
+    public String transactionIsolation(String ds) {
+        String sql = "show variables like 'transaction_isolation'";
+        List<String> rts = ShowDbFactory.getJdbcTemplate(ds).query(sql, (rs, i) -> rs.getString("Value"));
+        return CollectionUtils.lastElement(rts);
+    }
+
+    /**
      * 路径
      * @return
      */

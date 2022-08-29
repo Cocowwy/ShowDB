@@ -32,4 +32,11 @@ public interface ConfigExecuteStrategy extends SqlExecuteStrategy {
      * @return 超时时间
      */
     String innodbLockWaitTimeout(String ds);
+
+    /**
+     * 事务隔离级别
+     * @param ds 数据源
+     * @return 事务隔离级别
+     */
+    String transactionIsolation(String ds);
 }
