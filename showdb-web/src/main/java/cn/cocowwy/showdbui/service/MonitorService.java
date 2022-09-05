@@ -85,4 +85,6 @@ public class MonitorService {
     public List<TranscationalStatus> transcationalStatus(String ds) {
         return MONITOR_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).transcationalStatus(ds);
     }
+
+    // select * from information_schema.innodb_trx where TIME_TO_SEC(timediff(now(),trx_started))>0 长事务查询
 }

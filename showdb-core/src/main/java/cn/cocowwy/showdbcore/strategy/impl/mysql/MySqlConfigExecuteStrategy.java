@@ -94,3 +94,8 @@ public class MySqlConfigExecuteStrategy implements ConfigExecuteStrategy, MySqlE
         return CollectionUtils.lastElement(rts);
     }
 }
+
+
+//    show variables where Variable_name in
+//        ('version_compile_os', 'version', 'innodb_lock_wait_timeout', 'transaction_isolation', 'basedir',
+//                 'slow_query_log', 'slow_query_log_filel')
