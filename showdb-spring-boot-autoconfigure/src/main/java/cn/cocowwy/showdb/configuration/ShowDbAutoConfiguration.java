@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
         "cn.cocowwy.showdbcore.strategy.impl",
         "cn.cocowwy.showdbui.controller",
         "cn.cocowwy.showdbui.service",
+        "cn.cocowwy.showdbui.config",
         "cn.cocowwy.showdbcore.aspect"
 })
 @ConditionalOnProperty(name = "showdb.enable", havingValue = "true")

@@ -6,6 +6,7 @@ import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.Res;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
 import cn.cocowwy.showdbcore.entities.TranscationalStatus;
+import cn.cocowwy.showdbui.annotation.ShowDBRestController;
 import cn.cocowwy.showdbui.service.MonitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +21,7 @@ import java.util.List;
  * @author Cocowwy
  * @create 2022-03-03-19:01
  */
-@RestController
-@RequestMapping("showdb/monitor/{ds}")
+@ShowDBRestController("/monitor/{ds}")
 public class MonitorController {
     @Autowired
     private MonitorService monitorService;

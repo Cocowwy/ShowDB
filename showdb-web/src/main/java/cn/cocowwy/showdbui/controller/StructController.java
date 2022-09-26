@@ -2,6 +2,7 @@ package cn.cocowwy.showdbui.controller;
 
 import cn.cocowwy.showdbcore.entities.Res;
 import cn.cocowwy.showdbcore.entities.TableStructVo;
+import cn.cocowwy.showdbui.annotation.ShowDBRestController;
 import cn.cocowwy.showdbui.service.StructService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +18,7 @@ import java.util.List;
  * @author Cocowwy
  * @create 2022-03-03-18:58
  */
-@RestController
-@RequestMapping("showdb/struct")
+@ShowDBRestController("/struct")
 public class StructController {
     @Autowired
     private StructService structService;

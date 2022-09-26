@@ -5,6 +5,7 @@ import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.entities.Customize;
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.Res;
+import cn.cocowwy.showdbui.annotation.ShowDBRestController;
 import cn.cocowwy.showdbui.service.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,8 +22,7 @@ import java.util.Objects;
  * @author Cocowwy
  * @create 2022-03-03-21:23
  */
-@RestController
-@RequestMapping("showdb/config")
+@ShowDBRestController("/config")
 public class ConfigController {
     @Autowired
     private ConfigService configService;
