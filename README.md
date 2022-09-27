@@ -172,5 +172,10 @@ spring:
 - 提供更多监控性的指标
 - UI界面的更加美观（这也是最难的）  
 
+## 微信公众号～  
+<img src="https://user-images.githubusercontent.com/63331147/192079044-208ee2f1-381d-49b3-b60e-451350197f95.png" width="200" height="200" alt="公众号"/><br/>
+
 ## END🍕
-欢迎提issue和pr~
+如果你有更好的意见，欢迎关注我公众号给我留言~
+如果你有更好的想法或者想添加，修复bug，欢迎PR~
+
