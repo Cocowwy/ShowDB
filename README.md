@@ -41,7 +41,7 @@
 <dependency>
     <groupId>cn.cocowwy</groupId>
     <artifactId>showdb-spring-boot-starter</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
 </dependency>
 <repositories>
     <repository>
