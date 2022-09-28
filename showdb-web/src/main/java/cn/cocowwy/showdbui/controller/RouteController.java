@@ -1,6 +1,5 @@
 package cn.cocowwy.showdbui.controller;
 
-import cn.cocowwy.showdbui.annotation.ShowDBRestController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

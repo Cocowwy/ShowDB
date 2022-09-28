@@ -6,22 +6,22 @@ import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.Res;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
 import cn.cocowwy.showdbcore.entities.TranscationalStatus;
-import cn.cocowwy.showdbui.annotation.ShowDBRestController;
 import cn.cocowwy.showdbui.service.MonitorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author Cocowwy
  * @create 2022-03-03-19:01
  */
-@ShowDBRestController("/monitor/{ds}")
+@RestController
+@RequestMapping("/showdb/monitor/{ds}")
 public class MonitorController {
     @Autowired
     private MonitorService monitorService;
