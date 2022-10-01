@@ -17,7 +17,8 @@ import org.springframework.stereotype.Component;
  * @create 2022-03-03-21:03
  */
 @Aspect
-@Component
+//@Component
+@Deprecated
 public class EndpointAspect {
 
     @Pointcut("@annotation(cn.cocowwy.showdbcore.annotation.Endpoint)")

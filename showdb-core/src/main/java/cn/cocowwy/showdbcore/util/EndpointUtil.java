@@ -9,6 +9,7 @@ import java.util.Set;
  * @author cocowwy.cn
  * @create 2022-03-03-19:20
  */
+@Deprecated
 public class EndpointUtil {
     /**
      * 设置开启的功能端点

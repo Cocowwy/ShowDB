@@ -23,6 +23,7 @@ public class ShowDbProperties {
      * monitor-master-slave     监控主从库延迟
      * monitor-table            监控表数据，大小索引等
      */
+    @Deprecated
     private Set<String> endpoint = Collections.singleton("*");
     /**
      * 缓存刷新时间
