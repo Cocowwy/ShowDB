@@ -74,8 +74,9 @@ public class ShowDbAutoConfiguration implements InitializingBean {
     }
 
     @Override
+    @Deprecated
     public void afterPropertiesSet() {
-        EndpointUtil.setEnableSet(properties.getEndpoint());
+//        EndpointUtil.setEnableSet(properties.getEndpoint());
     }
 
     /**
