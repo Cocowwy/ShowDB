@@ -50,6 +50,8 @@ public class Runner implements ApplicationRunner {
 
         // 测试事务查询
         test2();
+
+        System.out.println("http://localhost/db");
     }
 
     @Transactional(rollbackFor = Exception.class)

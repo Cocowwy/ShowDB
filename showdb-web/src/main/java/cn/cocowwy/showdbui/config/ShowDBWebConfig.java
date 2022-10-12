@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration("ShowDBWebConfig")
 public class ShowDBWebConfig {
     /**
-     * if context-path un config,set null
+     * if context-path no setting,set null
      */
     @Value("${server.servlet.context-path:#{null}}")
     public String contextPath;
