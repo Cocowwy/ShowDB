@@ -8,7 +8,7 @@ import cn.cocowwy.showdbcore.entities.TableInfo;
 import cn.cocowwy.showdbcore.entities.TableStructVo;
 import cn.cocowwy.showdbcore.strategy.StructExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
-import cn.cocowwy.showdbcore.util.CodeGenerateUtil;
+import cn.cocowwy.showdbcore.util.generate.CodeGenerateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -245,7 +245,7 @@ public class StructService {
                     code.append("{");
                     code.append("\n");
                     tableFields.forEach(field -> {
-                        String javaName = CodeGenerateUtil.columnName(field.getFieldName());
+                        String javaName = CodeGenerateUtil.camelCase(field.getFieldName());
                         String javaType = CodeGenerateUtil.getType(field.getType());
                         if (!StringUtils.isEmpty(field.getComment())) {
                             code.append("    /**\n");

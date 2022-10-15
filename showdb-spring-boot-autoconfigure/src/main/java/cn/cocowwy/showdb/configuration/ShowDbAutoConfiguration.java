@@ -5,12 +5,14 @@ import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.config.ShowDbFactory;
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.entities.Customize;
+import cn.cocowwy.showdbcore.entities.GenerateDefind;
 import cn.cocowwy.showdbcore.exception.ShowDbException;
 import cn.cocowwy.showdbcore.strategy.SqlExecuteStrategy;
 import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
-import cn.cocowwy.showdbcore.util.EndpointUtil;
+import cn.cocowwy.showdbcore.util.generate.MaybatisGeneratorUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mybatis.generator.exception.InvalidConfigurationException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -23,6 +25,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.CollectionUtils;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +48,8 @@ import java.util.stream.Collectors;
         "cn.cocowwy.showdbui.controller",
         "cn.cocowwy.showdbui.service",
         "cn.cocowwy.showdbui.config",
-        "cn.cocowwy.showdbcore.aspect"
+        "cn.cocowwy.showdbcore.aspect",
+        "cn.cocowwy.showdbcore.util.generate",
 })
 @ConditionalOnProperty(name = "showdb.enable", havingValue = "true")
 @AutoConfigureBefore(SqlExecuteStrategy.class)
@@ -75,8 +80,11 @@ public class ShowDbAutoConfiguration implements InitializingBean {
 
     @Override
     @Deprecated
-    public void afterPropertiesSet() {
+    public void afterPropertiesSet() throws SQLException, IOException, InterruptedException, InvalidConfigurationException {
 //        EndpointUtil.setEnableSet(properties.getEndpoint());
+        GenerateDefind generateDefind = new GenerateDefind();
+        generateDefind.setUseExample(true);
+        new MaybatisGeneratorUtils().generate("cms", "cms_member_report", generateDefind);
     }
 
     /**

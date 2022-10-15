@@ -1,12 +1,30 @@
-package cn.cocowwy.showdbcore.util;
+package cn.cocowwy.showdbcore.util.generate;
 
 import org.springframework.util.StringUtils;
 
 /**
+ * 代码生成工具
  * @author Cocowwy
  * @create 2022-03-03-22:01
  */
 public class CodeGenerateUtil {
+    public static String CODE_SPAC = " ";
+    public static String LEFT_BRACES = "{";
+    public static String RIGHT_BRACES = "}";
+    public static String NEW_LINE = "\n";
+    public static String LINE_INDENTATION = "   ";
+    public static String LINE_END = ";";
+
+    public static class JavaKeywords {
+        public static String PUBLIC = "public";
+        public static String VOID = "void";
+        public static String STRING = "String";
+        public static String LOCAL_DATE_TIME = "LocalDateTime";
+        public static String LONG = "Long";
+        public static String INTEGER = "Integer";
+        public static String CLASS = "class";
+    }
+
     /**
      * 生成类名
      * @param tableName 数据表表名
@@ -26,11 +44,11 @@ public class CodeGenerateUtil {
     }
 
     /**
-     * 处理变量名（属性名）
-     * @param columnName 字段名称
-     * @return
+     * 驼峰命名
+     * @param columnName 带有下划线的字段名称
+     * @return 驼峰命名
      */
-    public static String columnName(String columnName) {
+    public static String camelCase(String columnName) {
         //将字段名称user_name格式变成userName格式
         String colName = "";
         //根据下划线将名字分为数组
@@ -46,6 +64,11 @@ public class CodeGenerateUtil {
         return colName;
     }
 
+    /**
+     * 数据库类型 映射成 Java 类型
+     * @param dataType
+     * @return
+     */
     public static String getType(String dataType) {
         String type = "";
         if ("tinyint".equals(substringBefore(dataType, "("))) {
@@ -94,10 +117,10 @@ public class CodeGenerateUtil {
             type = "Date";
         }
         if ("timestamp".equals(substringBefore(dataType, "("))) {
-            type = "Timestamp";
+            type = "LocalDateTime";
         }
         if ("datetime".equals(substringBefore(dataType, "("))) {
-            type = "Timestamp";
+            type = "LocalDateTime";
         }
         if ("tinytext".equals(substringBefore(dataType, "("))) {
             type = "String";

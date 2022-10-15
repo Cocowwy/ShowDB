@@ -8,7 +8,6 @@ import cn.cocowwy.showdbcore.entities.SlaveStatus;
 import cn.cocowwy.showdbcore.entities.TranscationalStatus;
 import cn.cocowwy.showdbui.service.MonitorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
