@@ -7,12 +7,11 @@ import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.entities.Customize;
 import cn.cocowwy.showdbcore.entities.GenerateDefind;
 import cn.cocowwy.showdbcore.exception.ShowDbException;
+import cn.cocowwy.showdbcore.generate.impl.MaybatisGeneratorImpl;
 import cn.cocowwy.showdbcore.strategy.SqlExecuteStrategy;
 import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
-import cn.cocowwy.showdbcore.util.generate.MaybatisGeneratorUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mybatis.generator.exception.InvalidConfigurationException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -25,8 +24,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.CollectionUtils;
 
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -48,21 +45,18 @@ import java.util.stream.Collectors;
         "cn.cocowwy.showdbui.controller",
         "cn.cocowwy.showdbui.service",
         "cn.cocowwy.showdbui.config",
-        "cn.cocowwy.showdbcore.aspect",
-        "cn.cocowwy.showdbcore.util.generate",
+        "cn.cocowwy.showdbcore.aspect"
 })
 @ConditionalOnProperty(name = "showdb.enable", havingValue = "true")
 @AutoConfigureBefore(SqlExecuteStrategy.class)
 public class ShowDbAutoConfiguration implements InitializingBean {
     private static final Log logger = LogFactory.getLog(ShowDbAutoConfiguration.class);
-    private final ShowDbProperties properties;
 
     public ShowDbAutoConfiguration(ShowDbProperties properties, ApplicationContext applicationContext) {
         List<String> dataSources = Arrays.asList(applicationContext.getBeanNamesForType(DataSource.class));
         if (CollectionUtils.isEmpty(dataSources)) {
             throw new ShowDbException("Can't find datasource (bean) ,please config it and restart");
         }
-        this.properties = properties;
         Map<String, DataSource> dataSourcesMap = dataSources.stream()
                 .collect(Collectors.toMap(Function.identity(), beanName -> (DataSource) applicationContext.getBean(beanName)));
 
@@ -73,18 +67,18 @@ public class ShowDbAutoConfiguration implements InitializingBean {
         GlobalContext.setDataSourcesTypeMap(dataSourcesTypeMap);
 
         ShowDbFactory.INSTANCE.init();
-        ShowDbCache.addCachaTask(this.properties.getRefresh());
+        ShowDbCache.addCachaTask(properties.getRefresh());
         GlobalContext.setCustomize(buildCustomize(properties.getCustomize()));
         bannerLog();
     }
 
     @Override
     @Deprecated
-    public void afterPropertiesSet() throws SQLException, IOException, InterruptedException, InvalidConfigurationException {
-//        EndpointUtil.setEnableSet(properties.getEndpoint());
+    public void afterPropertiesSet() {
+        // test
         GenerateDefind generateDefind = new GenerateDefind();
         generateDefind.setUseExample(true);
-        new MaybatisGeneratorUtils().generate("cms", "cms_member_report", generateDefind);
+        new MaybatisGeneratorImpl().generate("cms", "cms_member_report", generateDefind);
     }
 
     /**

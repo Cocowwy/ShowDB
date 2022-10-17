@@ -1,27 +1,21 @@
-package cn.cocowwy.showdbcore.util.generate;
+package cn.cocowwy.showdbcore.generate.impl;
 
 import cn.cocowwy.showdbcore.config.GlobalContext;
+import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.entities.GenerateDefind;
+import cn.cocowwy.showdbcore.util.CodeGenerateUtil;
+import cn.cocowwy.showdbcore.generate.GeneratorService;
 import org.mybatis.generator.api.MyBatisGenerator;
-import org.mybatis.generator.api.ShellCallback;
 import org.mybatis.generator.config.*;
-import org.mybatis.generator.exception.InvalidConfigurationException;
 import org.mybatis.generator.internal.DefaultShellCallback;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.PostConstruct;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * MyBatis文件生成器
@@ -29,8 +23,12 @@ import java.util.*;
  * @create 2022-05-05-11:45
  */
 @Service
-public class MaybatisGeneratorUtils {
-    public void generate(String ds, String tableName, GenerateDefind generateDefind) throws InvalidConfigurationException, SQLException, IOException, InterruptedException {
+public class MaybatisGeneratorImpl implements GeneratorService {
+    private Boolean checkIsMySQL(String ds) {
+        return GlobalContext.getDataSourcesTypeMap().get(ds).equals(DBEnum.MySQL);
+    }
+
+    public void generate(String ds, String tableName, GenerateDefind generateDefind) {
         List<String> warnings = new ArrayList<String>();
         boolean overwrite = true;
         Configuration config = new Configuration();
@@ -62,19 +60,11 @@ public class MaybatisGeneratorUtils {
             tableConfig.setMapperName(generateDefind.getMapperName());
         }
 
-        // java model
+        // 设置生成路径
         JavaModelGeneratorConfiguration modelConfig = new JavaModelGeneratorConfiguration();
-        modelConfig.setTargetPackage("cn.cocowwy.showdbtest.model");
-        modelConfig.setTargetProject("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/java");
-        // Mapper configuration
         SqlMapGeneratorConfiguration mapperConfig = new SqlMapGeneratorConfiguration();
-        mapperConfig.setTargetPackage("mybatis.mapper");
-        mapperConfig.setTargetProject("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/resources");
-        // DAO
         JavaClientGeneratorConfiguration daoConfig = new JavaClientGeneratorConfiguration();
-        daoConfig.setConfigurationType("XMLMAPPER");
-        daoConfig.setTargetPackage("cn.cocowwy.showdbtest.mapper");
-        daoConfig.setTargetProject("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/java");
+        setGenerateFilePath(generateDefind, modelConfig, mapperConfig, daoConfig);
 
         context.setId("myid");
         context.addTableConfiguration(tableConfig);
@@ -106,7 +96,7 @@ public class MaybatisGeneratorUtils {
         context.addPluginConfiguration(toStringPlugin);
 
         if (generateDefind.getUseExample()) {
-            if (true) { // 校验是否是MySQl
+            if (checkIsMySQL(ds)) { // 校验是否是MySQl
                 PluginConfiguration pluginConfiguration = new PluginConfiguration();
                 pluginConfiguration.addProperty("useExample", "true");
                 pluginConfiguration.addProperty("type", "cn.cocowwy.showdbcore.plugin.CommonDAOInterfacePlugin");
@@ -116,9 +106,40 @@ public class MaybatisGeneratorUtils {
         }
 
         context.setTargetRuntime("MyBatis3");
-        // 创建
-        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
-        myBatisGenerator.generate(null);
+        try {
+            // 创建
+            MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
+            myBatisGenerator.generate(null);
+        } catch (Exception e) {
+            throw new RuntimeException("创建MyBatis文件报错，e", e);
+        }
+    }
+
+    /**
+     * 设置生成路径
+     * @param generateDefind 定义信息
+     * @param modelConfig 实体类
+     * @param mapperConfig mapper
+     * @param daoConfig dao
+     */
+    void setGenerateFilePath(GenerateDefind generateDefind,
+                             JavaModelGeneratorConfiguration modelConfig,
+                             SqlMapGeneratorConfiguration mapperConfig,
+                             JavaClientGeneratorConfiguration daoConfig) {
+        // todo
+//        modelConfig.setTargetPackage("cn.cocowwy.showdbtest.model");
+        modelConfig.setTargetPackage(generateDefind.getModelPackagePath());
+//        modelConfig.setTargetProject("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/java");
+        modelConfig.setTargetProject(generateDefind.getModelProjectPath());
+        //        mapperConfig.setTargetPackage("mybatis.mapper");
+        mapperConfig.setTargetPackage(generateDefind.getMapperJavaPackagePath());
+//        mapperConfig.setTargetProject("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/resources");
+        mapperConfig.setTargetProject(generateDefind.getMapperJavaProjectPath());
+        daoConfig.setConfigurationType("XMLMAPPER");
+//        daoConfig.setTargetPackage("cn.cocowwy.showdbtest.mapper");
+        daoConfig.setTargetPackage(generateDefind.getMapperJavaPackagePath());
+//        daoConfig.setTargetProject("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/java");
+        daoConfig.setTargetProject(generateDefind.getMapperJavaProjectPath());
     }
 
     /**

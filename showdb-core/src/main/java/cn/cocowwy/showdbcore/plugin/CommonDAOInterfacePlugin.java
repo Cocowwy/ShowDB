@@ -53,6 +53,7 @@ public class CommonDAOInterfacePlugin extends PluginAdapter {
             mapperInterface.addImportedTypes(IMPORT_TYPES);
             mapperInterface.setVisibility(JavaVisibility.PUBLIC);
             mapperInterface.addJavaDocLine("/**");
+            mapperInterface.addJavaDocLine(" * " + "Created By: ShowDB");
             mapperInterface.addJavaDocLine(" * " + "DAO公共基类，由MybatisGenerator自动生成请勿修改");
             mapperInterface.addJavaDocLine(" * " + "@param <Model> The Model Class 这里是泛型不是Model类");
             mapperInterface.addJavaDocLine(" * " + "@param <PK> The Primary Key Class 如果是无主键，则可以用Model来跳过，如果是多主键则是Key类");

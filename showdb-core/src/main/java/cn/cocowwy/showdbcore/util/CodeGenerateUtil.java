@@ -1,4 +1,4 @@
-package cn.cocowwy.showdbcore.util.generate;
+package cn.cocowwy.showdbcore.util;
 
 import org.springframework.util.StringUtils;
 
@@ -8,22 +8,8 @@ import org.springframework.util.StringUtils;
  * @create 2022-03-03-22:01
  */
 public class CodeGenerateUtil {
-    public static String CODE_SPAC = " ";
-    public static String LEFT_BRACES = "{";
-    public static String RIGHT_BRACES = "}";
-    public static String NEW_LINE = "\n";
-    public static String LINE_INDENTATION = "   ";
-    public static String LINE_END = ";";
+    public static String LEFT_PARENTS = "(";
 
-    public static class JavaKeywords {
-        public static String PUBLIC = "public";
-        public static String VOID = "void";
-        public static String STRING = "String";
-        public static String LOCAL_DATE_TIME = "LocalDateTime";
-        public static String LONG = "Long";
-        public static String INTEGER = "Integer";
-        public static String CLASS = "class";
-    }
 
     /**
      * 生成类名
@@ -71,73 +57,73 @@ public class CodeGenerateUtil {
      */
     public static String getType(String dataType) {
         String type = "";
-        if ("tinyint".equals(substringBefore(dataType, "("))) {
+        if ("tinyint".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "Byte";
         }
-        if ("smallint".equals(substringBefore(dataType, "("))) {
+        if ("smallint".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "Short";
         }
-        if ("mediumint".equals(substringBefore(dataType, "("))) {
+        if ("mediumint".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "Integer";
         }
-        if ("int".equals(substringBefore(dataType, "("))) {
+        if ("int".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "Integer";
         }
-        if ("integer".equals(substringBefore(dataType, "("))) {
+        if ("integer".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "Integer";
         }
-        if ("bigint".equals(substringBefore(dataType, "("))) {
+        if ("bigint".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "Long";
         }
-        if ("bit".equals(substringBefore(dataType, "("))) {
+        if ("bit".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "Boolean";
         }
-        if ("double".equals(substringBefore(dataType, "("))) {
+        if ("double".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "Double";
         }
-        if ("float".equals(substringBefore(dataType, "("))) {
+        if ("float".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "Float";
         }
-        if ("decimal".equals(substringBefore(dataType, "("))) {
+        if ("decimal".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "Long";
         }
-        if ("char".equals(substringBefore(dataType, "("))) {
+        if ("char".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "String";
         }
-        if ("varchar".equals(substringBefore(dataType, "("))) {
+        if ("varchar".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "String";
         }
-        if ("date".equals(substringBefore(dataType, "("))) {
+        if ("date".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "Date";
         }
-        if ("time".equals(substringBefore(dataType, "("))) {
+        if ("time".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "Date";
         }
-        if ("year".equals(substringBefore(dataType, "("))) {
+        if ("year".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "Date";
         }
-        if ("timestamp".equals(substringBefore(dataType, "("))) {
+        if ("timestamp".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "LocalDateTime";
         }
-        if ("datetime".equals(substringBefore(dataType, "("))) {
+        if ("datetime".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "LocalDateTime";
         }
-        if ("tinytext".equals(substringBefore(dataType, "("))) {
+        if ("tinytext".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "String";
         }
-        if ("enum".equals(substringBefore(dataType, "("))) {
+        if ("enum".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "String";
         }
-        if ("set".equals(substringBefore(dataType, "("))) {
+        if ("set".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "String";
         }
-        if ("text".equals(substringBefore(dataType, "("))) {
+        if ("text".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "String";
         }
-        if ("mediumtext".equals(substringBefore(dataType, "("))) {
+        if ("mediumtext".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "String";
         }
-        if ("longtext".equals(substringBefore(dataType, "("))) {
+        if ("longtext".equals(substringBefore(dataType, LEFT_PARENTS))) {
             type = "String";
         }
         return type;

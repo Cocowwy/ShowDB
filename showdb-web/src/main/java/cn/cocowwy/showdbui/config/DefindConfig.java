@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
  * @author cocowwy.cn
  * @create 2022-05-05-11:45
  */
-@Configuration("ShowDBWebConfig")
-public class ShowDBWebConfig {
+@Configuration("Defind")
+public class DefindConfig {
     /**
      * if context-path no setting,set null
      */
