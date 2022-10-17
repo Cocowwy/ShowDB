@@ -5,9 +5,7 @@ import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.config.ShowDbFactory;
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.entities.Customize;
-import cn.cocowwy.showdbcore.entities.GenerateDefind;
 import cn.cocowwy.showdbcore.exception.ShowDbException;
-import cn.cocowwy.showdbcore.generate.impl.MaybatisGeneratorImpl;
 import cn.cocowwy.showdbcore.strategy.SqlExecuteStrategy;
 import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.apache.commons.logging.Log;
@@ -45,7 +43,8 @@ import java.util.stream.Collectors;
         "cn.cocowwy.showdbui.controller",
         "cn.cocowwy.showdbui.service",
         "cn.cocowwy.showdbui.config",
-        "cn.cocowwy.showdbcore.aspect"
+        "cn.cocowwy.showdbcore.aspect",
+        "cn.cocowwy.showdbcore.generate"
 })
 @ConditionalOnProperty(name = "showdb.enable", havingValue = "true")
 @AutoConfigureBefore(SqlExecuteStrategy.class)
@@ -69,16 +68,11 @@ public class ShowDbAutoConfiguration implements InitializingBean {
         ShowDbFactory.INSTANCE.init();
         ShowDbCache.addCachaTask(properties.getRefresh());
         GlobalContext.setCustomize(buildCustomize(properties.getCustomize()));
-        bannerLog();
     }
 
     @Override
-    @Deprecated
     public void afterPropertiesSet() {
-        // test
-        GenerateDefind generateDefind = new GenerateDefind();
-        generateDefind.setUseExample(true);
-        new MaybatisGeneratorImpl().generate("cms", "cms_member_report", generateDefind);
+        bannerLog();
     }
 
     /**

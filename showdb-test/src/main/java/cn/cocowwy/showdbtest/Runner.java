@@ -1,9 +1,13 @@
 package cn.cocowwy.showdbtest;
 
+import cn.cocowwy.showdbcore.entities.GenerateDefind;
+import cn.cocowwy.showdbcore.generate.impl.MaybatisGeneratorImpl;
+import cn.cocowwy.showdbcore.generate.impl.MyBatisPlusGeneratorImpl;
 import cn.cocowwy.showdbcore.strategy.SqlExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlMonitorExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlStructExecuteStrategy;
+import org.mybatis.generator.api.MyBatisGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -34,8 +38,25 @@ public class Runner implements ApplicationRunner {
     private MySqlMonitorExecuteStrategy mySqlMonitorExecuteStrategy;
     @Autowired
     private List<MySqlExecuteStrategy> mySqlExecuteStrategies;
+    @Autowired
+    private MaybatisGeneratorImpl generator;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        testGenerateMyBatisFile();
+    }
+
+    public void testGenerateMyBatisFile() {
+        GenerateDefind generateDefind = new GenerateDefind();
+        generateDefind.setUseExample(true);
+        generateDefind.setModelPackagePath("cn.cocowwy.showdbtest.model");
+        generateDefind.setModelProjectPath("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/java");
+
+        generateDefind.setMapperJavaPackagePath("cn.cocowwy.showdbtest.mapper");
+        generateDefind.setMapperJavaProjectPath("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/java");
+
+        generateDefind.setMapperXmlPackagePath("mybatis.mapper");
+        generateDefind.setMapperXmlProjectPath("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/resources");
+        new MaybatisGeneratorImpl().generate("cms", "cms_member_report", generateDefind);
     }
 }

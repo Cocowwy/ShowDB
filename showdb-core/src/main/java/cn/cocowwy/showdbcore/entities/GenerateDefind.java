@@ -1,5 +1,7 @@
 package cn.cocowwy.showdbcore.entities;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 /**
  * 代码生成自定义生成器
  * @author cocowwy.cn
@@ -46,6 +48,14 @@ public class GenerateDefind {
      * mapper的java文件生成的包路径
      */
     private String mapperJavaPackagePath;
+    /**
+     * 使用toString插件
+     */
+    private Boolean useToString;
+    /**
+     * 使用Eq和Hx插件
+     */
+    private Boolean useEqAndHx;
 
     public Boolean getUseLombok() {
         return useLombok;
@@ -125,5 +135,21 @@ public class GenerateDefind {
 
     public void setMapperJavaPackagePath(String mapperJavaPackagePath) {
         this.mapperJavaPackagePath = mapperJavaPackagePath;
+    }
+
+    public Boolean getUseToString() {
+        return useToString;
+    }
+
+    public void setUseToString(Boolean useToString) {
+        this.useToString = useToString;
+    }
+
+    public Boolean getUseEqAndHx() {
+        return useEqAndHx;
+    }
+
+    public void setUseEqAndHx(Boolean useEqAndHx) {
+        this.useEqAndHx = useEqAndHx;
     }
 }

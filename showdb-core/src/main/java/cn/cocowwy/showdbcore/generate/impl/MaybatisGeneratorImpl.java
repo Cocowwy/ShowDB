@@ -24,6 +24,10 @@ import java.util.Objects;
  */
 @Service
 public class MaybatisGeneratorImpl implements GeneratorService {
+    /**
+     * @param ds 当前数据源
+     * @return 校验是否是MySQl
+     */
     private Boolean checkIsMySQL(String ds) {
         return GlobalContext.getDataSourcesTypeMap().get(ds).equals(DBEnum.MySQL);
     }
@@ -79,31 +83,7 @@ public class MaybatisGeneratorImpl implements GeneratorService {
         context.setCommentGeneratorConfiguration(commentConfig);
         DefaultShellCallback callback = new DefaultShellCallback(overwrite);
 
-        //实体添加序列化
-        PluginConfiguration serializablePluginConfiguration = new PluginConfiguration();
-        serializablePluginConfiguration.addProperty("type", "org.mybatis.generator.plugins.SerializablePlugin");
-        serializablePluginConfiguration.setConfigurationType("org.mybatis.generator.plugins.SerializablePlugin");
-        context.addPluginConfiguration(serializablePluginConfiguration);
-
-        // toString, hashCode, equals插件
-        PluginConfiguration equalsHashCodePlugin = new PluginConfiguration();
-        equalsHashCodePlugin.addProperty("type", "org.mybatis.generator.plugins.EqualsHashCodePlugin");
-        equalsHashCodePlugin.setConfigurationType("org.mybatis.generator.plugins.EqualsHashCodePlugin");
-        context.addPluginConfiguration(equalsHashCodePlugin);
-        PluginConfiguration toStringPlugin = new PluginConfiguration();
-        toStringPlugin.addProperty("type", "org.mybatis.generator.plugins.ToStringPlugin");
-        toStringPlugin.setConfigurationType("org.mybatis.generator.plugins.ToStringPlugin");
-        context.addPluginConfiguration(toStringPlugin);
-
-        if (generateDefind.getUseExample()) {
-            if (checkIsMySQL(ds)) { // 校验是否是MySQl
-                PluginConfiguration pluginConfiguration = new PluginConfiguration();
-                pluginConfiguration.addProperty("useExample", "true");
-                pluginConfiguration.addProperty("type", "cn.cocowwy.showdbcore.plugin.CommonDAOInterfacePlugin");
-                pluginConfiguration.setConfigurationType("cn.cocowwy.showdbcore.plugin.CommonDAOInterfacePlugin");
-                context.addPluginConfiguration(pluginConfiguration);
-            }
-        }
+        buildPlugin(ds, generateDefind, context);
 
         context.setTargetRuntime("MyBatis3");
         try {
@@ -116,29 +96,63 @@ public class MaybatisGeneratorImpl implements GeneratorService {
     }
 
     /**
+     * 构建插件信息
+     * @param ds 数据源
+     * @param generateDefind 自定义信息
+     * @param context
+     */
+    private void buildPlugin(String ds, GenerateDefind generateDefind, Context context) {
+        //实体添加序列化
+        PluginConfiguration serializablePluginConfiguration = new PluginConfiguration();
+        serializablePluginConfiguration.addProperty("type", "org.mybatis.generator.plugins.SerializablePlugin");
+        serializablePluginConfiguration.setConfigurationType("org.mybatis.generator.plugins.SerializablePlugin");
+        context.addPluginConfiguration(serializablePluginConfiguration);
+
+        // toString, hashCode和equals插件
+        if (generateDefind.getUseToString()) {
+            PluginConfiguration toStringPlugin = new PluginConfiguration();
+            toStringPlugin.addProperty("type", "org.mybatis.generator.plugins.ToStringPlugin");
+            toStringPlugin.setConfigurationType("org.mybatis.generator.plugins.ToStringPlugin");
+            context.addPluginConfiguration(toStringPlugin);
+        }
+        if (generateDefind.getUseEqAndHx()) {
+            PluginConfiguration equalsHashCodePlugin = new PluginConfiguration();
+            equalsHashCodePlugin.addProperty("type", "org.mybatis.generator.plugins.EqualsHashCodePlugin");
+            equalsHashCodePlugin.setConfigurationType("org.mybatis.generator.plugins.EqualsHashCodePlugin");
+            context.addPluginConfiguration(equalsHashCodePlugin);
+        }
+
+        if (generateDefind.getUseExample()) {
+            if (checkIsMySQL(ds)) {
+                PluginConfiguration pluginConfiguration = new PluginConfiguration();
+                pluginConfiguration.addProperty("useExample", "true");
+                pluginConfiguration.addProperty("type", "cn.cocowwy.showdbcore.plugin.CommonDAOInterfacePlugin");
+                pluginConfiguration.setConfigurationType("cn.cocowwy.showdbcore.plugin.CommonDAOInterfacePlugin");
+                context.addPluginConfiguration(pluginConfiguration);
+            }
+        }
+    }
+
+    /**
      * 设置生成路径
      * @param generateDefind 定义信息
      * @param modelConfig 实体类
-     * @param mapperConfig mapper
-     * @param daoConfig dao
+     * @param mapperConfig XML
+     * @param daoConfig 持久层
      */
     void setGenerateFilePath(GenerateDefind generateDefind,
                              JavaModelGeneratorConfiguration modelConfig,
                              SqlMapGeneratorConfiguration mapperConfig,
                              JavaClientGeneratorConfiguration daoConfig) {
-        // todo
-//        modelConfig.setTargetPackage("cn.cocowwy.showdbtest.model");
+        // 实体生成地址
         modelConfig.setTargetPackage(generateDefind.getModelPackagePath());
-//        modelConfig.setTargetProject("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/java");
         modelConfig.setTargetProject(generateDefind.getModelProjectPath());
-        //        mapperConfig.setTargetPackage("mybatis.mapper");
-        mapperConfig.setTargetPackage(generateDefind.getMapperJavaPackagePath());
-//        mapperConfig.setTargetProject("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/resources");
-        mapperConfig.setTargetProject(generateDefind.getMapperJavaProjectPath());
+        // XML生成地址
+        mapperConfig.setTargetPackage(generateDefind.getMapperXmlPackagePath());
+        mapperConfig.setTargetProject(generateDefind.getMapperXmlProjectPath());
+        // 持久层
         daoConfig.setConfigurationType("XMLMAPPER");
-//        daoConfig.setTargetPackage("cn.cocowwy.showdbtest.mapper");
         daoConfig.setTargetPackage(generateDefind.getMapperJavaPackagePath());
-//        daoConfig.setTargetProject("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/java");
         daoConfig.setTargetProject(generateDefind.getMapperJavaProjectPath());
     }
 
