@@ -168,12 +168,13 @@ spring:
 | showdb-test | 测试模块，内含多数据源demo，测试sql等，quickstart 戳这儿 |
 | showdb-web | web模块，视图和业务处理 |
 
-## 待开发的功能..
+## TODO 待开发的功能..
 - 增加对于数据库更多比较需要关心的参数进行可视化
 - 敏感触点做预警通知  
 - 适配多种不同类型的数据库
 - 提供更多监控性的指标
-- UI界面的更加美观（这也是最难的）  
+- UI界面的更加美观（这也是最难的） 
+- 生成MyBtis相关文件
 
 ## 微信公众号～  
 <img src="https://user-images.githubusercontent.com/63331147/192079044-208ee2f1-381d-49b3-b60e-451350197f95.png" width="200" height="200" alt="公众号"/><br/>
