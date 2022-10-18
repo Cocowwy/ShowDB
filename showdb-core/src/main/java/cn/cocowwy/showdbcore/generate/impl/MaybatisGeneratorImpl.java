@@ -35,9 +35,10 @@ public class MaybatisGeneratorImpl implements GeneratorService {
     public void generate(String ds, String tableName, GenerateDefind generateDefind) {
         List<String> warnings = new ArrayList<String>();
         boolean overwrite = true;
-        Configuration config = new Configuration();
-        Context context = new Context(ModelType.CONDITIONAL);
 
+        Configuration config = new Configuration();
+
+        Context context = new Context(ModelType.CONDITIONAL);
         JDBCConnectionConfiguration jdbcConfig = new JDBCConnectionConfiguration();
         // 构造 JDBCConnectionConfiguration 连接信息
         buildJdbcConfig(jdbcConfig, GlobalContext.getDataSourcesMap().get(ds));

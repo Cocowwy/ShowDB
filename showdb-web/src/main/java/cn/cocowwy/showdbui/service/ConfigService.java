@@ -34,7 +34,7 @@ public class ConfigService {
     /**
      * 数据源类型所对应的执行策略，适配切换数据源能路由到指定策略
      */
-    private static final Map<DBEnum, ConfigExecuteStrategy> CONFIG_STRATEGY = new HashMap(1);
+    private static final Map<DBEnum, ConfigExecuteStrategy> CONFIG_STRATEGY = new HashMap<>(1);
 
     @PostConstruct
     void init() {
@@ -89,45 +89,44 @@ public class ConfigService {
 
     /**
      * 获取数据源信息
-     * @return
+     * @return 数据源信息
      */
     public List<DsInfo> getDsInfo() {
         Map<String, DataSource> dsMap = GlobalContext.getDataSourcesMap();
 
-        List<DsInfo> dsInfos = dsMap.entrySet().stream().map(entry -> {
+        return dsMap.keySet().stream().map(dataSource -> {
             DsInfo dsInfo = new DsInfo();
             Connection connection = null;
             DatabaseMetaData masterDataSource = null;
             try {
-                String ds = entry.getKey();
-                connection = dsMap.get(ds).getConnection();
+                connection = dsMap.get(dataSource).getConnection();
                 masterDataSource = connection.getMetaData();
 
-                dsInfo.setBeanName(entry.getKey());
+                dsInfo.setBeanName(dataSource);
                 dsInfo.setDsProductName(masterDataSource.getDatabaseProductName());
                 dsInfo.setUrl(masterDataSource.getURL());
                 dsInfo.setUsername(connection.getMetaData().getUserName());
-                dsInfo.setDbVersion(getDbVersion(ds));
-                dsInfo.setDataSize(monitorService.dsInfo(ds).getDataSize());
-                dsInfo.setIndexSize(monitorService.dsInfo(ds).getIndexSize());
-                dsInfo.setRecords(monitorService.dsInfo(ds).getRecords());
-                dsInfo.setOsEnv(getDbVersion(ds));
-                dsInfo.setOsEnv(getOsEnv(ds));
-                dsInfo.setTableSchema(DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds));
-                dsInfo.setBaseDir(this.getBaseDir(ds));
-                dsInfo.setTransactionIsolation(this.getTransactionIsolation(ds));
+                dsInfo.setDbVersion(getDbVersion(dataSource));
+                dsInfo.setDataSize(monitorService.dsInfo(dataSource).getDataSize());
+                dsInfo.setIndexSize(monitorService.dsInfo(dataSource).getIndexSize());
+                dsInfo.setRecords(monitorService.dsInfo(dataSource).getRecords());
+                dsInfo.setOsEnv(getDbVersion(dataSource));
+                dsInfo.setOsEnv(getOsEnv(dataSource));
+                dsInfo.setTableSchema(DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(dataSource));
+                dsInfo.setBaseDir(this.getBaseDir(dataSource));
+                dsInfo.setTransactionIsolation(this.getTransactionIsolation(dataSource));
                 return dsInfo;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             } finally {
                 try {
+                    assert connection != null;
                     connection.close();
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
             }
             return dsInfo;
-        }).filter(Objects::nonNull).collect(Collectors.toList());
-        return dsInfos;
+        }).collect(Collectors.toList());
     }
 }

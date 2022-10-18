@@ -46,15 +46,22 @@ public class Runner implements ApplicationRunner {
         testGenerateMyBatisFile();
     }
 
+    /**
+     * 测试创建MyBatis文件
+     */
     public void testGenerateMyBatisFile() {
         GenerateDefind generateDefind = new GenerateDefind();
         generateDefind.setUseExample(true);
+        // 实体类生成项目地址
+        // 实体类生成包名
         generateDefind.setModelPackagePath("cn.cocowwy.showdbtest.model");
         generateDefind.setModelProjectPath("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/java");
-
+        // mapper java文件生成项目地址
+        // mapper java文件生成包地址
         generateDefind.setMapperJavaPackagePath("cn.cocowwy.showdbtest.mapper");
         generateDefind.setMapperJavaProjectPath("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/java");
-
+        // mapper xml文件生成项目地址
+        // mapper xml文件包地址
         generateDefind.setMapperXmlPackagePath("mybatis.mapper");
         generateDefind.setMapperXmlProjectPath("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/resources");
         new MaybatisGeneratorImpl().generate("cms", "cms_member_report", generateDefind);

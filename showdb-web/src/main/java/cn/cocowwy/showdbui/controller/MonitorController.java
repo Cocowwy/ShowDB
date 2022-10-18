@@ -1,7 +1,5 @@
 package cn.cocowwy.showdbui.controller;
 
-import cn.cocowwy.showdbcore.annotation.Endpoint;
-import cn.cocowwy.showdbcore.constants.EndpointEnum;
 import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.Res;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
@@ -31,7 +29,6 @@ public class MonitorController {
      *
      * @return
      */
-    @Endpoint(EndpointEnum.MONITOR_MASTER_SLAVE)
     @GetMapping("masterSlaveInfo")
     public Res<SlaveStatus> masterSlaveInfo(@PathVariable("ds") String ds) {
         SlaveStatus info = monitorService.masterSlaveInfo(ds);
@@ -43,7 +40,6 @@ public class MonitorController {
      *
      * @return
      */
-    @Endpoint(EndpointEnum.MONITOR_IP_CONNECTION)
     @GetMapping("ipCountInfo")
     public Res<List<IpCount>> ipCountInfo(@PathVariable("ds") String ds) {
         return Res.success(monitorService.ipCountInfo(ds));
@@ -55,7 +51,6 @@ public class MonitorController {
      * @param ds
      * @return
      */
-    @Endpoint(EndpointEnum.MONITOR_PERFORMANCE)
     @GetMapping("trxInfo")
     public Res<List<TranscationalStatus>> trxInfo(@PathVariable("ds") String ds) {
         return Res.success(monitorService.transcationalStatus(ds));
