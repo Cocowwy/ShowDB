@@ -34,7 +34,7 @@ public class ConfigService {
     /**
      * 数据源类型所对应的执行策略，适配切换数据源能路由到指定策略
      */
-    private static final Map<DBEnum, ConfigExecuteStrategy> CONFIG_STRATEGY = new HashMap(1);
+    private static final Map<DBEnum, ConfigExecuteStrategy> CONFIG_STRATEGY = new HashMap<>(1);
 
     @PostConstruct
     void init() {
@@ -46,8 +46,8 @@ public class ConfigService {
     }
 
     /**
-     * DB所处环境
-     * @return
+     * @param ds 当前选择的数据源
+     * @return DB所处环境
      */
     public String getOsEnv(String ds) {
         String key = ShowDbCache.buildCacheKey(ds, "os", "env");
@@ -56,8 +56,8 @@ public class ConfigService {
     }
 
     /**
-     * DB版本号
-     * @return
+     * @param ds 当前选择的数据源
+     * @return DB版本号
      */
     public String getDbVersion(String ds) {
         String key = ShowDbCache.buildCacheKey(ds, "db", "version");
@@ -65,6 +65,10 @@ public class ConfigService {
                 (k) -> CONFIG_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).DbVersion(ds));
     }
 
+    /**
+     * @param ds 当前选择的数据源
+     * @return base路径
+     */
     private String getBaseDir(String ds) {
         String key = ShowDbCache.buildCacheKey(ds, "db", "baseDir");
         return (String) ShowDbCache.cache().computeIfAbsent(key,
@@ -72,45 +76,54 @@ public class ConfigService {
     }
 
     /**
-     * 获取数据源信息
-     * @return
+     * @param ds 当前选择的数据源
+     * @return 事务隔离级别
+     */
+    private String getTransactionIsolation(String ds) {
+        String key = ShowDbCache.buildCacheKey(ds, "db", "getTransactionIsolation");
+        return (String) ShowDbCache.cache().computeIfAbsent(key,
+                (k) -> CONFIG_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).transactionIsolation(ds));
+    }
+
+    /**
+     * @return 数据源信息
      */
     public List<DsInfo> getDsInfo() {
         Map<String, DataSource> dsMap = GlobalContext.getDataSourcesMap();
 
-        List<DsInfo> dsInfos = dsMap.entrySet().stream().map(entry -> {
+        return dsMap.keySet().stream().map(dataSource -> {
             DsInfo dsInfo = new DsInfo();
             Connection connection = null;
             DatabaseMetaData masterDataSource = null;
             try {
-                String ds = entry.getKey();
-                connection = dsMap.get(ds).getConnection();
+                connection = dsMap.get(dataSource).getConnection();
                 masterDataSource = connection.getMetaData();
 
-                dsInfo.setBeanName(entry.getKey());
+                dsInfo.setBeanName(dataSource);
                 dsInfo.setDsProductName(masterDataSource.getDatabaseProductName());
                 dsInfo.setUrl(masterDataSource.getURL());
                 dsInfo.setUsername(connection.getMetaData().getUserName());
-                dsInfo.setDbVersion(getDbVersion(ds));
-                dsInfo.setDataSize(monitorService.dsInfo(ds).getDataSize());
-                dsInfo.setIndexSize(monitorService.dsInfo(ds).getIndexSize());
-                dsInfo.setRecords(monitorService.dsInfo(ds).getRecords());
-                dsInfo.setOsEnv(getDbVersion(ds));
-                dsInfo.setOsEnv(getOsEnv(ds));
-                dsInfo.setTableSchema(DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds));
-                dsInfo.setBaseDir(this.getBaseDir(ds));
+                dsInfo.setDbVersion(getDbVersion(dataSource));
+                dsInfo.setDataSize(monitorService.dsInfo(dataSource).getDataSize());
+                dsInfo.setIndexSize(monitorService.dsInfo(dataSource).getIndexSize());
+                dsInfo.setRecords(monitorService.dsInfo(dataSource).getRecords());
+                dsInfo.setOsEnv(getDbVersion(dataSource));
+                dsInfo.setOsEnv(getOsEnv(dataSource));
+                dsInfo.setTableSchema(DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(dataSource));
+                dsInfo.setBaseDir(this.getBaseDir(dataSource));
+                dsInfo.setTransactionIsolation(this.getTransactionIsolation(dataSource));
                 return dsInfo;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             } finally {
                 try {
+                    assert connection != null;
                     connection.close();
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
             }
             return dsInfo;
-        }).filter(Objects::nonNull).collect(Collectors.toList());
-        return dsInfos;
+        }).collect(Collectors.toList());
     }
 }

@@ -1,24 +1,16 @@
 package cn.cocowwy.showdbcore.config;
 
 import cn.cocowwy.showdbcore.constants.DBEnum;
-import cn.cocowwy.showdbcore.constants.EndpointEnum;
-import cn.cocowwy.showdbcore.entities.Customize;
+import cn.cocowwy.showdbcore.entities.ShowDBConfig;
 
 import javax.sql.DataSource;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author cocowwy.cn
  * @create 2022-03-03-12:51
  */
 public class GlobalContext {
-    /**
-     * 已开启端点的功能集合
-     */
-    private static final Set<EndpointEnum> ENABLE_ENDPOINT = new HashSet<EndpointEnum>(1);
-
     /**
      * 数据源集合，适配多数据源情况下进行切换  beanName --> dataSource
      */
@@ -30,9 +22,9 @@ public class GlobalContext {
     private static Map<String, DBEnum> dataSourcesTypeMap;
 
     /**
-     * 用户的自定义信息
+     * 配置信息
      */
-    private static Customize customize;
+    private static ShowDBConfig showDBConfig;
 
     /**
      * 设置数据源集合，兼容多数据源场景
@@ -43,23 +35,9 @@ public class GlobalContext {
         GlobalContext.dataSourcesMap = dataSourcesMap;
     }
 
-    public static Set<EndpointEnum> getEnableEndpoint() {
-        return ENABLE_ENDPOINT;
-    }
 
     public static Map<String, DataSource> getDataSourcesMap() {
         return dataSourcesMap;
-    }
-
-    /**
-     * 开启所有
-     */
-    public static void enableAllEndpoint() {
-        ENABLE_ENDPOINT.add(EndpointEnum.ALL);
-    }
-
-    public static Boolean isEnable(EndpointEnum endpoint) {
-        return ENABLE_ENDPOINT.contains(endpoint);
     }
 
     public static Map<String, DBEnum> getDataSourcesTypeMap() {
@@ -74,12 +52,12 @@ public class GlobalContext {
         return dataSourcesTypeMap.get(ds);
     }
 
-    public static Customize getCustomize() {
-        return customize;
+    public static ShowDBConfig getShowDBConfig() {
+        return showDBConfig;
     }
 
-    public static void setCustomize(Customize customize) {
-        GlobalContext.customize = customize;
+    public static void setShowDBConfig(ShowDBConfig showDBConfig) {
+        GlobalContext.showDBConfig = showDBConfig;
     }
 }
 

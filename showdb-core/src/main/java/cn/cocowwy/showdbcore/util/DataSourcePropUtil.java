@@ -18,7 +18,6 @@ import java.util.Map;
  * @create 2022-03-03-10:03
  */
 public class DataSourcePropUtil {
-    private static final Log logger = LogFactory.getLog(DataSourcePropUtil.class);
 
     /**
      * 根据当前数据源的bean名称，获取到数据源枚举
@@ -112,6 +111,5 @@ public class DataSourcePropUtil {
                     return mysqlSchema.substring(begin + 1, end);
                 }
         );
-
     }
 }

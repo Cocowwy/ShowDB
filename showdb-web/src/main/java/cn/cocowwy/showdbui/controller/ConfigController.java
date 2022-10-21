@@ -2,9 +2,9 @@ package cn.cocowwy.showdbui.controller;
 
 import cn.cocowwy.showdbcore.cache.ShowDbCache;
 import cn.cocowwy.showdbcore.config.GlobalContext;
-import cn.cocowwy.showdbcore.entities.Customize;
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.Res;
+import cn.cocowwy.showdbcore.entities.ShowDBConfig;
 import cn.cocowwy.showdbui.service.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 配置相关
@@ -22,7 +21,7 @@ import java.util.Objects;
  * @create 2022-03-03-21:23
  */
 @RestController
-@RequestMapping("showdb/config")
+@RequestMapping("/showdb/config")
 public class ConfigController {
     @Autowired
     private ConfigService configService;
@@ -53,8 +52,8 @@ public class ConfigController {
      *
      * @return
      */
-    @GetMapping("customize")
-    public Res<Customize> customize() {
-        return Res.success(GlobalContext.getCustomize());
+    @GetMapping("config")
+    public Res<ShowDBConfig> config() {
+        return Res.success(GlobalContext.getShowDBConfig());
     }
 }

@@ -17,24 +17,19 @@ public class ShowDbProperties {
      */
     private boolean enable = true;
     /**
-     * 开启功能端点 以逗号分割
-     * *                        默认，代表开启所有功能，生产环境不建议开启
-     * structure                表结构，以及扩展功能
-     * monitor-master-slave     监控主从库延迟
-     * monitor-table            监控表数据，大小索引等
-     */
-    private Set<String> endpoint = Collections.singleton("*");
-    /**
      * 缓存刷新时间
      * 小于0时 不自动刷新，默认值为 -1
      * 单位为 秒
      */
     private Long refresh = -1L;
-
     /**
      * 自定义
      */
     private Customize customize;
+    /**
+     * 插件生成
+     */
+    private Plugin plugin = new Plugin();
 
     public boolean isEnable() {
         return enable;
@@ -42,14 +37,6 @@ public class ShowDbProperties {
 
     public void setEnable(boolean enable) {
         this.enable = enable;
-    }
-
-    public Set<String> getEndpoint() {
-        return endpoint;
-    }
-
-    public void setEndpoint(Set<String> endpoint) {
-        this.endpoint = endpoint;
     }
 
     public Long getRefresh() {
@@ -68,4 +55,11 @@ public class ShowDbProperties {
         this.customize = customize;
     }
 
+    public Plugin getPlugin() {
+        return plugin;
+    }
+
+    public void setPlugin(Plugin plugin) {
+        this.plugin = plugin;
+    }
 }

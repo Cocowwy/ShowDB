@@ -5,12 +5,12 @@
     <parent>
         <groupId>cn.cocowwy</groupId>
         <artifactId>ShowDB</artifactId>
-        <version>1.0.1</version>
+        <version>1.1.1</version>
     </parent>
 
     <artifactId>showdb-web</artifactId>
     <name>showdb-web</name>
-    <description>ShowDB web模块，接口即业务层</description>
+    <description>ShowDB web模块，接口与业务层</description>
 
     <dependencies>
         <dependency>

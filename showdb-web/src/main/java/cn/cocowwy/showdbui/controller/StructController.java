@@ -18,7 +18,7 @@ import java.util.List;
  * @create 2022-03-03-18:58
  */
 @RestController
-@RequestMapping("showdb/struct")
+@RequestMapping("/showdb/struct")
 public class StructController {
     @Autowired
     private StructService structService;

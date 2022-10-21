@@ -45,7 +45,7 @@ public class DsInfo {
     private String dataSize;
 
     /**
-     * 索引代销
+     * 索引大小
      */
     private String indexSize;
 
@@ -73,6 +73,11 @@ public class DsInfo {
      * 客户端连接数
      */
     private List<IpCount> ipConCounts;
+
+    /**
+     * 事务隔离级别
+     */
+    private String transactionIsolation;
 
     public String getBeanName() {
         return beanName;
@@ -176,5 +181,13 @@ public class DsInfo {
 
     public void setIpConCounts(List<IpCount> ipConCounts) {
         this.ipConCounts = ipConCounts;
+    }
+
+    public String getTransactionIsolation() {
+        return transactionIsolation;
+    }
+
+    public void setTransactionIsolation(String transactionIsolation) {
+        this.transactionIsolation = transactionIsolation;
     }
 }

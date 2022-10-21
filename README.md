@@ -168,7 +168,7 @@ public DruidDataSource createDataSource3() {
 - UI界面的更加美观（这也是最难的）
 
 ## 🍕END
-欢迎提 issue 和 pr ~  
+欢迎提 issue 和 pr ~
 
 ## 🥖**分支说明：**
 |  包名   | 说明  |

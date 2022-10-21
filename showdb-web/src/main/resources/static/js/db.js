@@ -1,8 +1,10 @@
 var app = new Vue({
     el: '#ShowDB',
     data: {
+        apiPrefix: '',
         // 用户自定义信息
         customize: null,
+        plugin: null,
         // 数据源信息
         dataSorucesInfo: [],
         // 当前选择的数据源
@@ -23,7 +25,9 @@ var app = new Vue({
         loadingDataSource: false,
         // 事务详情表格
         transDialogTableVisible: false,
-
+        // mybatis设置工具
+        mybatisGenerateDialogVisible: false,
+        mybatisGenerateDefind: null,
         // 分页表结构
         tableStructSize: 5,
         tableStructPageNumber: 1,
@@ -49,7 +53,7 @@ var app = new Vue({
         dsInfo() {
             const that = this
             this.loadingOpen();
-            axios.get('/showdb/config/dsInfo').then(function (res) {
+            axios.get(that.apiPrefix + '/showdb/config/dsInfo').then(function (res) {
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
@@ -84,7 +88,7 @@ var app = new Vue({
         tableNames() {
             const that = this
             this.loadingOpen();
-            axios.get('/showdb/struct/' + this.currentDataSource + '/all').then(function (res) {
+            axios.get(that.apiPrefix + '/showdb/struct/' + this.currentDataSource + '/all').then(function (res) {
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
@@ -98,7 +102,7 @@ var app = new Vue({
         getByTableName(tableStructSize, tableStructPageNumber, table) {
             const that = this
             this.loadingOpen();
-            axios.get('/showdb/struct/' + this.currentDataSource + '/' + this.tableStructSize + '/' + this.tableStructPageNumber + '/' + table).then(function (res) {
+            axios.get(that.apiPrefix + '/showdb/struct/' + this.currentDataSource + '/' + this.tableStructSize + '/' + this.tableStructPageNumber + '/' + table).then(function (res) {
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
@@ -114,7 +118,7 @@ var app = new Vue({
         tableStructByPage(tableStructSize, tableStructPageNumber) {
             const that = this
             this.loadingOpen();
-            axios.get('/showdb/struct/' + this.currentDataSource + '/' + tableStructSize + '/' + tableStructPageNumber).then(function (res) {
+            axios.get(that.apiPrefix + '/showdb/struct/' + this.currentDataSource + '/' + tableStructSize + '/' + tableStructPageNumber).then(function (res) {
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
@@ -125,7 +129,7 @@ var app = new Vue({
             })
         },
         handleCurrentChange(number) {
-            if (this.queryTableName != '' || this.queryTableName != null) {
+            if (this.queryTableName !== '' || this.queryTableName != null) {
                 this.getByTableName(this.tableStructSize, number, this.queryTableName);
                 this.loadingTables = false;
                 return;
@@ -180,7 +184,7 @@ var app = new Vue({
          */
         cleanCache() {
             var that = this;
-            axios.delete('/showdb/config/cleanCache').then(function (res) {
+            axios.delete(that.apiPrefix + '/showdb/config/cleanCache').then(function (res) {
                 that.loadingOpen()
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
@@ -201,7 +205,7 @@ var app = new Vue({
          */
         tableCreateStatement(table) {
             var that = this;
-            axios.get('/showdb/struct/' + this.currentDataSource + '/create/' + table).then(function (res) {
+            axios.get(that.apiPrefix + '/showdb/struct/' + this.currentDataSource + '/create/' + table).then(function (res) {
                 that.loadingOpen()
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
@@ -219,7 +223,7 @@ var app = new Vue({
          */
         tableJavaCode(table) {
             var that = this;
-            axios.get('/showdb/struct/' + this.currentDataSource + '/java/' + table).then(function (res) {
+            axios.get(that.apiPrefix + '/showdb/struct/' + this.currentDataSource + '/java/' + table).then(function (res) {
                 that.loadingOpen()
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
@@ -238,7 +242,7 @@ var app = new Vue({
         tableDetailInfo(table) {
             var that = this
             this.loadingOpen()
-            axios.get('/showdb/struct/' + this.currentDataSource + '/' + table + '/detailInfo').then(function (res) {
+            axios.get(that.apiPrefix + '/showdb/struct/' + this.currentDataSource + '/' + table + '/detailInfo').then(function (res) {
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
@@ -255,7 +259,7 @@ var app = new Vue({
          */
         slaveInfo() {
             var that = this;
-            axios.get('/showdb/monitor/' + this.currentDataSource + '/masterSlaveInfo').then(function (res) {
+            axios.get(that.apiPrefix + '/showdb/monitor/' + this.currentDataSource + '/masterSlaveInfo').then(function (res) {
                 that.loadingOpen()
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
@@ -274,7 +278,7 @@ var app = new Vue({
             this.loadingOpen();
             axios({
                 method: "GET",
-                url: '/showdb/struct/dsTableDoc/' + this.currentDataSource,
+                url: that.apiPrefix + '/showdb/struct/dsTableDoc/' + this.currentDataSource,
                 responseType: 'blob'
             }).then(response => {
                 that.$notify({
@@ -294,7 +298,7 @@ var app = new Vue({
          */
         ipCon() {
             var that = this;
-            axios.get('/showdb/monitor/' + this.currentDataSource + '/ipCountInfo').then(function (res) {
+            axios.get(that.apiPrefix + '/showdb/monitor/' + this.currentDataSource + '/ipCountInfo').then(function (res) {
                 that.loadingOpen()
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
@@ -313,7 +317,7 @@ var app = new Vue({
             this.loadingOpen();
             axios({
                 method: "GET",
-                url: '/showdb/struct/dbCreateStatement/' + this.currentDataSource,
+                url: that.apiPrefix + '/showdb/struct/dbCreateStatement/' + this.currentDataSource,
                 responseType: 'blob'
             }).then(response => {
                 that.$notify({
@@ -364,7 +368,7 @@ var app = new Vue({
         trxInfo() {
             var that = this;
             this.loadingOpen()
-            axios.get('/showdb/monitor/' + this.currentDataSource + '/trxInfo').then(function (res) {
+            axios.get(that.apiPrefix + '/showdb/monitor/' + this.currentDataSource + '/trxInfo').then(function (res) {
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
@@ -395,23 +399,70 @@ var app = new Vue({
         /**
          * 获取用户自定义的信息
          */
-        getCustomize() {
+        getConfig() {
             var that = this;
-            axios.get('/showdb/config/customize').then(function (res) {
+            axios.get(that.apiPrefix + '/showdb/config/config').then(function (res) {
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
                 }
-                that.customize = res.data.data
+                that.customize = res.data.data.customize
+                that.plugin = res.data.data.plugin
             });
+        },
+
+        /**
+         * 创建MyBatis文件按钮
+         */
+        generateMyBatisClick(table) {
+            var that = this;
+            axios.get(that.apiPrefix + '/showdb/generate/defind/' + this.currentDataSource + '/' + table).then(function (res) {
+                if (res.data.code !== 200) {
+                    alert(res.data.msg);
+                    return;
+                }
+                that.mybatisGenerateDialogVisible = true
+                that.mybatisGenerateDefind = res.data.data
+            });
+        },
+        /**
+         * 创建MyBatis文件
+         */
+        doGenerateMyBatis() {
+            if (!this.plugin.generate) {
+                alert("已禁用MyBatis文件创建功能 🔥");
+                return;
+            }
+
+            var that = this;
+            axios.post(that.apiPrefix + '/showdb/generate/mybatis/' + that.currentDataSource, that.mybatisGenerateDefind
+            ).then(function (res) {
+                if (res.data.code !== 200) {
+                    alert(res.data.msg);
+                    return;
+                }
+                if (!res.data.data) {
+                    alert("创建MyBatis文件失败，请查看日志 👾");
+                    return;
+                }
+                that.mybatisGenerateDialogVisible = false
+                alert("创建表 " + that.mybatisGenerateDefind.tableName + " 成功，刷新目录以获取最新文件 🍉");
+            })
         }
     },
 
     // 加载页面初始化数据
     mounted: function () {
+        // 设置请求前缀
+        if (context != null) {
+            this.apiPrefix = context;
+        } else {
+            this.apiPrefix = '';
+        }
         this.dsInfo();
-        this.getCustomize();
-        console.log('作者：Cocowwy  Github：https://github.com/Cocowwy/ShowDB\n'
+        this.getConfig();
+
+        console.log('作者：🌸Cocowwy  Github：https://github.com/Cocowwy/ShowDB\n'
             + '███████╗██╗  ██╗ ██████╗ ██╗    ██╗██████╗ ██████╗ \n' +
             '██╔════╝██║  ██║██╔═══██╗██║    ██║██╔══██╗██╔══██╗\n' +
             '███████╗███████║██║   ██║██║ █╗ ██║██║  ██║██████╔╝\n' +

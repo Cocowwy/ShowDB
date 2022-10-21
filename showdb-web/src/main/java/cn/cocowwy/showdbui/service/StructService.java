@@ -245,7 +245,7 @@ public class StructService {
                     code.append("{");
                     code.append("\n");
                     tableFields.forEach(field -> {
-                        String javaName = CodeGenerateUtil.columnName(field.getFieldName());
+                        String javaName = CodeGenerateUtil.camelCase(field.getFieldName());
                         String javaType = CodeGenerateUtil.getType(field.getType());
                         if (!StringUtils.isEmpty(field.getComment())) {
                             code.append("    /**\n");

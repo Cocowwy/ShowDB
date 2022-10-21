@@ -90,6 +90,9 @@
                     <el-button style="font-size: 18px;float: right; padding: 3px 0px" type="text"
                                @click="tableDetailInfo(item.tableInfo.tableName)">详细信息
                     </el-button>
+                    <el-button style="font-size: 18px;float: right; padding: 3px 3px" type="text"
+                               @click="generateMyBatisClick(item.tableInfo.tableName)">MyBatis代码生成
+                    </el-button>
                 </div>
                 <div>
                     <el-table :data="item.tableFieldList" stripe style="width: 100%;font-size: medium">
@@ -313,7 +316,6 @@
     </el-dialog>
 
     <!--数据源事务-->
-    <!--数据源事务-->
     <el-dialog title="事务详情" :visible.sync="transDialogTableVisible">
         <el-table :data="trxInfos">
             <el-table-column label="trxId" property="trxId" width="150"></el-table-column>
@@ -348,8 +350,70 @@
                              width="150"></el-table-column>
         </el-table>
     </el-dialog>
+
+    <!--MyBatis文件生成-->
+    <el-dialog v-if="mybatisGenerateDefind" :visible.sync="mybatisGenerateDialogVisible"
+               :title="'MyBatis文件生成🍓'+mybatisGenerateDefind.tableName">
+        <el-form label-width="120px">
+            <el-form-item label="类名" style="width: 40%">
+                <el-input v-model="mybatisGenerateDefind.domainObjName"></el-input>
+            </el-form-item>
+            <el-form-item label="Dao项目路径">
+                <el-input v-model="mybatisGenerateDefind.mapperJavaProjectPath"></el-input>
+            </el-form-item>
+            <el-form-item label="Dao包路径">
+                <el-input v-model="mybatisGenerateDefind.mapperJavaPackagePath"></el-input>
+            </el-form-item>
+            <el-form-item label="XML项目路径">
+                <el-input v-model="mybatisGenerateDefind.mapperXmlProjectPath"></el-input>
+            </el-form-item>
+            <el-form-item label="XML包路径">
+                <el-input v-model="mybatisGenerateDefind.mapperXmlPackagePath"></el-input>
+            </el-form-item>
+            <el-form-item label="XML文件名">
+                <el-input v-model="mybatisGenerateDefind.mapperName"></el-input>
+            </el-form-item>
+            <el-form-item label="实体类项目路径">
+                <el-input v-model="mybatisGenerateDefind.modelProjectPath"></el-input>
+            </el-form-item>
+            <el-form-item label="实体类包路径">
+                <el-input v-model="mybatisGenerateDefind.modelPackagePath"></el-input>
+            </el-form-item>
+            <el-form-item label="功能开关">
+                <el-switch width="50" active-text="覆盖XML" v-model="mybatisGenerateDefind.overrideXML"></el-switch>
+                &nbsp;&nbsp;&nbsp;
+                <el-switch active-text="toString" v-model="mybatisGenerateDefind.useToString"></el-switch>
+                &nbsp;&nbsp;&nbsp;
+                <el-switch active-text="equals和hashCode" v-model="mybatisGenerateDefind.useEqAndHx"></el-switch>
+                &nbsp;&nbsp;&nbsp;
+                <el-switch active-text="批量插入更新语句" v-model="mybatisGenerateDefind.useBatch"></el-switch>
+                &nbsp;&nbsp;&nbsp;
+                <br>
+                <el-switch active-text="JSR310" v-model="mybatisGenerateDefind.useJSR310"></el-switch>
+                &nbsp;&nbsp;&nbsp;
+                <el-switch active-text="Lombok" v-model="mybatisGenerateDefind.useLombok"></el-switch>
+                &nbsp;&nbsp;&nbsp;
+                <el-switch active-text="使用Example" v-model="mybatisGenerateDefind.useExample"></el-switch>
+                &nbsp;&nbsp;&nbsp;
+            </el-form-item>
+            <el-form-item label="作者名" style="width: 40%">
+                <el-input v-model="mybatisGenerateDefind.author"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="doGenerateMyBatis">立即创建</el-button>
+                <el-button @click="mybatisGenerateDialogVisible = false">取消</el-button>
+            </el-form-item>
+        </el-form>
+    </el-dialog>
 </dev>
 
 </body>
+<!--获取Spring的配置文件信息-->
+<script th:inline="javascript" type="text/javascript">
+    // 获取Spring的contextPath的值，拼接在实际请求路径的前面
+    var context = [[${@Defind.contextPath}]];
+</script>
+
 <script th:src="@{js/db.js}"></script>
+
 </html>

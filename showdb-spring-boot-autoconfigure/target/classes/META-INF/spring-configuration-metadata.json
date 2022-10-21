@@ -14,12 +14,6 @@
       "defaultValue": true
     },
     {
-      "name": "showdb.endpoint",
-      "type": "java.util.Set",
-      "description": "Which function you want to use, please split with ',', default '*' is use all",
-      "defaultValue": "*"
-    },
-    {
       "name": "showdb.refresh",
       "type": "java.lang.Long",
       "description": "ShowDB cache expiration time，If it is less than 0, it will not expire, and the unit is seconds.",
@@ -59,6 +53,18 @@
       "name": "showdb.customize.img",
       "type": "java.lang.String",
       "description": "img",
+      "defaultValue": null
+    },
+    {
+      "name": "showdb.plugin",
+      "type": "cn.cocowwy.showdb.configuration.Plugin",
+      "description": "plugin",
+      "defaultValue": null
+    },
+    {
+      "name": "showdb.plugin.generate",
+      "type": "java.lang.Boolean",
+      "description": "code generation",
       "defaultValue": null
     }
   ]

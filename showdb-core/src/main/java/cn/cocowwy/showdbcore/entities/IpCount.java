@@ -1,6 +1,7 @@
 package cn.cocowwy.showdbcore.entities;
 
 /**
+ * IP-COUNT连接数
  * @author Cocowwy
  * @create 2022-03-03-22:05
  */
