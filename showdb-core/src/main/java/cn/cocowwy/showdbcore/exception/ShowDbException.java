@@ -8,4 +8,8 @@ public class ShowDbException extends RuntimeException {
     public ShowDbException(String s) {
         super(s);
     }
+
+    public ShowDbException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
