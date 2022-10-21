@@ -4,13 +4,12 @@ import cn.cocowwy.showdbcore.cache.ShowDbCache;
 import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.config.ShowDbFactory;
 import cn.cocowwy.showdbcore.constants.DBEnum;
-import cn.cocowwy.showdbcore.entities.Customize;
+import cn.cocowwy.showdbcore.entities.ShowDBConfig;
 import cn.cocowwy.showdbcore.exception.ShowDbException;
 import cn.cocowwy.showdbcore.strategy.SqlExecuteStrategy;
 import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -22,12 +21,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.CollectionUtils;
 
 import javax.sql.DataSource;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static org.springframework.beans.BeanUtils.copyProperties;
 
 /**
  * ShowDB 自动配置类
@@ -43,7 +41,6 @@ import java.util.stream.Collectors;
         "cn.cocowwy.showdbui.controller",
         "cn.cocowwy.showdbui.service",
         "cn.cocowwy.showdbui.config",
-        "cn.cocowwy.showdbcore.aspect",
         "cn.cocowwy.showdbcore.generate"
 })
 @ConditionalOnProperty(name = "showdb.enable", havingValue = "true")
@@ -65,9 +62,13 @@ public class ShowDbAutoConfiguration implements InitializingBean {
                 .collect(Collectors.toMap(Function.identity(), DataSourcePropUtil::dataSourceTypeByBeanName));
         GlobalContext.setDataSourcesTypeMap(dataSourcesTypeMap);
 
-        ShowDbFactory.INSTANCE.init();
+        ShowDbFactory.INSTANCE.init(applicationContext);
+
+        // 缓存定时清理器
         ShowDbCache.addCachaTask(properties.getRefresh());
-        GlobalContext.setCustomize(buildCustomize(properties.getCustomize()));
+
+        // 配置信息
+        GlobalContext.setShowDBConfig(buildShowDBConfig(properties));
     }
 
     @Override
@@ -76,16 +77,21 @@ public class ShowDbAutoConfiguration implements InitializingBean {
     }
 
     /**
-     * 构造用户自定义信息
+     * ShowDB的配置信息
+     * @param showDbProperties showDbProperties
+     * @return ShowDBConfig
      */
-    public Customize buildCustomize(cn.cocowwy.showdb.configuration.Customize customize) {
+    public ShowDBConfig buildShowDBConfig(ShowDbProperties showDbProperties) {
+        Plugin plugin = Optional.ofNullable(showDbProperties.getPlugin()).orElse(new Plugin());
+        ShowDBConfig.Plugin plg = new ShowDBConfig.Plugin();
+        copyProperties(plugin, plg);
+
         // customize
-        if (Objects.nonNull(customize)) {
-            Customize cst = new Customize();
-            BeanUtils.copyProperties(customize, cst);
-            return cst;
+        ShowDBConfig.Customize cst = new ShowDBConfig.Customize();
+        if (Objects.nonNull(showDbProperties.getCustomize())) {
+            copyProperties(showDbProperties.getCustomize(), cst);
         }
-        return null;
+        return new ShowDBConfig(cst, plg);
     }
 
     private void bannerLog() {

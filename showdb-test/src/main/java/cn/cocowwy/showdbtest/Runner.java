@@ -1,13 +1,11 @@
 package cn.cocowwy.showdbtest;
 
 import cn.cocowwy.showdbcore.entities.GenerateDefind;
-import cn.cocowwy.showdbcore.generate.impl.MaybatisGeneratorImpl;
-import cn.cocowwy.showdbcore.generate.impl.MyBatisPlusGeneratorImpl;
+import cn.cocowwy.showdbcore.generate.impl.MybatisGeneratorImpl;
 import cn.cocowwy.showdbcore.strategy.SqlExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlMonitorExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlStructExecuteStrategy;
-import org.mybatis.generator.api.MyBatisGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -39,11 +37,21 @@ public class Runner implements ApplicationRunner {
     @Autowired
     private List<MySqlExecuteStrategy> mySqlExecuteStrategies;
     @Autowired
-    private MaybatisGeneratorImpl generator;
+    private MybatisGeneratorImpl generator;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        testGenerateMyBatisFile();
+//        testGenerateMyBatisFile();
+
+//        testMyBatisFileUse();
+
+        System.out.println("预览地址：http://localhost" + context + "/db");
+    }
+
+    /**
+     * 测试生成的MyBatis文件的使用
+     */
+    private void testMyBatisFileUse() {
     }
 
     /**
@@ -52,6 +60,7 @@ public class Runner implements ApplicationRunner {
     public void testGenerateMyBatisFile() {
         GenerateDefind generateDefind = new GenerateDefind();
         generateDefind.setUseExample(true);
+//        generateDefind.setUseExample(false);
         // 实体类生成项目地址
         // 实体类生成包名
         generateDefind.setModelPackagePath("cn.cocowwy.showdbtest.model");
@@ -64,6 +73,5 @@ public class Runner implements ApplicationRunner {
         // mapper xml文件包地址
         generateDefind.setMapperXmlPackagePath("mybatis.mapper");
         generateDefind.setMapperXmlProjectPath("/Users/cocowwy/Desktop/space/idea-space/ShowDB/showdb-test/src/main/resources");
-        new MaybatisGeneratorImpl().generate("cms", "cms_member_report", generateDefind);
     }
 }

@@ -46,8 +46,8 @@ public class ConfigService {
     }
 
     /**
-     * DB所处环境
-     * @return
+     * @param ds 当前选择的数据源
+     * @return DB所处环境
      */
     public String getOsEnv(String ds) {
         String key = ShowDbCache.buildCacheKey(ds, "os", "env");
@@ -56,8 +56,8 @@ public class ConfigService {
     }
 
     /**
-     * DB版本号
-     * @return
+     * @param ds 当前选择的数据源
+     * @return DB版本号
      */
     public String getDbVersion(String ds) {
         String key = ShowDbCache.buildCacheKey(ds, "db", "version");
@@ -66,9 +66,8 @@ public class ConfigService {
     }
 
     /**
-     * 获取base路径
-     * @param ds
-     * @return
+     * @param ds 当前选择的数据源
+     * @return base路径
      */
     private String getBaseDir(String ds) {
         String key = ShowDbCache.buildCacheKey(ds, "db", "baseDir");
@@ -77,9 +76,8 @@ public class ConfigService {
     }
 
     /**
-     * 获取事务隔离级别
-     * @param ds
-     * @return
+     * @param ds 当前选择的数据源
+     * @return 事务隔离级别
      */
     private String getTransactionIsolation(String ds) {
         String key = ShowDbCache.buildCacheKey(ds, "db", "getTransactionIsolation");
@@ -88,7 +86,6 @@ public class ConfigService {
     }
 
     /**
-     * 获取数据源信息
      * @return 数据源信息
      */
     public List<DsInfo> getDsInfo() {

@@ -1,13 +1,15 @@
 package cn.cocowwy.showdbcore.entities;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 /**
  * 代码生成自定义生成器
  * @author cocowwy.cn
  * @create 2022-05-05-11:45
  */
 public class GenerateDefind {
+    /**
+     * 表名
+     */
+    private String tableName;
     /**
      * 是否使用lombok
      */
@@ -51,11 +53,31 @@ public class GenerateDefind {
     /**
      * 使用toString插件
      */
-    private Boolean useToString;
+    private Boolean useToString = Boolean.TRUE;
     /**
      * 使用Eq和Hx插件
      */
-    private Boolean useEqAndHx;
+    private Boolean useEqAndHx = Boolean.TRUE;
+    /**
+     * JSR310日期库
+     */
+    private Boolean useJSR310 = Boolean.TRUE;
+    /**
+     * 作者
+     */
+    private String author = "https://github.com/Cocowwy/ShowDB";
+    /**
+     * 是否生成批量方法
+     */
+    private Boolean useBatch = Boolean.TRUE;
+    /**
+     * domain名
+     */
+    private String domainObjName;
+    /**
+     * 是否覆盖XML文件
+     */
+    private Boolean overrideXML = Boolean.TRUE;
 
     public Boolean getUseLombok() {
         return useLombok;
@@ -151,5 +173,53 @@ public class GenerateDefind {
 
     public void setUseEqAndHx(Boolean useEqAndHx) {
         this.useEqAndHx = useEqAndHx;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Boolean getUseJSR310() {
+        return useJSR310;
+    }
+
+    public void setUseJSR310(Boolean useJSR310) {
+        this.useJSR310 = useJSR310;
+    }
+
+    public Boolean getUseBatch() {
+        return useBatch;
+    }
+
+    public void setUseBatch(Boolean useBatch) {
+        this.useBatch = useBatch;
+    }
+
+    public String getDomainObjName() {
+        return domainObjName;
+    }
+
+    public void setDomainObjName(String domainObjName) {
+        this.domainObjName = domainObjName;
+    }
+
+    public Boolean getOverrideXML() {
+        return overrideXML;
+    }
+
+    public void setOverrideXML(Boolean overrideXML) {
+        this.overrideXML = overrideXML;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 }

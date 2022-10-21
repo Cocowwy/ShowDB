@@ -2,6 +2,9 @@ package cn.cocowwy.showdbcore.util;
 
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * 代码生成工具
  * @author Cocowwy
@@ -140,5 +143,10 @@ public class CodeGenerateUtil {
         } else {
             return str;
         }
+    }
+
+    public static String currentTime() {
+        String DATE_FORMAT = "yyyy-MM-dd HH:mm";
+        return new SimpleDateFormat(DATE_FORMAT).format(new Date());
     }
 }

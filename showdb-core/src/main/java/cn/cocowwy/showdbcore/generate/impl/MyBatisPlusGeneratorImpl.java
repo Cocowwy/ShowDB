@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class MyBatisPlusGeneratorImpl implements GeneratorService {
 
     @Override
-    public void generate(String ds, String tableName, GenerateDefind generateDefind) throws Exception {
-
+    public Boolean generate(String ds, String tableName, GenerateDefind generateDefind) {
+        return false;
     }
 }

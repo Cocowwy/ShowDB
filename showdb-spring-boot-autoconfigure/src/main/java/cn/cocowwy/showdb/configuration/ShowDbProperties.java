@@ -29,7 +29,7 @@ public class ShowDbProperties {
     /**
      * 插件生成
      */
-    private Plugin plugin;
+    private Plugin plugin = new Plugin();
 
     public boolean isEnable() {
         return enable;

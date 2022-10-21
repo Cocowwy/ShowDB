@@ -5,6 +5,7 @@ import cn.cocowwy.showdbcore.exception.Error;
 import java.io.Serializable;
 
 /**
+ * 统一封装ShowDB的返回
  * @author Cocowwy
  * @create 2022-03-03-20:47
  */

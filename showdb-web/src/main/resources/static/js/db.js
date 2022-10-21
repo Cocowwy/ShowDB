@@ -4,6 +4,7 @@ var app = new Vue({
         apiPrefix: '',
         // 用户自定义信息
         customize: null,
+        plugin: null,
         // 数据源信息
         dataSorucesInfo: [],
         // 当前选择的数据源
@@ -24,7 +25,9 @@ var app = new Vue({
         loadingDataSource: false,
         // 事务详情表格
         transDialogTableVisible: false,
-
+        // mybatis设置工具
+        mybatisGenerateDialogVisible: false,
+        mybatisGenerateDefind: null,
         // 分页表结构
         tableStructSize: 5,
         tableStructPageNumber: 1,
@@ -396,15 +399,55 @@ var app = new Vue({
         /**
          * 获取用户自定义的信息
          */
-        getCustomize() {
+        getConfig() {
             var that = this;
-            axios.get(that.apiPrefix + '/showdb/config/customize').then(function (res) {
+            axios.get(that.apiPrefix + '/showdb/config/config').then(function (res) {
                 if (res.data.code !== 200) {
                     alert(res.data.msg);
                     return;
                 }
-                that.customize = res.data.data
+                that.customize = res.data.data.customize
+                that.plugin = res.data.data.plugin
             });
+        },
+
+        /**
+         * 创建MyBatis文件按钮
+         */
+        generateMyBatisClick(table) {
+            var that = this;
+            axios.get(that.apiPrefix + '/showdb/generate/defind/' + this.currentDataSource + '/' + table).then(function (res) {
+                if (res.data.code !== 200) {
+                    alert(res.data.msg);
+                    return;
+                }
+                that.mybatisGenerateDialogVisible = true
+                that.mybatisGenerateDefind = res.data.data
+            });
+        },
+        /**
+         * 创建MyBatis文件
+         */
+        doGenerateMyBatis() {
+            if (!this.plugin.generate) {
+                alert("已禁用MyBatis文件创建功能 🔥");
+                return;
+            }
+
+            var that = this;
+            axios.post(that.apiPrefix + '/showdb/generate/mybatis/' + that.currentDataSource, that.mybatisGenerateDefind
+            ).then(function (res) {
+                if (res.data.code !== 200) {
+                    alert(res.data.msg);
+                    return;
+                }
+                if (!res.data.data) {
+                    alert("创建MyBatis文件失败，请查看日志 👾");
+                    return;
+                }
+                that.mybatisGenerateDialogVisible = false
+                alert("创建表 " + that.mybatisGenerateDefind.tableName + " 成功，刷新目录以获取最新文件 🍉");
+            })
         }
     },
 
@@ -417,9 +460,9 @@ var app = new Vue({
             this.apiPrefix = '';
         }
         this.dsInfo();
-        this.getCustomize();
+        this.getConfig();
 
-        console.log('作者：Cocowwy  Github：https://github.com/Cocowwy/ShowDB\n'
+        console.log('作者：🌸Cocowwy  Github：https://github.com/Cocowwy/ShowDB\n'
             + '███████╗██╗  ██╗ ██████╗ ██╗    ██╗██████╗ ██████╗ \n' +
             '██╔════╝██║  ██║██╔═══██╗██║    ██║██╔══██╗██╔══██╗\n' +
             '███████╗███████║██║   ██║██║ █╗ ██║██║  ██║██████╔╝\n' +

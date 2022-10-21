@@ -1,7 +1,7 @@
 package cn.cocowwy.showdbcore.config;
 
 import cn.cocowwy.showdbcore.constants.DBEnum;
-import cn.cocowwy.showdbcore.entities.Customize;
+import cn.cocowwy.showdbcore.entities.ShowDBConfig;
 
 import javax.sql.DataSource;
 import java.util.Map;
@@ -22,9 +22,9 @@ public class GlobalContext {
     private static Map<String, DBEnum> dataSourcesTypeMap;
 
     /**
-     * 用户的自定义信息
+     * 配置信息
      */
-    private static Customize customize;
+    private static ShowDBConfig showDBConfig;
 
     /**
      * 设置数据源集合，兼容多数据源场景
@@ -52,12 +52,12 @@ public class GlobalContext {
         return dataSourcesTypeMap.get(ds);
     }
 
-    public static Customize getCustomize() {
-        return customize;
+    public static ShowDBConfig getShowDBConfig() {
+        return showDBConfig;
     }
 
-    public static void setCustomize(Customize customize) {
-        GlobalContext.customize = customize;
+    public static void setShowDBConfig(ShowDBConfig showDBConfig) {
+        GlobalContext.showDBConfig = showDBConfig;
     }
 }
 
