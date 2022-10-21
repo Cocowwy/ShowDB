@@ -1,4 +1,4 @@
-package cn.cocowwy.showdbcore.plugin;
+package cn.cocowwy.showdbcore.generate.plugin;
 
 import org.mybatis.generator.api.*;
 import org.mybatis.generator.api.dom.java.*;
@@ -6,15 +6,20 @@ import org.mybatis.generator.exception.ShellException;
 import org.mybatis.generator.internal.DefaultShellCallback;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import static cn.cocowwy.showdbcore.util.CodeGenerateUtil.currentTime;
 import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
 /**
+ * 通用 DAO 接口插件
  * @author cocowwy.cn
  * @create 2022-05-05-11:45
  */
-public class CommonDAOInterfacePlugin extends PluginAdapter {
+public class DaoInterfacePlugin extends PluginAdapter {
 
     private static final String DEFAULT_DAO_SUPER_CLASS = ".MyBatisBaseDao";
 
@@ -27,11 +32,11 @@ public class CommonDAOInterfacePlugin extends PluginAdapter {
         add(new FullyQualifiedJavaType("org.springframework.data.repository.query.Param"));
     }};
 
-    private List<Method> methods = new ArrayList<>();
+    private final List<Method> methods = new ArrayList<>();
 
     private ShellCallback shellCallback = null;
 
-    public CommonDAOInterfacePlugin() {
+    public DaoInterfacePlugin() {
         shellCallback = new DefaultShellCallback(false);
     }
 
@@ -80,8 +85,6 @@ public class CommonDAOInterfacePlugin extends PluginAdapter {
                 CompilationUnit compilationUnit = generatedJavaFile.getCompilationUnit();
                 FullyQualifiedJavaType type = compilationUnit.getType();
                 String modelName = type.getShortName();
-                if (modelName.endsWith("DAO")) {
-                }
             }
             GeneratedJavaFile mapperJavafile = new GeneratedJavaFile(mapperInterface, daoTargetDir, javaFileEncoding, javaFormatter);
             try {
@@ -103,6 +106,8 @@ public class CommonDAOInterfacePlugin extends PluginAdapter {
                                    IntrospectedTable introspectedTable) {
         interfaze.addJavaDocLine("/**");
         interfaze.addJavaDocLine(" * " + interfaze.getType().getShortName() + "继承基类");
+        interfaze.addJavaDocLine(" * @author: " + properties.getProperty("author"));
+        interfaze.addJavaDocLine(" * @createTime: " + currentTime());
         interfaze.addJavaDocLine(" */");
 
         String daoSuperClass = interfaze.getType().getPackageName() + DEFAULT_DAO_SUPER_CLASS;
@@ -184,7 +189,6 @@ public class CommonDAOInterfacePlugin extends PluginAdapter {
     @Override
     public boolean clientCountByExampleMethodGenerated(Method method,
                                                        Interface interfaze, IntrospectedTable introspectedTable) {
-//        interface
         if (isUseExample()) {
             interceptExampleParam(method);
         }
