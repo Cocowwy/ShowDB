@@ -58,14 +58,15 @@
 ```yml
 showdb:
   enable: true
-  endpoint: '*'
   refresh: 500
   customize:
     top-alert: 数据源文档工具 V1.0.1
     creator: Cocowwy
     img: https://avatars.githubusercontent.com/u/63331147?s=400&u=d12524532cc111c9ec069f1aa754e702289a587c&v=4
     email: 514658459@qq.com
-    desc: 数据源可视化工具ShowDB，自动监控SpringBoot项目已存在数据源，自动生成数据库文档，数据源监控信息等
+    desc: 数据源可视化工具ShowDB，自动监控SpringBoot项目已存在数据源，自动生成数据库文档，MyBatis代码，及数据源监控信息等
+  plugin:
+    generate: true
 ```
 
 - 项目中已经配置好单数据源（多数据源看下面的例子）
