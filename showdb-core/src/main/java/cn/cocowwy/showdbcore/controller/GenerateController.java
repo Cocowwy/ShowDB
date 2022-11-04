@@ -1,8 +1,8 @@
-package cn.cocowwy.showdbui.controller;
+package cn.cocowwy.showdbcore.controller;
 
 import cn.cocowwy.showdbcore.entities.GenerateDefind;
 import cn.cocowwy.showdbcore.entities.Res;
-import cn.cocowwy.showdbui.service.GenerateService;
+import cn.cocowwy.showdbcore.service.GenerateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

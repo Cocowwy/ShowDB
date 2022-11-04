@@ -1,10 +1,10 @@
-package cn.cocowwy.showdbui.controller;
+package cn.cocowwy.showdbcore.controller;
 
 import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.Res;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
 import cn.cocowwy.showdbcore.entities.TranscationalStatus;
-import cn.cocowwy.showdbui.service.MonitorService;
+import cn.cocowwy.showdbcore.service.MonitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

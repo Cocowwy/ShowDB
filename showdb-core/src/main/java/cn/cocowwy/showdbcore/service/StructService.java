@@ -1,4 +1,4 @@
-package cn.cocowwy.showdbui.service;
+package cn.cocowwy.showdbcore.service;
 
 import cn.cocowwy.showdbcore.cache.ShowDbCache;
 import cn.cocowwy.showdbcore.config.GlobalContext;

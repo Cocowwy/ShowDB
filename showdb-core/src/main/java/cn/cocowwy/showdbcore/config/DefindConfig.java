@@ -1,4 +1,4 @@
-package cn.cocowwy.showdbui.config;
+package cn.cocowwy.showdbcore.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

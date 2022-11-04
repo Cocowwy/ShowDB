@@ -1,4 +1,4 @@
-package cn.cocowwy.showdbui.service;
+package cn.cocowwy.showdbcore.service;
 
 import cn.cocowwy.showdbcore.cache.ShowDbCache;
 import cn.cocowwy.showdbcore.config.GlobalContext;
@@ -18,7 +18,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**

@@ -38,9 +38,9 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 @EnableConfigurationProperties({ShowDbProperties.class})
 @ComponentScan(basePackages = {
         "cn.cocowwy.showdbcore.strategy.impl",
-        "cn.cocowwy.showdbui.controller",
-        "cn.cocowwy.showdbui.service",
-        "cn.cocowwy.showdbui.config",
+        "cn.cocowwy.showdbcore.controller",
+        "cn.cocowwy.showdbcore.service",
+        "cn.cocowwy.showdbcore.config",
         "cn.cocowwy.showdbcore.generate"
 })
 @ConditionalOnProperty(name = "showdb.enable", havingValue = "true")

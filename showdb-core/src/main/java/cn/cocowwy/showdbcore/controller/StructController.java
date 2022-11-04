@@ -1,8 +1,8 @@
-package cn.cocowwy.showdbui.controller;
+package cn.cocowwy.showdbcore.controller;
 
 import cn.cocowwy.showdbcore.entities.Res;
 import cn.cocowwy.showdbcore.entities.TableStructVo;
-import cn.cocowwy.showdbui.service.StructService;
+import cn.cocowwy.showdbcore.service.StructService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

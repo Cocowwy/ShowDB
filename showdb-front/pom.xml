@@ -7,27 +7,14 @@
         <artifactId>ShowDB</artifactId>
         <version>1.1.1</version>
     </parent>
-
-    <artifactId>showdb-web</artifactId>
-    <name>showdb-web</name>
-    <description>ShowDB web模块，接口与业务层</description>
-
+    <artifactId>showdb-front</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>showdb-front</name>
+    <description>showdb-front 前端资源文件</description>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.cocowwy</groupId>
-            <artifactId>showdb-core</artifactId>
         </dependency>
     </dependencies>
 </project>

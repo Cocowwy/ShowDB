@@ -1,11 +1,11 @@
-package cn.cocowwy.showdbui.controller;
+package cn.cocowwy.showdbcore.controller;
 
 import cn.cocowwy.showdbcore.cache.ShowDbCache;
 import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.Res;
 import cn.cocowwy.showdbcore.entities.ShowDBConfig;
-import cn.cocowwy.showdbui.service.ConfigService;
+import cn.cocowwy.showdbcore.service.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

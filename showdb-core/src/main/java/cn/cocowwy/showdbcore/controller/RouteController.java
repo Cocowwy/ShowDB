@@ -1,4 +1,4 @@
-package cn.cocowwy.showdbui.controller;
+package cn.cocowwy.showdbcore.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
