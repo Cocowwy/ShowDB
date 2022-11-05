@@ -163,11 +163,11 @@ spring:
 ## 📦**包模块说明：**
 |  包名   | 说明  |
 |  ----  | ----  |
-| showdb-core | SQL核心执行逻辑，内部缓存等 |
+| showdb-core | 核心逻辑处理等 |
 | showdb-spring-boot-autoconfigure | ShowDB的自动配置 |
-| showdb-spring-boot-starter | 引入starter |
-| showdb-test | 测试模块，内含多数据源demo，测试sql等，quickstart 戳这儿 |
-| showdb-web | web模块，视图和业务处理 |
+| showdb-spring-boot-starter | 引入starter即可开启 |
+| showdb-test | 测试模块，内含多数据源demo，测试sql等，quickstart戳这儿~ |
+| showdb-front | 前端资源 |
 
 ## TODO 待开发的功能..
 - 增加对于数据库更多比较需要关心的参数进行可视化
