@@ -3,6 +3,7 @@ package cn.cocowwy.showdbcore.generate.impl;
 import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.entities.GenerateDefind;
+import cn.cocowwy.showdbcore.exception.ShowDbException;
 import cn.cocowwy.showdbcore.generate.GeneratorService;
 import cn.cocowwy.showdbcore.generate.custom.CustomCommentGenerator;
 import cn.cocowwy.showdbcore.generate.plugin.BatchInsertPlugin;
@@ -228,7 +229,7 @@ public class MybatisGeneratorImpl implements GeneratorService {
      */
     public void buildJdbcConfig(JDBCConnectionConfiguration jdbcConfig, DataSource dataSource) {
         if (Objects.isNull(dataSource)) {
-            throw new RuntimeException("Illegal data source");
+            throw new ShowDbException("Illegal data source");
         }
         try {
             Class<?> c = dataSource.getClass();
@@ -245,7 +246,7 @@ public class MybatisGeneratorImpl implements GeneratorService {
             jdbcConfig.setPassword(pwd);
             jdbcConfig.setDriverClass(driverClassName);
         } catch (Exception e) {
-            throw new RuntimeException("Reflection to obtain DataSource information exception ", e);
+            throw new ShowDbException("Reflection to obtain DataSource information exception ", e);
         }
     }
 
