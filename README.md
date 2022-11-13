@@ -145,13 +145,11 @@ spring:
 | SpringBoot | 2.3.9.RELEASE+ |
 
   
-## 🔧**endpoint可选值如下：**
-|  endpoint   | 说明  |
+## 🔧**plugin可选值如下：**
+|  plugin   | 说明  |
 |  ----  | ----  |
 | * | 所有 |
-| monitor-master-slave  | 主从信息监控 |
-| monitor-ip-connection  | IP连接监控 |
-| monitor-performance  | 性能监控，事务，锁 |
+| generate  | 代码生成器（当前仅支持MyBatis） |
 
 
 ## 📄**当前支持数据源如下：**
