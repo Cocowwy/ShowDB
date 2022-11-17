@@ -5,7 +5,7 @@
     <parent>
         <groupId>cn.cocowwy</groupId>
         <artifactId>ShowDB</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.2-SNAPSHOTS</version>
     </parent>
 
     <artifactId>showdb-spring-boot-autoconfigure</artifactId>
@@ -21,10 +21,6 @@
         <dependency>
             <groupId>cn.cocowwy</groupId>
             <artifactId>showdb-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.cocowwy</groupId>
-            <artifactId>showdb-web</artifactId>
         </dependency>
     </dependencies>
 

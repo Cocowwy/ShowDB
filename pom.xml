@@ -6,11 +6,10 @@
 
     <groupId>cn.cocowwy</groupId>
     <artifactId>ShowDB</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2-SNAPSHOTS</version>
 
     <modules>
         <module>showdb-spring-boot-autoconfigure</module>
-<!--        <module>showdb-web</module>-->
         <module>showdb-core</module>
         <module>showdb-spring-boot-starter</module>
         <module>showdb-test</module>
@@ -37,7 +36,7 @@
     </developers>
 
     <properties>
-        <showdb.version>1.1.1</showdb.version>
+        <showdb.version>1.1.2-SNAPSHOTS</showdb.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -90,11 +89,6 @@
             </dependency>
             <dependency>
                 <groupId>cn.cocowwy</groupId>
-                <artifactId>showdb-web</artifactId>
-                <version>${showdb.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.cocowwy</groupId>
                 <artifactId>showdb-core</artifactId>
                 <version>${showdb.version}</version>
             </dependency>
@@ -106,6 +100,11 @@
             <dependency>
                 <groupId>cn.cocowwy</groupId>
                 <artifactId>showdb-test</artifactId>
+                <version>${showdb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.cocowwy</groupId>
+                <artifactId>showdb-front</artifactId>
                 <version>${showdb.version}</version>
             </dependency>
 

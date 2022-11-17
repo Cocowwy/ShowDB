@@ -5,7 +5,7 @@
     <parent>
         <groupId>cn.cocowwy</groupId>
         <artifactId>ShowDB</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.2-SNAPSHOTS</version>
     </parent>
 
     <artifactId>showdb-core</artifactId>
@@ -32,8 +32,8 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <groupId>cn.cocowwy</groupId>
+            <artifactId>showdb-front</artifactId>
         </dependency>
     </dependencies>
 </project>
