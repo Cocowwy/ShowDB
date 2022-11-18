@@ -8,7 +8,9 @@ import java.util.Map;
  * @create 2022-03-03-22:50
  */
 public enum DBEnum {
-    // 目前仅支持MYSQL
+    /**
+     * 目前仅支持MYSQL
+     */
     MySQL("MySQL");
 
     public static final Map<String, DBEnum> map;

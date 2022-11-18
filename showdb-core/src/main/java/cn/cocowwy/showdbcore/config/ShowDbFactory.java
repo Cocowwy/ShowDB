@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 数据源连接工厂
@@ -18,7 +19,9 @@ public class ShowDbFactory {
     private static final Log logger = LogFactory.getLog(ShowDbFactory.class);
     public static final ShowDbFactory INSTANCE = new ShowDbFactory();
     private static final Map<String, JdbcTemplate> jdbcTemplatePool = new HashMap<>(1);
-
+    /**
+     * 持有容器
+     */
     private static ApplicationContext applicationContext;
 
     private ShowDbFactory() {

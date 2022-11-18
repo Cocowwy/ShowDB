@@ -66,6 +66,12 @@
       "type": "java.lang.Boolean",
       "description": "code generation",
       "defaultValue": null
+    },
+    {
+      "name": "showdb.plugin.crud",
+      "type": "java.lang.Boolean",
+      "description": "crud mode",
+      "defaultValue": null
     }
   ]
 }

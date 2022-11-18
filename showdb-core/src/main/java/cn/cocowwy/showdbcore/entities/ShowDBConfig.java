@@ -1,6 +1,8 @@
 package cn.cocowwy.showdbcore.entities;
 
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 /**
  * 配置信息 用于ShowDB前端读取配置
  * @author cocowwy.cn
@@ -100,12 +102,22 @@ public class ShowDBConfig {
          */
         private Boolean generate = Boolean.TRUE;
 
+        private Boolean crud = Boolean.TRUE;
+
         public Boolean getGenerate() {
             return generate;
         }
 
         public void setGenerate(Boolean generate) {
             this.generate = generate;
+        }
+
+        public Boolean getCrud() {
+            return crud;
+        }
+
+        public void setCrud(Boolean crud) {
+            this.crud = crud;
         }
     }
 }

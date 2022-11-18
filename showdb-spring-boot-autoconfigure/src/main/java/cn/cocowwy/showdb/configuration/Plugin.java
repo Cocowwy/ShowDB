@@ -11,11 +11,21 @@ public class Plugin {
      */
     private Boolean generate = Boolean.TRUE;
 
+    private Boolean crud = Boolean.TRUE;
+
     public Boolean getGenerate() {
         return generate;
     }
 
     public void setGenerate(Boolean generate) {
         this.generate = generate;
+    }
+
+    public Boolean getCrud() {
+        return crud;
+    }
+
+    public void setCrud(Boolean crud) {
+        this.crud = crud;
     }
 }
