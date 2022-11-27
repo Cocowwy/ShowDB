@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <footer th:fragment="doc">
+        <!--表结构文档组件-->
+        <div style="margin-top: 18px">
+            <el-popconfirm title="数据库结构发生变化需手动清理缓存？" @confirm="cleanCache">
+                <el-button icon="el-icon-delete" type="info" slot="reference">清理缓存</el-button>
+            </el-popconfirm>
+            <el-popconfirm title="是否生成当前数据源所有表结构文档？" @confirm="dsTableDoc">
+                <el-button icon="el-icon-document" type="primary" slot="reference">表结构文档导出</el-button>
+            </el-popconfirm>
+            <el-popconfirm title="是否导出当前数据源所有表SQL创建语句？" @confirm="dbCreateStatement">
+                <el-button icon="el-icon-document" type="primary" slot="reference">建表语句导出</el-button>
+            </el-popconfirm>
+            <el-button icon="el-icon-document" type="primary" slot="reference" @click="trxInfo">查看DB事务
+            </el-button>
+            <el-tooltip class="item" effect="dark" content="star~" placement="bottom">
+                <el-button style="background-color: #1d2009;border-color: black;color: white;"
+                           type="primary" icon="el-icon-star-on" size="x-large" @click="starIt">star
+                </el-button>
+            </el-tooltip>
+        </div>
+        <div style="display: flex;align-items: center">
+            <el-autocomplete size="large"
+                             v-model="queryTableName"
+                             :fetch-suggestions="querySearch"
+                             placeholder="表名模糊查询，回车确认"
+                             select-when-unmatched="true"
+                             prefix-icon="el-icon-search"
+                             @select="handleSelect" style="margin-top: 18px;width: 30%;">
+                <template slot-scope="{ item }">
+                    <div class="name">{{ item}}</div>
+                </template>
+            </el-autocomplete>
+        </div>
+        <el-card v-for="(item,index) in  tableStruct" class="box-card" style="margin-top: 18px" shadow="hover">
+            <div slot="header" class="clearfix">
+                <span style="font-weight: bolder">{{item.tableInfo.tableName}}&nbsp{{item.tableInfo.tableComment}}</span>
+                <el-button style="font-size: 18px;float: right; padding: 3px 3px" type="text"
+                           @click="tableJavaCode(item.tableInfo.tableName)">Java实体类
+                </el-button>
+                <el-button style="font-size: 18px;float: right; padding: 3px 3px" type="text"
+                           @click="tableCreateStatement(item.tableInfo.tableName)">建表语句
+                </el-button>
+                <el-button style="font-size: 18px;float: right; padding: 3px 0px" type="text"
+                           @click="tableDetailInfo(item.tableInfo.tableName)">详细信息
+                </el-button>
+                <el-button style="font-size: 18px;float: right; padding: 3px 3px" type="text"
+                           @click="generateMyBatisClick(item.tableInfo.tableName)">MyBatis代码生成
+                </el-button>
+            </div>
+            <div>
+                <el-table :data="item.tableFieldList" stripe style="width: 100%;font-size: medium">
+                    <el-table-column property="fieldName" label="字段">
+                        <template slot-scope="scope">
+                                <span style="display: flex;align-items: center">
+                                    <span>{{ scope.row.fieldName }}</span>
+                                        <el-image v-if="scope.row.pk"
+                                                  style="width: 26px; height: 26px"
+                                                  th:src="@{img/pk.png}"></el-image>
+                                </span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column property="type" label="类型"></el-table-column>
+                    <el-table-column property="comment" label="字段描述"></el-table-column>
+                    <el-table-column property="nullable" label="不为空">
+                        <template slot-scope="scope">
+                            <span style="display: flex;align-items: center">
+                                        <el-image v-if="!scope.row.nullable"
+                                                  style="width: 26px; height: 26px"
+                                                  th:src="@{img/isTrue.png}"></el-image>
+                                </span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column property="columnDefault" label="默认值"></el-table-column>
+                </el-table>
+            </div>
+        </el-card>
+        <!--分页-->
+        <div class="block" style="margin-top: 30px;text-align: center">
+            <el-pagination
+                    @current-change="handleCurrentChange"
+                    :current-page.sync="tableStructPageNumber"
+                    :page-size="tableStructSize"
+                    layout="prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </div>
+    </footer>
+</head>
+</body>
+</html>

@@ -1,4 +1,4 @@
-var app = new Vue({
+const app = new Vue({
     el: '#ShowDB',
     data: {
         apiPrefix: '',
@@ -47,6 +47,15 @@ var app = new Vue({
         tableDetailDialog: false,
         tableDetailTableName: null,
         tableDetailInformation: null,
+
+        // 侧边栏目录
+        sidebarDirectory: '1',
+
+        // crud
+        // SQL输入框
+        sqlText: '',
+        sqlCheckBoxGroup: ['readOnly'],
+        sqlExecuteResult: []
     },
     methods: {
         // 数据源信息
@@ -448,6 +457,44 @@ var app = new Vue({
                 that.mybatisGenerateDialogVisible = false
                 alert("创建表 " + that.mybatisGenerateDefind.tableName + " 成功，刷新目录以获取最新文件 🍉");
             })
+        },
+        /**
+         * 侧边栏响应事件
+         */
+        handleSidebarDirectory(index) {
+            this.sidebarDirectory = index;
+        },
+
+        //  ================CRUD================
+        /**
+         * 监听sql脚本输入框
+         */
+        listenInput(sql, number) {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        },
+        /**
+         * 执行SQL
+         */
+        executeSQL() {
+            if (this.sqlCheckBoxGroup.indexOf('readOnly') === 0 && !(this.sqlText.indexOf('select') === 0)) {
+                alert('READ-ONLY下禁止执行');
+                return;
+            }
+
+        },
+        /**
+         * 清除SQL
+         */
+        clearSQL() {
+            this.sqlText = '';
+        },
+        /**
+         * 格式化sql，当失去焦点的时候
+         */
+        sqlBlurFormat() {
+            this.sqlText = sqlFormatter.format(this.sqlText);
         }
     },
 
@@ -461,7 +508,6 @@ var app = new Vue({
         }
         this.dsInfo();
         this.getConfig();
-
         console.log('作者：🌸Cocowwy  Github：https://github.com/Cocowwy/ShowDB\n'
             + '███████╗██╗  ██╗ ██████╗ ██╗    ██╗██████╗ ██████╗ \n' +
             '██╔════╝██║  ██║██╔═══██╗██║    ██║██╔══██╗██╔══██╗\n' +
@@ -469,5 +515,7 @@ var app = new Vue({
             '╚════██║██╔══██║██║   ██║██║███╗██║██║  ██║██╔══██╗\n' +
             '███████║██║  ██║╚██████╔╝╚███╔███╔╝██████╔╝██████╔╝\n' +
             '╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚══╝╚══╝ ╚═════╝ ╚═════╝')
-    }
+    },
 })
+
+

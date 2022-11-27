@@ -19,4 +19,13 @@ public class RouteController {
     public String preview() {
         return "db";
     }
+
+    /**
+     * 首页
+     * @return
+     */
+    @GetMapping("crud")
+    public String crud() {
+        return "crud";
+    }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:v-if="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>ShowDB</title>
@@ -7,13 +7,13 @@
     <link rel="shortcut icon" th:href="@{img/database.png}">
     <script th:src="@{js/vue.min.js}"></script>
     <script th:src="@{js/axios.min.js}"></script>
-    <script th:src="@{js/element-ui.index.js}"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <link rel="stylesheet" th:href="@{css/db.css}">
-    <link rel="stylesheet" th:href="@{css/element-ui-index.css}">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
 <body>
 <dev id="ShowDB">
-    <!--顶部laery-->
+    <!--顶部-->
     <el-alert style="font-weight: bold" v-if="customize!=null"
               :title="customize.topAlert"
               type="success"
@@ -21,10 +21,36 @@
     </el-alert>
 
     <el-container>
-        <el-aside width="20%">
+
+        <el-aside width="8%" v-if="plugin">
+            <!--侧边目录栏-->
+            <el-menu :default-active="sidebarDirectory" class="el-menu-demo" @select="handleSidebarDirectory">
+                <el-menu-item index="1">文档监控模式</el-menu-item>
+                <el-menu-item index="2" :disabled="!plugin.crud">CRUD</el-menu-item>
+                <el-menu-item index="3" disabled>开发中..</el-menu-item>
+            </el-menu>
+        </el-aside>
+
+        <!--中间区域抽取成可变的区域-->
+        <el-main width="48%" style="margin: 10px">
+
+            <!--数据源选取-->
+            <div v-loading="loadingDataSource">
+                <el-radio v-model="currentDataSource" @change="dsChange" v-for="(item,index) in dataSorucesInfo"
+                          :label="item.beanName" border>{{item.beanName}}
+                </el-radio>
+            </div>
+
+            <div v-if="sidebarDirectory == '1'" th:include="component/doc :: doc"></div>
+
+            <div v-if="sidebarDirectory == '2'" th:include="component/crud :: crud"></div>
+        </el-main>
+
+        <!--右侧数据源-->
+        <el-aside width="20%" style="margin-top: 10px;margin-left: 10px">
             <!--customize-->
             <el-card v-if="customize" :body-style="{ padding: '0px' }"
-                     style="width: 75%;margin-left: 15%;margin-top: 10%" shadow="hover">
+                     style="width:80%;overflow-x: auto" shadow="hover">
                 <img :src="customize.img" class="image" style="width: 100%;display: block;">
                 <div style="padding: 14px;">
                     <span style="font-size: large">👤  {{customize.creator}}</span><br>
@@ -33,109 +59,7 @@
                 </div>
             </el-card>
             <el-empty v-if="customize==null" description="暂无自定义描述信息"></el-empty>
-        </el-aside>
 
-        <!--表结构信息-->
-        <el-main v-loading="loadingTables" width="48%" style="margin: 10px">
-            <div v-loading="loadingDataSource">
-                <el-radio v-model="currentDataSource" @change="dsChange" v-for="(item,index) in dataSorucesInfo"
-                          :label="item.beanName" border>{{item.beanName}}
-                </el-radio>
-            </div>
-
-            <div style="margin-top: 18px">
-                <el-popconfirm title="数据库结构发生变化需手动清理缓存？" @confirm="cleanCache">
-                    <el-button icon="el-icon-delete" type="info" slot="reference">清理缓存</el-button>
-                </el-popconfirm>
-                <el-popconfirm title="是否生成当前数据源所有表结构文档？" @confirm="dsTableDoc">
-                    <el-button icon="el-icon-document" type="primary" slot="reference">表结构文档导出</el-button>
-                </el-popconfirm>
-                <el-popconfirm title="是否导出当前数据源所有表SQL创建语句？" @confirm="dbCreateStatement">
-                    <el-button icon="el-icon-document" type="primary" slot="reference">建表语句导出</el-button>
-                </el-popconfirm>
-                <el-button icon="el-icon-document" type="primary" slot="reference" @click="trxInfo">查看DB事务
-                </el-button>
-                <el-tooltip class="item" effect="dark" content="star~" placement="bottom">
-                    <el-button style="background-color: #1d2009;border-color: black;color: white;"
-                               type="primary" icon="el-icon-star-on" size="x-large" @click="starIt">star
-                    </el-button>
-                </el-tooltip>
-
-            </div>
-
-            <div style="display: flex;align-items: center">
-                <el-autocomplete size="large"
-                                 v-model="queryTableName"
-                                 :fetch-suggestions="querySearch"
-                                 placeholder="表名模糊查询，回车确认"
-                                 select-when-unmatched="true"
-                                 prefix-icon="el-icon-search"
-                                 @select="handleSelect" style="margin-top: 18px;width: 30%;">
-                    <template slot-scope="{ item }">
-                        <div class="name">{{ item}}</div>
-                    </template>
-                </el-autocomplete>
-            </div>
-
-
-            <el-card v-for="(item,index) in  tableStruct" class="box-card" style="margin-top: 18px" shadow="hover">
-                <div slot="header" class="clearfix">
-                    <span style="font-weight: bolder">{{item.tableInfo.tableName}}&nbsp{{item.tableInfo.tableComment}}</span>
-                    <el-button style="font-size: 18px;float: right; padding: 3px 3px" type="text"
-                               @click="tableJavaCode(item.tableInfo.tableName)">Java实体类
-                    </el-button>
-                    <el-button style="font-size: 18px;float: right; padding: 3px 3px" type="text"
-                               @click="tableCreateStatement(item.tableInfo.tableName)">建表语句
-                    </el-button>
-                    <el-button style="font-size: 18px;float: right; padding: 3px 0px" type="text"
-                               @click="tableDetailInfo(item.tableInfo.tableName)">详细信息
-                    </el-button>
-                    <el-button style="font-size: 18px;float: right; padding: 3px 3px" type="text"
-                               @click="generateMyBatisClick(item.tableInfo.tableName)">MyBatis代码生成
-                    </el-button>
-                </div>
-                <div>
-                    <el-table :data="item.tableFieldList" stripe style="width: 100%;font-size: medium">
-                        <el-table-column property="fieldName" label="字段">
-                            <template slot-scope="scope">
-                                <span style="display: flex;align-items: center">
-                                    <span>{{ scope.row.fieldName }}</span>
-                                        <el-image v-if="scope.row.pk"
-                                                  style="width: 26px; height: 26px"
-                                                  th:src="@{img/pk.png}"></el-image>
-                                </span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column property="type" label="类型"></el-table-column>
-                        <el-table-column property="comment" label="字段描述"></el-table-column>
-                        <el-table-column property="nullable" label="不为空">
-                            <template slot-scope="scope">
-                            <span style="display: flex;align-items: center">
-                                        <el-image v-if="!scope.row.nullable"
-                                                  style="width: 26px; height: 26px"
-                                                  th:src="@{img/isTrue.png}"></el-image>
-                                </span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column property="columnDefault" label="默认值"></el-table-column>
-                    </el-table>
-                </div>
-            </el-card>
-
-            <!--分页-->
-            <div class="block" style="margin-top: 30px;text-align: center">
-                <el-pagination
-                        @current-change="handleCurrentChange"
-                        :current-page.sync="tableStructPageNumber"
-                        :page-size="tableStructSize"
-                        layout="prev, pager, next, jumper"
-                        :total="total">
-                </el-pagination>
-            </div>
-        </el-main>
-
-        <!--右侧数据源-->
-        <el-aside width="28%" style="margin-top: 10px;margin-left: 10px">
             <el-card style="width:80%;overflow-x: auto" class="box-card"
                      v-if="currentDataSourceInfo!=null" shadow="hover">
                 <el-descriptions direction="vertical" :column="1" border v-if="currentDataSourceInfo!=null"
@@ -414,6 +338,6 @@
     var context = [[${@Defind.contextPath}]];
 </script>
 
+<script th:src="@{js/sql-formatter.min.js}"></script>
 <script th:src="@{js/db.js}"></script>
-
 </html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <footer th:fragment="crud">
+        <el-container>
+            <el-main>
+                <el-input
+                        style="font-size: xx-large"
+                        type="textarea"
+                        :rows=10
+                        placeholder="请输入SQL脚本"
+                        @input="listenInput"
+                        v-model="sqlText"
+                        clearable="true" @blur="sqlBlurFormat">
+                </el-input>
+            </el-main>
+            <el-aside>
+                <el-row style="margin-top: 20px">
+                    <el-button type="primary" @click="executeSQL">执行</el-button>
+                </el-row>
+                <el-row style="margin-top: 20px">
+                    <el-button type="info" round @click="clearSQL">清空</el-button>
+                </el-row>
+                <el-row style="margin-top: 20px">
+                    <el-checkbox-group v-model="sqlCheckBoxGroup">
+                        <el-checkbox label="readOnly">READ ONLY</el-checkbox>
+                    </el-checkbox-group>
+                </el-row>
+            </el-aside>
+        </el-container>
+    </footer>
+</head>
+</body>
+</html>
