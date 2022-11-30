@@ -18,7 +18,7 @@ public class GenerateController {
 
     @GetMapping("/defind/{ds}/{tableName}")
     public Res<GenerateDefind> defindConfigRes(@PathVariable("ds") String ds, @PathVariable("tableName") String tableName) {
-        return Res.success(generateService.defindConfig(ds, tableName));
+        return Res.success(generateService.defineConfig(ds, tableName));
     }
 
     @PostMapping("/mybatis/{ds}")

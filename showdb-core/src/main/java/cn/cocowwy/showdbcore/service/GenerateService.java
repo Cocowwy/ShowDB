@@ -22,7 +22,7 @@ public class GenerateService {
     @Autowired
     private GeneratorService mybatisGeneratorImpl;
 
-    public GenerateDefind defindConfig(String ds, String tableName) {
+    public GenerateDefind defineConfig(String ds, String tableName) {
         String classPath;
         try {
             classPath = ResourceUtils.getURL("classpath:").getPath();

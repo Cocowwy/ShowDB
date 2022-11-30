@@ -55,7 +55,25 @@ const app = new Vue({
         // SQL输入框
         sqlText: '',
         sqlCheckBoxGroup: ['readOnly'],
-        sqlExecuteResult: []
+        sqlExecuteResult: [],
+        sqlResult: null,
+        sqlColum: [],
+        sqlLimit: '50',
+        sqlLimitOptions: [{
+            value: '50',
+            label: 'limit 50'
+        }, {
+            value: '200',
+            label: 'limit 200'
+        }, {
+            value: '1000',
+            label: 'limit 1000'
+        }, {
+            value: 'ALL',
+            label: 'ALL',
+            disabled: true
+        }]
+
     },
     methods: {
         // 数据源信息
@@ -478,10 +496,26 @@ const app = new Vue({
          * 执行SQL
          */
         executeSQL() {
+            var that = this;
+
             if (this.sqlCheckBoxGroup.indexOf('readOnly') === 0 && !(this.sqlText.indexOf('select') === 0)) {
                 alert('READ-ONLY下禁止执行');
                 return;
             }
+
+            axios.post(that.apiPrefix + '/showdb/execute/' + that.currentDataSource + '/' + this.sqlText + '/' + that.sqlLimit).then(function (res) {
+                if (res.data.code !== 200) {
+                    alert(res.data.msg);
+                    return;
+                }
+                if (!res.data.data) {
+                    alert("xxxxx");
+                    return;
+                }
+                that.sqlResult = res.data.data.data
+                that.sqlColum = res.data.data.colum
+                alertSqlExecuteSuccess(that);
+            })
 
         },
         /**

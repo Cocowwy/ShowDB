@@ -4,15 +4,45 @@
     <footer th:fragment="crud">
         <el-container>
             <el-main>
-                <el-input
-                        style="font-size: xx-large"
-                        type="textarea"
-                        :rows=10
-                        placeholder="请输入SQL脚本"
-                        @input="listenInput"
-                        v-model="sqlText"
-                        clearable="true" @blur="sqlBlurFormat">
-                </el-input>
+                <div>
+                    <el-input
+                            style="font-size: xx-large"
+                            type="textarea"
+                            :rows=10
+                            placeholder="请输入SQL脚本"
+                            @input="listenInput"
+                            v-model="sqlText"
+                            clearable="true" @blur="sqlBlurFormat">
+                    </el-input>
+                </div>
+                <div style="margin-top: 30px">
+                    <el-select v-model="sqlLimit" placeholder="请选择行数默认"
+                               filterable size="small">
+                        <el-option
+                                v-for="item in sqlLimitOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value"
+                                :disabled="item.disabled">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div style="margin-top: 30px" v-if="sqlResult">
+                    <el-table
+                            :data="sqlResult"
+                            style="width: 100%;"
+                            highlight-current-row
+                            empty-text="暂无数据"
+                            border>
+                        <el-table-column
+                                v-for="(item,index) in sqlColum"
+                                :prop="item"
+                                :label="item"
+                                show-overflow-tooltip
+                                width="150">
+                        </el-table-column>
+                    </el-table>
+                </div>
             </el-main>
             <el-aside>
                 <el-row style="margin-top: 20px">
