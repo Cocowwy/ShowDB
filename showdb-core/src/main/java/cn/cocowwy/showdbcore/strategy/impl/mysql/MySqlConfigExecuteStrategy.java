@@ -12,7 +12,7 @@ import java.util.List;
  * @create 2022-03-03-20:40
  */
 @Component
-public class MySqlConfigExecuteStrategy implements ConfigExecuteStrategy, MySqlExecuteStrategy {
+public class MySqlConfigExecuteStrategy extends MySqlExecuteStrategy implements ConfigExecuteStrategy {
 
     /**
      * 当前数据库的操作系统版本
@@ -94,8 +94,3 @@ public class MySqlConfigExecuteStrategy implements ConfigExecuteStrategy, MySqlE
         return CollectionUtils.lastElement(rts);
     }
 }
-
-
-//    show variables where Variable_name in
-//        ('version_compile_os', 'version', 'innodb_lock_wait_timeout', 'transaction_isolation', 'basedir',
-//                 'slow_query_log', 'slow_query_log_filel')

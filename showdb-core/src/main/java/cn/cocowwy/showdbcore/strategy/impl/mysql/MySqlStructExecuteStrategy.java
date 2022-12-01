@@ -18,9 +18,7 @@ import java.util.Map;
  * @create 2022-03-03-21:57
  */
 @Component
-public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlExecuteStrategy {
-    private static final Map<DataSource, String> mapSchema = new HashMap<>(1);
-
+public class MySqlStructExecuteStrategy extends MySqlExecuteStrategy implements StructExecuteStrategy {
     /**
      * 表结构
      * @param tableName
@@ -29,16 +27,16 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
     public List<TableField> tableStructure(String ds, String tableName) {
         return ShowDbFactory.getJdbcTemplate(ds)
                 .query(String.format("SELECT TABLE_SCHEMA,\n" +
-                                "       TABLE_NAME,\n" +
-                                "       COLUMN_NAME,\n" +
-                                "       COLUMN_TYPE,\n" +
-                                "       IS_NULLABLE,\n" +
-                                "       COLUMN_DEFAULT,\n" +
-                                "       COLUMN_COMMENT,\n" +
-                                "       COLUMN_KEY\n" +
-                                "FROM information_schema.COLUMNS \n" +
-                                "WHERE table_name = '%s' AND TABLE_SCHEMA = '%s' ORDER BY ORDINAL_POSITION ASC", tableName,
-                        DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds)),
+                                        "       TABLE_NAME,\n" +
+                                        "       COLUMN_NAME,\n" +
+                                        "       COLUMN_TYPE,\n" +
+                                        "       IS_NULLABLE,\n" +
+                                        "       COLUMN_DEFAULT,\n" +
+                                        "       COLUMN_COMMENT,\n" +
+                                        "       COLUMN_KEY\n" +
+                                        "FROM information_schema.COLUMNS \n" +
+                                        "WHERE table_name = '%s' AND TABLE_SCHEMA = '%s' ORDER BY ORDINAL_POSITION ASC", tableName,
+                                DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds)),
                         (rs, i) -> {
                             TableField ts = new TableField();
                             ts.setSchema(rs.getString("TABLE_SCHEMA"));
@@ -87,8 +85,8 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
     public TableInfo tableComment(String ds, String table) {
         List<TableInfo> rts = ShowDbFactory.getJdbcTemplate(ds)
                 .query(String.format("SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES  " +
-                                "WHERE TABLE_NAME = '%s' AND TABLE_SCHEMA = '%s'", table,
-                        DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds)),
+                                        "WHERE TABLE_NAME = '%s' AND TABLE_SCHEMA = '%s'", table,
+                                DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds)),
                         (rs, i) -> {
                             TableInfo ti = new TableInfo();
                             ti.setTableComment(rs.getString("TABLE_COMMENT"));
@@ -127,6 +125,4 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
 
         return CollectionUtils.lastElement(rts);
     }
-
-
 }

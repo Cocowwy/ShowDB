@@ -17,7 +17,7 @@ import java.util.List;
  * @create 2022-03-03-20:40
  */
 @Component
-public class MySqlMonitorExecuteStrategy implements MonitorExecuteStrategy, MySqlExecuteStrategy {
+public class MySqlMonitorExecuteStrategy extends MySqlExecuteStrategy implements MonitorExecuteStrategy {
     /**
      * 查询每个IP所占用的连接数
      * @param ds 当前数据源

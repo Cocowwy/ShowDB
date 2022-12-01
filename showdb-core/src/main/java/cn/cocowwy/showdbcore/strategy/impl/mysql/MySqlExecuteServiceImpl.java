@@ -12,7 +12,7 @@ import java.util.Map;
  * @create 2022-05-05-11:45
  */
 @Service
-public class ExecuteServiceImpl implements ExecuteService {
+public class MySqlExecuteServiceImpl extends MySqlExecuteStrategy implements ExecuteService {
     @Override
     public List<Map<String, Object>> executeSql(String sql, String ds, Integer limit) {
         if (sql.contains("limit")) {
