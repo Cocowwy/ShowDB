@@ -25,9 +25,9 @@
         <el-aside width="8%" v-if="plugin">
             <!--侧边目录栏-->
             <el-menu :default-active="sidebarDirectory" class="el-menu-demo" @select="handleSidebarDirectory">
-                <el-menu-item index="1">文档监控模式</el-menu-item>
-                <el-menu-item index="2" :disabled="!plugin.crud">CRUD</el-menu-item>
-                <el-menu-item index="3" disabled>开发中..</el-menu-item>
+                <el-menu-item index="1">数据文档</el-menu-item>
+                <el-menu-item index="2" :disabled="!plugin.execute">数据执行</el-menu-item>
+                <el-menu-item index="3" :disabled="!plugin.monitor">数据监控</el-menu-item>
             </el-menu>
         </el-aside>
 
@@ -40,10 +40,12 @@
                           :label="item.beanName" border>{{item.beanName}}
                 </el-radio>
             </div>
-
+            <!-- 文档-->
             <div v-if="sidebarDirectory == '1'" th:include="component/doc :: doc"></div>
-
-            <div v-if="sidebarDirectory == '2'" th:include="component/crud :: crud"></div>
+            <!--SQL执行-->
+            <div v-if="sidebarDirectory == '2'" th:include="component/execute :: execute"></div>
+            <!--监控-->
+            <div v-if="sidebarDirectory == '3'" th:include="component/monitor :: monitor"></div>
         </el-main>
 
         <!--右侧数据源-->

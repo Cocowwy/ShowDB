@@ -72,8 +72,8 @@ const app = new Vue({
             value: 'ALL',
             label: 'ALL',
             disabled: true
-        }]
-
+        }],
+        sqlResultShowOverflowTooltip: true
     },
     methods: {
         // 数据源信息
@@ -488,9 +488,7 @@ const app = new Vue({
          * 监听sql脚本输入框
          */
         listenInput(sql, number) {
-            document.querySelectorAll('pre code').forEach((block) => {
-                hljs.highlightBlock(block);
-            });
+
         },
         /**
          * 执行SQL
@@ -505,16 +503,13 @@ const app = new Vue({
 
             axios.post(that.apiPrefix + '/showdb/execute/' + that.currentDataSource + '/' + this.sqlText + '/' + that.sqlLimit).then(function (res) {
                 if (res.data.code !== 200) {
-                    alert(res.data.msg);
+                    alertError(that, res.data.msg)
                     return;
                 }
-                if (!res.data.data) {
-                    alert("xxxxx");
-                    return;
-                }
+
                 that.sqlResult = res.data.data.data
                 that.sqlColum = res.data.data.colum
-                alertSqlExecuteSuccess(that);
+                alertSuccess(that,'SQL执行成功');
             })
 
         },
@@ -527,8 +522,17 @@ const app = new Vue({
         /**
          * 格式化sql，当失去焦点的时候
          */
-        sqlBlurFormat() {
+        sqlBlur() {
+            // this.sqlText = sqlFormatter.format(this.sqlText);
+        },
+        sqlFormat() {
             this.sqlText = sqlFormatter.format(this.sqlText);
+        },
+        sqlDataClick(row, column, cell, event) {
+            console.log(row)
+            console.log(column)
+            console.log(cell)
+            console.log(event)
         }
     },
 

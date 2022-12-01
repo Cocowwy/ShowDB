@@ -1,15 +1,18 @@
-function alertSqlExecuteSuccess(ref) {
+function alertSuccess(ref, msg) {
     ref.$notify({
-        title: 'SUCCESS🍓',
-        message: 'SQL执行成功',
+        title: 'SUCCESS 🍓',
+        message: msg,
+        position: 'top-right',
         type: 'success'
     });
 }
 
-function alertSqlExecuteError(ref, msg) {
+function alertError(ref, msg) {
     ref.$notify.error({
-        title: 'ERROR🍓',
+        title: 'ERROR 🎃',
         message: msg,
+        duration: 0,
+        position: 'top-right',
         type: 'success'
     });
 }

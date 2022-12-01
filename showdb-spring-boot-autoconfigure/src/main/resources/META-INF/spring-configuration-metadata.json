@@ -68,9 +68,15 @@
       "defaultValue": null
     },
     {
-      "name": "showdb.plugin.crud",
+      "name": "showdb.plugin.execute",
       "type": "java.lang.Boolean",
-      "description": "crud mode",
+      "description": "execute sql",
+      "defaultValue": null
+    },
+    {
+      "name": "showdb.plugin.monitor",
+      "type": "java.lang.Boolean",
+      "description": "monitor datasource",
       "defaultValue": null
     }
   ]
