@@ -8,7 +8,7 @@ import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
 import cn.cocowwy.showdbcore.entities.TranscationalStatus;
 import cn.cocowwy.showdbcore.strategy.MonitorExecuteStrategy;
-import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
+import cn.cocowwy.showdbcore.strategy.MySqlExecuteStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

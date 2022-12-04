@@ -2,7 +2,8 @@ function alertSuccess(ref, msg) {
     ref.$notify({
         title: 'SUCCESS 🍓',
         message: msg,
-        position: 'top-right',
+        position: 'top-left',
+        duration: 2000,
         type: 'success'
     });
 }
@@ -12,7 +13,7 @@ function alertError(ref, msg) {
         title: 'ERROR 🎃',
         message: msg,
         duration: 0,
-        position: 'top-right',
+        position: 'top-left',
         type: 'success'
     });
 }

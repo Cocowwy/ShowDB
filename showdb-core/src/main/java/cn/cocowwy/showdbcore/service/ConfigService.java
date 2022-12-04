@@ -5,7 +5,7 @@ import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.strategy.ConfigExecuteStrategy;
-import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
+import cn.cocowwy.showdbcore.strategy.MySqlExecuteStrategy;
 import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

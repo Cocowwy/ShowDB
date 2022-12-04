@@ -7,7 +7,7 @@ import cn.cocowwy.showdbcore.entities.TableField;
 import cn.cocowwy.showdbcore.entities.TableInfo;
 import cn.cocowwy.showdbcore.entities.TableStructVo;
 import cn.cocowwy.showdbcore.strategy.StructExecuteStrategy;
-import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
+import cn.cocowwy.showdbcore.strategy.MySqlExecuteStrategy;
 import cn.cocowwy.showdbcore.util.CodeGenerateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

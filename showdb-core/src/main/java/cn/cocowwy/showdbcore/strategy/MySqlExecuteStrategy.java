@@ -1,4 +1,4 @@
-package cn.cocowwy.showdbcore.strategy.impl.mysql;
+package cn.cocowwy.showdbcore.strategy;
 
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.strategy.SqlExecuteStrategy;

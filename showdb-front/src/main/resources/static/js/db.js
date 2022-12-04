@@ -82,7 +82,7 @@ const app = new Vue({
             this.loadingOpen();
             axios.get(that.apiPrefix + '/showdb/config/dsInfo').then(function (res) {
                 if (res.data.code !== 200) {
-                    alert(res.data.msg);
+                    alertError(that, res.data.msg);
                     return;
                 }
                 var res = res.data.data;
@@ -117,7 +117,7 @@ const app = new Vue({
             this.loadingOpen();
             axios.get(that.apiPrefix + '/showdb/struct/' + this.currentDataSource + '/all').then(function (res) {
                 if (res.data.code !== 200) {
-                    alert(res.data.msg);
+                    alertError(that, res.data.msg);
                     return;
                 }
                 var res = res.data.data;
@@ -131,7 +131,7 @@ const app = new Vue({
             this.loadingOpen();
             axios.get(that.apiPrefix + '/showdb/struct/' + this.currentDataSource + '/' + this.tableStructSize + '/' + this.tableStructPageNumber + '/' + table).then(function (res) {
                 if (res.data.code !== 200) {
-                    alert(res.data.msg);
+                    alertError(that, res.data.msg);
                     return;
                 }
                 that.tableStruct = res.data.data.tableStructs
@@ -147,7 +147,7 @@ const app = new Vue({
             this.loadingOpen();
             axios.get(that.apiPrefix + '/showdb/struct/' + this.currentDataSource + '/' + tableStructSize + '/' + tableStructPageNumber).then(function (res) {
                 if (res.data.code !== 200) {
-                    alert(res.data.msg);
+                    alertError(that, res.data.msg);
                     return;
                 }
                 that.tableStruct = res.data.data.tableStructs
@@ -214,7 +214,7 @@ const app = new Vue({
             axios.delete(that.apiPrefix + '/showdb/config/cleanCache').then(function (res) {
                 that.loadingOpen()
                 if (res.data.code !== 200) {
-                    alert(res.data.msg);
+                    alertError(that, res.data.msg);
                     return;
                 }
                 that.loadingClose()
@@ -235,7 +235,7 @@ const app = new Vue({
             axios.get(that.apiPrefix + '/showdb/struct/' + this.currentDataSource + '/create/' + table).then(function (res) {
                 that.loadingOpen()
                 if (res.data.code !== 200) {
-                    alert(res.data.msg);
+                    alertError(that, res.data.msg);
                     return;
                 }
                 that.createStatementDialog = true
@@ -253,7 +253,7 @@ const app = new Vue({
             axios.get(that.apiPrefix + '/showdb/struct/' + this.currentDataSource + '/java/' + table).then(function (res) {
                 that.loadingOpen()
                 if (res.data.code !== 200) {
-                    alert(res.data.msg);
+                    alertError(that, res.data.msg);
                     return;
                 }
                 that.createJavaCodeDialog = true
@@ -271,7 +271,7 @@ const app = new Vue({
             this.loadingOpen()
             axios.get(that.apiPrefix + '/showdb/struct/' + this.currentDataSource + '/' + table + '/detailInfo').then(function (res) {
                 if (res.data.code !== 200) {
-                    alert(res.data.msg);
+                    alertError(that, res.data.msg);
                     return;
                 }
                 that.tableDetailDialog = true
@@ -289,7 +289,7 @@ const app = new Vue({
             axios.get(that.apiPrefix + '/showdb/monitor/' + this.currentDataSource + '/masterSlaveInfo').then(function (res) {
                 that.loadingOpen()
                 if (res.data.code !== 200) {
-                    alert(res.data.msg);
+                    alertError(that, res.data.msg);
                     return;
                 }
                 that.currentDataSourceMasterSlaveInfo = res.data.data
@@ -328,7 +328,7 @@ const app = new Vue({
             axios.get(that.apiPrefix + '/showdb/monitor/' + this.currentDataSource + '/ipCountInfo').then(function (res) {
                 that.loadingOpen()
                 if (res.data.code !== 200) {
-                    alert(res.data.msg);
+                    alertError(that, res.data.msg);
                     return;
                 }
                 that.ipConInfo = res.data.data
@@ -397,7 +397,7 @@ const app = new Vue({
             this.loadingOpen()
             axios.get(that.apiPrefix + '/showdb/monitor/' + this.currentDataSource + '/trxInfo').then(function (res) {
                 if (res.data.code !== 200) {
-                    alert(res.data.msg);
+                    alertError(that, res.data.msg);
                     return;
                 }
                 that.trxInfos = res.data.data
@@ -430,7 +430,7 @@ const app = new Vue({
             var that = this;
             axios.get(that.apiPrefix + '/showdb/config/config').then(function (res) {
                 if (res.data.code !== 200) {
-                    alert(res.data.msg);
+                    alertError(that, res.data.msg);
                     return;
                 }
                 that.customize = res.data.data.customize
@@ -445,7 +445,7 @@ const app = new Vue({
             var that = this;
             axios.get(that.apiPrefix + '/showdb/generate/defind/' + this.currentDataSource + '/' + table).then(function (res) {
                 if (res.data.code !== 200) {
-                    alert(res.data.msg);
+                    alertError(that, res.data.msg);
                     return;
                 }
                 that.mybatisGenerateDialogVisible = true
@@ -465,7 +465,7 @@ const app = new Vue({
             axios.post(that.apiPrefix + '/showdb/generate/mybatis/' + that.currentDataSource, that.mybatisGenerateDefind
             ).then(function (res) {
                 if (res.data.code !== 200) {
-                    alert(res.data.msg);
+                    alertError(that, res.data.msg)
                     return;
                 }
                 if (!res.data.data) {
@@ -503,7 +503,7 @@ const app = new Vue({
 
             axios.post(that.apiPrefix + '/showdb/execute/' + that.currentDataSource + '/' + this.sqlText + '/' + that.sqlLimit).then(function (res) {
                 if (res.data.code !== 200) {
-                    alertError(that, res.data.msg)
+                    alertError(that, res.data.msg);
                     return;
                 }
 

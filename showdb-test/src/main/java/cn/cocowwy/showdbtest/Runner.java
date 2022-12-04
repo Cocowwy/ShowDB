@@ -3,7 +3,7 @@ package cn.cocowwy.showdbtest;
 import cn.cocowwy.showdbcore.entities.GenerateDefind;
 import cn.cocowwy.showdbcore.generate.impl.MybatisGeneratorImpl;
 import cn.cocowwy.showdbcore.strategy.SqlExecuteStrategy;
-import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlExecuteStrategy;
+import cn.cocowwy.showdbcore.strategy.MySqlExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlMonitorExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlStructExecuteStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
