@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
  * @author cocowwy.cn
  * @create 2022-05-05-11:45
  */
-@Configuration("Defind")
-public class DefindConfig {
+@Configuration("Defined")
+public class DefinedConfig {
     /**
      * if context-path no setting,set null
      */
