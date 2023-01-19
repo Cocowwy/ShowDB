@@ -2,15 +2,23 @@ package cn.cocowwy.showdbcore.config;
 
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.entities.ShowDBConfig;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author cocowwy.cn
  * @create 2022-03-03-12:51
  */
-public class GlobalContext {
+public final class GlobalContext {
+
+    private static final Log logger = LogFactory.getLog(GlobalContext.class);
+
     /**
      * 数据源集合，适配多数据源情况下进行切换  beanName --> dataSource
      */
@@ -22,19 +30,30 @@ public class GlobalContext {
     private static Map<String, DBEnum> dataSourcesTypeMap;
 
     /**
+     * 持有 jdbcTemplate
+     */
+    private static final Map<String, JdbcTemplate> jdbcTemplatePool = new HashMap<>(1);
+
+
+    /**
      * 配置信息
      */
     private static ShowDBConfig showDBConfig;
 
     /**
-     * 设置数据源集合，兼容多数据源场景
-     *
-     * @param dataSourcesMap
+     * 持有context
      */
-    public static void setDataSourcesMap(Map<String, DataSource> dataSourcesMap) {
-        GlobalContext.dataSourcesMap = dataSourcesMap;
-    }
+    private static ApplicationContext applicationContext;
 
+    public static void initialize(Map<String, DataSource> dataSourcesMap, Map<String, DBEnum> dataSourcesTypeMap, ApplicationContext applicationContext) {
+        GlobalContext.dataSourcesMap = dataSourcesMap;
+        GlobalContext.dataSourcesTypeMap = dataSourcesTypeMap;
+        GlobalContext.applicationContext = applicationContext;
+        dataSourcesMap.forEach((key, value) -> {
+            jdbcTemplatePool.put(key, new JdbcTemplate(value));
+            logger.info(String.format("ShowDB register DataSource [%s]", key));
+        });
+    }
 
     public static Map<String, DataSource> getDataSourcesMap() {
         return dataSourcesMap;
@@ -42,10 +61,6 @@ public class GlobalContext {
 
     public static Map<String, DBEnum> getDataSourcesTypeMap() {
         return dataSourcesTypeMap;
-    }
-
-    public static void setDataSourcesTypeMap(Map<String, DBEnum> dataSourcesTypeMap) {
-        GlobalContext.dataSourcesTypeMap = dataSourcesTypeMap;
     }
 
     public static DBEnum mapDs2DbType(String ds) {
@@ -58,6 +73,18 @@ public class GlobalContext {
 
     public static void setShowDBConfig(ShowDBConfig showDBConfig) {
         GlobalContext.showDBConfig = showDBConfig;
+    }
+
+    public static ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
+
+    /**
+     * 获取当前所选择数据源的JdbcTemplate对象
+     * @return JdbcTemplate
+     */
+    public static JdbcTemplate getJdbcTemplate(String ds) {
+        return jdbcTemplatePool.get(ds);
     }
 }
 

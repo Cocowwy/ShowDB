@@ -1,6 +1,6 @@
 package cn.cocowwy.showdbcore.strategy.impl.mysql;
 
-import cn.cocowwy.showdbcore.config.ShowDbFactory;
+import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.entities.TableField;
 import cn.cocowwy.showdbcore.entities.TableInfo;
 import cn.cocowwy.showdbcore.strategy.MySqlExecuteStrategy;
@@ -23,7 +23,7 @@ public class MySqlStructExecuteStrategy extends MySqlExecuteStrategy implements 
      */
     @Override
     public List<TableField> tableStructure(String ds, String tableName) {
-        return ShowDbFactory.getJdbcTemplate(ds)
+        return GlobalContext.getJdbcTemplate(ds)
                 .query(String.format("SELECT TABLE_SCHEMA,\n" +
                                         "       TABLE_NAME,\n" +
                                         "       COLUMN_NAME,\n" +
@@ -57,7 +57,7 @@ public class MySqlStructExecuteStrategy extends MySqlExecuteStrategy implements 
      */
     @Override
     public List<String> tableNames(String ds) {
-        return ShowDbFactory.getJdbcTemplate(ds)
+        return GlobalContext.getJdbcTemplate(ds)
                 .query("show tables", (rs, i) ->
                         rs.getObject(1, String.class));
     }
@@ -69,7 +69,7 @@ public class MySqlStructExecuteStrategy extends MySqlExecuteStrategy implements 
      */
     @Override
     public String createTableStatement(String ds, String tableName) {
-        List<String> result = ShowDbFactory.getJdbcTemplate(ds)
+        List<String> result = GlobalContext.getJdbcTemplate(ds)
                 .query(String.format("show create table %s", tableName), (resultSet, i) ->
                         resultSet.getObject(2, String.class));
         return CollectionUtils.lastElement(result);
@@ -81,7 +81,7 @@ public class MySqlStructExecuteStrategy extends MySqlExecuteStrategy implements 
      */
     @Override
     public TableInfo tableComment(String ds, String table) {
-        List<TableInfo> rts = ShowDbFactory.getJdbcTemplate(ds)
+        List<TableInfo> rts = GlobalContext.getJdbcTemplate(ds)
                 .query(String.format("SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES  " +
                                         "WHERE TABLE_NAME = '%s' AND TABLE_SCHEMA = '%s'", table,
                                 DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds)),
@@ -103,7 +103,7 @@ public class MySqlStructExecuteStrategy extends MySqlExecuteStrategy implements 
     @Override
     public TableInfo tableInfo(String ds, String table) {
         String sql = "show table status from %s where name = '%s'";
-        List<TableInfo> rts = ShowDbFactory.getJdbcTemplate(ds)
+        List<TableInfo> rts = GlobalContext.getJdbcTemplate(ds)
                 .query(String.format(sql, DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds), table),
                         (rs, i) -> {
                             TableInfo ti = new TableInfo();

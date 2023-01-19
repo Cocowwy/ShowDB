@@ -10,7 +10,6 @@ import cn.cocowwy.showdbcore.generate.GeneratorService;
 public class SpringDataJDBCGeneratorImpl implements GeneratorService {
     @Override
     public Boolean generate(String ds, String tableName, GenerateDefind generateDefind) {
-
         return false;
     }
 }

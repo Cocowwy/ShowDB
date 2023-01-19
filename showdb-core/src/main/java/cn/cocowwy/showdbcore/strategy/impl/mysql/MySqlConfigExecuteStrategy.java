@@ -1,6 +1,6 @@
 package cn.cocowwy.showdbcore.strategy.impl.mysql;
 
-import cn.cocowwy.showdbcore.config.ShowDbFactory;
+import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.strategy.ConfigExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.MySqlExecuteStrategy;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public class MySqlConfigExecuteStrategy extends MySqlExecuteStrategy implements 
     @Override
     public String OsEnv(String ds) {
         String sql = "show variables like 'version_compile_os'";
-        List<String> rts = ShowDbFactory.getJdbcTemplate(ds).query(sql, (rs, i) -> rs.getString("Value"));
+        List<String> rts = GlobalContext.getJdbcTemplate(ds).query(sql, (rs, i) -> rs.getString("Value"));
         return CollectionUtils.lastElement(rts);
     }
 
@@ -33,7 +33,7 @@ public class MySqlConfigExecuteStrategy extends MySqlExecuteStrategy implements 
     @Override
     public String DbVersion(String ds) {
         String sql = "show variables like 'version'";
-        List<String> rts = ShowDbFactory.getJdbcTemplate(ds).query(sql, (rs, i) -> rs.getString("Value"));
+        List<String> rts = GlobalContext.getJdbcTemplate(ds).query(sql, (rs, i) -> rs.getString("Value"));
         return CollectionUtils.lastElement(rts);
     }
 
@@ -51,7 +51,7 @@ public class MySqlConfigExecuteStrategy extends MySqlExecuteStrategy implements 
 //                    "    'default_storage_engine',\n" +
 //                    "   'transaction_isolation',\n" +
 //                    "   'innodb_lock_wait_timeout');\n";
-//            ShowDbFactory.getJdbcTemplate(ds).query(sql, (rs, i) -> {
+//            GlobalContext.getJdbcTemplate(ds).query(sql, (rs, i) -> {
 //                MySqlVariables variable = new MySqlVariables();
 //                variable.setVersionCompileOs(rs.getString("version_compile_os"));
 //                return null;
@@ -68,7 +68,7 @@ public class MySqlConfigExecuteStrategy extends MySqlExecuteStrategy implements 
     @Override
     public String innodbLockWaitTimeout(String ds) {
         String sql = "show variables like 'innodb_lock_wait_timeout'";
-        List<String> rts = ShowDbFactory.getJdbcTemplate(ds).query(sql, (rs, i) -> rs.getString("Value"));
+        List<String> rts = GlobalContext.getJdbcTemplate(ds).query(sql, (rs, i) -> rs.getString("Value"));
         return CollectionUtils.lastElement(rts);
     }
 
@@ -80,7 +80,7 @@ public class MySqlConfigExecuteStrategy extends MySqlExecuteStrategy implements 
     @Override
     public String transactionIsolation(String ds) {
         String sql = "show variables like 'transaction_isolation'";
-        List<String> rts = ShowDbFactory.getJdbcTemplate(ds).query(sql, (rs, i) -> rs.getString("Value"));
+        List<String> rts = GlobalContext.getJdbcTemplate(ds).query(sql, (rs, i) -> rs.getString("Value"));
         return CollectionUtils.lastElement(rts);
     }
 
@@ -91,7 +91,7 @@ public class MySqlConfigExecuteStrategy extends MySqlExecuteStrategy implements 
     @Override
     public String baseDir(String ds) {
         String sql = "show variables like 'basedir'";
-        List<String> rts = ShowDbFactory.getJdbcTemplate(ds).query(sql, (rs, i) -> rs.getString("Value"));
+        List<String> rts = GlobalContext.getJdbcTemplate(ds).query(sql, (rs, i) -> rs.getString("Value"));
         return CollectionUtils.lastElement(rts);
     }
 }

@@ -1,6 +1,6 @@
 package cn.cocowwy.showdbcore.service;
 
-import cn.cocowwy.showdbcore.config.ShowDbFactory;
+import cn.cocowwy.showdbcore.config.GlobalContext;
 import cn.cocowwy.showdbcore.entities.GenerateDefind;
 import cn.cocowwy.showdbcore.exception.ShowDbException;
 import cn.cocowwy.showdbcore.generate.GeneratorService;
@@ -30,30 +30,30 @@ public class GenerateService {
             throw new ShowDbException("Failed to get classpath,", e);
         }
 
-        String CLASS_PATH_SUFFIX = "/target/classes/";
-        if (!classPath.endsWith(CLASS_PATH_SUFFIX)) {
+        String classPathSuffix = "/target/classes/";
+        if (!classPath.endsWith(classPathSuffix)) {
             throw new ShowDbException("Unresolved classpath: " + classPath);
         }
 
-        String JAVA_SRC_PATH = "/src/main/java";
-        String defaultProjectSrcPath = classPath.replace(CLASS_PATH_SUFFIX, "") + JAVA_SRC_PATH;
-        String JAVA_RESOURCES_PATH = "/src/main/resources";
-        String defaultProjectResPath = classPath.replace(CLASS_PATH_SUFFIX, "") + JAVA_RESOURCES_PATH;
-        String defaultPkgName = ShowDbFactory.getApplicationContext().getBeansWithAnnotation(SpringBootApplication.class)
+        String javaSrcPath = "/src/main/java";
+        String defaultProjectSrcPath = classPath.replace(classPathSuffix, "") + javaSrcPath;
+        String javaResourcesPath = "/src/main/resources";
+        String defaultProjectResPath = classPath.replace(classPathSuffix, "") + javaResourcesPath;
+        String defaultPkgName = GlobalContext.getApplicationContext().getBeansWithAnnotation(SpringBootApplication.class)
                 .values().toArray()[0].getClass().getPackage().getName();
 
         // 设置默认的文件创建路径
-        GenerateDefind defind = new GenerateDefind();
-        defind.setModelPackagePath(defaultPkgName + ".model");
-        defind.setModelProjectPath(defaultProjectSrcPath);
-        defind.setMapperJavaPackagePath(defaultPkgName + ".mapper");
-        defind.setMapperJavaProjectPath(defaultProjectSrcPath);
-        defind.setMapperXmlProjectPath(defaultProjectResPath);
-        defind.setDomainObjName(CodeGenerateUtil.className(tableName));
-        defind.setMapperName(CodeGenerateUtil.className(tableName) + "Mapper");
-        defind.setTableName(tableName);
+        GenerateDefind defined = new GenerateDefind();
+        defined.setModelPackagePath(defaultPkgName + ".model");
+        defined.setModelProjectPath(defaultProjectSrcPath);
+        defined.setMapperJavaPackagePath(defaultPkgName + ".mapper");
+        defined.setMapperJavaProjectPath(defaultProjectSrcPath);
+        defined.setMapperXmlProjectPath(defaultProjectResPath);
+        defined.setDomainObjName(CodeGenerateUtil.className(tableName));
+        defined.setMapperName(CodeGenerateUtil.className(tableName) + "Mapper");
+        defined.setTableName(tableName);
 
-        return defind;
+        return defined;
     }
 
     public Boolean mybatis(GenerateDefind generateDefind, String ds) {

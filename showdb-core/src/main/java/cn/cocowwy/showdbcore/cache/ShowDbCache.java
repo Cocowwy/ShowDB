@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 /**
  * ShowDB的简易缓存工具
@@ -66,7 +67,7 @@ public class ShowDbCache {
         return CACHE;
     }
 
-    public static void addCachaTask(Long timeout) {
+    public static void addCacheTask(Long timeout) {
         if (timeout <= 0L) {
             logger.info("Cache cleaning unregistered, the timeout is " + timeout);
             return;

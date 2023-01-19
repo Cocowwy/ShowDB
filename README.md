@@ -173,7 +173,7 @@ spring:
 - 适配多种不同类型的数据库
 - 提供更多监控性的指标
 - UI界面的更加美观（这也是最难的） 
-- 生成MyBtis相关文件
+- 生成MyBatis相关文件
 
 ## 微信公众号～  
 <img src="https://user-images.githubusercontent.com/63331147/192079044-208ee2f1-381d-49b3-b60e-451350197f95.png" width="200" height="200" alt="公众号"/><br/>
