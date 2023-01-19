@@ -1,9 +1,9 @@
 package cn.cocowwy.showdbtest;
 
-import cn.cocowwy.showdbcore.entities.GenerateDefind;
+import cn.cocowwy.showdbcore.entities.MyBatisGenerateDefinition;
 import cn.cocowwy.showdbcore.generate.impl.MybatisGeneratorImpl;
-import cn.cocowwy.showdbcore.strategy.SqlExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.MySqlExecuteStrategy;
+import cn.cocowwy.showdbcore.strategy.SqlExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlMonitorExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.impl.mysql.MySqlStructExecuteStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +58,7 @@ public class Runner implements ApplicationRunner {
      * 测试创建MyBatis文件
      */
     public void testGenerateMyBatisFile() {
-        GenerateDefind generateDefind = new GenerateDefind();
+        MyBatisGenerateDefinition generateDefind = new MyBatisGenerateDefinition();
         generateDefind.setUseExample(true);
 //        generateDefind.setUseExample(false);
         // 实体类生成项目地址

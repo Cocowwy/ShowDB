@@ -1,11 +1,11 @@
 package cn.cocowwy.showdbcore.entities;
 
 /**
- * 代码生成自定义生成器
+ * MyBatis 代码生成自定义生成器
  * @author cocowwy.cn
  * @create 2022-05-05-11:45
  */
-public class GenerateDefind {
+public class MyBatisGenerateDefinition extends GenerateFileDefinition {
     /**
      * 表名
      */

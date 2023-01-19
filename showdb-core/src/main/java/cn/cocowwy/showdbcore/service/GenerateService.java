@@ -1,7 +1,7 @@
 package cn.cocowwy.showdbcore.service;
 
-import cn.cocowwy.showdbcore.config.GlobalContext;
-import cn.cocowwy.showdbcore.entities.GenerateDefind;
+import cn.cocowwy.showdbcore.config.ShowDBContext;
+import cn.cocowwy.showdbcore.entities.MyBatisGenerateDefinition;
 import cn.cocowwy.showdbcore.exception.ShowDbException;
 import cn.cocowwy.showdbcore.generate.GeneratorService;
 import cn.cocowwy.showdbcore.util.CodeGenerateUtil;
@@ -18,11 +18,10 @@ import java.io.FileNotFoundException;
  */
 @Service
 public class GenerateService {
-
     @Autowired
     private GeneratorService mybatisGeneratorImpl;
 
-    public GenerateDefind defineConfig(String ds, String tableName) {
+    public MyBatisGenerateDefinition defineConfig(String ds, String tableName) {
         String classPath;
         try {
             classPath = ResourceUtils.getURL("classpath:").getPath();
@@ -39,11 +38,11 @@ public class GenerateService {
         String defaultProjectSrcPath = classPath.replace(classPathSuffix, "") + javaSrcPath;
         String javaResourcesPath = "/src/main/resources";
         String defaultProjectResPath = classPath.replace(classPathSuffix, "") + javaResourcesPath;
-        String defaultPkgName = GlobalContext.getApplicationContext().getBeansWithAnnotation(SpringBootApplication.class)
+        String defaultPkgName = ShowDBContext.getApplicationContext().getBeansWithAnnotation(SpringBootApplication.class)
                 .values().toArray()[0].getClass().getPackage().getName();
 
         // 设置默认的文件创建路径
-        GenerateDefind defined = new GenerateDefind();
+        MyBatisGenerateDefinition defined = new MyBatisGenerateDefinition();
         defined.setModelPackagePath(defaultPkgName + ".model");
         defined.setModelProjectPath(defaultProjectSrcPath);
         defined.setMapperJavaPackagePath(defaultPkgName + ".mapper");
@@ -56,7 +55,7 @@ public class GenerateService {
         return defined;
     }
 
-    public Boolean mybatis(GenerateDefind generateDefind, String ds) {
+    public Boolean mybatis(MyBatisGenerateDefinition generateDefind, String ds) {
         return mybatisGeneratorImpl.generate(ds, generateDefind.getTableName(), generateDefind);
     }
 }

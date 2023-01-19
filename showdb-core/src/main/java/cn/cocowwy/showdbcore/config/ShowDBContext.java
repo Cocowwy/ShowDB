@@ -2,22 +2,29 @@ package cn.cocowwy.showdbcore.config;
 
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.entities.ShowDBConfig;
+import cn.cocowwy.showdbcore.exception.ShowDbException;
+import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.util.CollectionUtils;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
+ * ShowDB context
  * @author cocowwy.cn
  * @create 2022-03-03-12:51
  */
-public final class GlobalContext {
-
-    private static final Log logger = LogFactory.getLog(GlobalContext.class);
+public final class ShowDBContext {
+    private static final Log logger = LogFactory.getLog(ShowDBContext.class);
 
     /**
      * 数据源集合，适配多数据源情况下进行切换  beanName --> dataSource
@@ -34,7 +41,6 @@ public final class GlobalContext {
      */
     private static final Map<String, JdbcTemplate> jdbcTemplatePool = new HashMap<>(1);
 
-
     /**
      * 配置信息
      */
@@ -45,14 +51,35 @@ public final class GlobalContext {
      */
     private static ApplicationContext applicationContext;
 
-    public static void initialize(Map<String, DataSource> dataSourcesMap, Map<String, DBEnum> dataSourcesTypeMap, ApplicationContext applicationContext) {
-        GlobalContext.dataSourcesMap = dataSourcesMap;
-        GlobalContext.dataSourcesTypeMap = dataSourcesTypeMap;
-        GlobalContext.applicationContext = applicationContext;
+    public static void initialize(ApplicationContext context) {
+        applicationContext = context;
+
+        List<String> dataSources = Arrays.asList(applicationContext.getBeanNamesForType(DataSource.class));
+
+        if (CollectionUtils.isEmpty(dataSources)) {
+            throw new ShowDbException("Can't find datasource (bean) ,please config it and restart");
+        }
+
+        dataSourcesMap = dataSources.stream()
+                .collect(Collectors.toMap(Function.identity(), beanName -> (DataSource) applicationContext.getBean(beanName)));
+
+        dataSourcesTypeMap = dataSources.stream()
+                .collect(Collectors.toMap(Function.identity(), DataSourcePropUtil::dataSourceTypeByBeanName));
+
         dataSourcesMap.forEach((key, value) -> {
             jdbcTemplatePool.put(key, new JdbcTemplate(value));
             logger.info(String.format("ShowDB register DataSource [%s]", key));
         });
+
+    }
+
+    /**
+     * Get JdbcTemplate by beanName
+     * @param ds DataSource bean name
+     * @return JdbcTemplate
+     */
+    public static JdbcTemplate getJdbcTemplate(String ds) {
+        return jdbcTemplatePool.get(ds);
     }
 
     public static Map<String, DataSource> getDataSourcesMap() {
@@ -72,19 +99,11 @@ public final class GlobalContext {
     }
 
     public static void setShowDBConfig(ShowDBConfig showDBConfig) {
-        GlobalContext.showDBConfig = showDBConfig;
+        ShowDBContext.showDBConfig = showDBConfig;
     }
 
     public static ApplicationContext getApplicationContext() {
         return applicationContext;
-    }
-
-    /**
-     * 获取当前所选择数据源的JdbcTemplate对象
-     * @return JdbcTemplate
-     */
-    public static JdbcTemplate getJdbcTemplate(String ds) {
-        return jdbcTemplatePool.get(ds);
     }
 }
 

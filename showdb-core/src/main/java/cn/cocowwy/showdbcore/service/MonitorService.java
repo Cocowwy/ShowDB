@@ -1,7 +1,7 @@
 package cn.cocowwy.showdbcore.service;
 
-import cn.cocowwy.showdbcore.cache.ShowDbCache;
-import cn.cocowwy.showdbcore.config.GlobalContext;
+import cn.cocowwy.showdbcore.config.ShowDbCache;
+import cn.cocowwy.showdbcore.config.ShowDBContext;
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.IpCount;
@@ -44,7 +44,7 @@ public class MonitorService {
      * @return
      */
     public List<IpCount> ipCountInfo(String ds) {
-        return MONITOR_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).ipConnectCount(ds);
+        return MONITOR_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).ipConnectCount(ds);
     }
 
     /**
@@ -56,7 +56,7 @@ public class MonitorService {
         String key = ShowDbCache.buildCacheKey(ds, "un-use-master-slave", ds);
         // 不走缓存，仅仅标记当前数据源是否开启主从复制
         if (!ShowDbCache.cache().containsKey(key)) {
-            SlaveStatus slaveStatus = MONITOR_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).slaveStatus(ds);
+            SlaveStatus slaveStatus = MONITOR_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).slaveStatus(ds);
             if (slaveStatus == null) {
                 // 未开启主从同步，标记即可
                 ShowDbCache.put(key, "un-use");
@@ -73,7 +73,7 @@ public class MonitorService {
     public DsInfo dsInfo(String ds) {
         return (DsInfo) ShowDbCache.cache()
                 .computeIfAbsent(ShowDbCache.buildCacheKey(ds, "dsInfo", ds),
-                        (key) -> MONITOR_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).dsInfo(ds));
+                        (key) -> MONITOR_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).dsInfo(ds));
     }
 
     /**
@@ -83,7 +83,7 @@ public class MonitorService {
      * @return
      */
     public List<TranscationalStatus> transcationalStatus(String ds) {
-        return MONITOR_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).transcationalStatus(ds);
+        return MONITOR_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).transcationalStatus(ds);
     }
 
     // select * from information_schema.innodb_trx where TIME_TO_SEC(timediff(now(),trx_started))>0 长事务查询

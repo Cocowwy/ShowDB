@@ -1,4 +1,4 @@
-package cn.cocowwy.showdbcore.cache;
+package cn.cocowwy.showdbcore.config;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -8,11 +8,9 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 /**
- * ShowDB的简易缓存工具
- * Simple caching tool
+ * ShowDB's simple cache
  *
  * @author Cocowwy
  * @create 2022-03-03-21:37

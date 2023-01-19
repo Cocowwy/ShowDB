@@ -1,6 +1,6 @@
 package cn.cocowwy.showdbcore.strategy.impl.mysql;
 
-import cn.cocowwy.showdbcore.config.GlobalContext;
+import cn.cocowwy.showdbcore.config.ShowDBContext;
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.IpCount;
 import cn.cocowwy.showdbcore.entities.SlaveStatus;
@@ -31,7 +31,7 @@ public class MySqlMonitorExecuteStrategy extends MySqlExecuteStrategy implements
                 "from information_schema.processlist as a\n" +
                 "group by ip\n" +
                 "order by count desc;\n";
-        List<IpCount> ipCounts = GlobalContext.getJdbcTemplate(ds).query(sql, (rs, i) -> {
+        List<IpCount> ipCounts = ShowDBContext.getJdbcTemplate(ds).query(sql, (rs, i) -> {
             IpCount ic = new IpCount();
             ic.setIp(rs.getString("ip"));
             ic.setCount(rs.getLong("count"));
@@ -49,7 +49,7 @@ public class MySqlMonitorExecuteStrategy extends MySqlExecuteStrategy implements
     @Override
     public SlaveStatus slaveStatus(String ds) {
         String sql = "show slave status";
-        List<SlaveStatus> ipCounts = GlobalContext.getJdbcTemplate(ds).query(sql, (rs, i) -> {
+        List<SlaveStatus> ipCounts = ShowDBContext.getJdbcTemplate(ds).query(sql, (rs, i) -> {
             SlaveStatus ss = new SlaveStatus();
             ss.setSlaveIOState(rs.getString("Slave_IO_State"));
             ss.setMasterHost(rs.getString("Master_Host"));
@@ -80,7 +80,7 @@ public class MySqlMonitorExecuteStrategy extends MySqlExecuteStrategy implements
                 "sum(truncate(index_length/1024/1024, 2)) as 'index_size_MB'\n" +
                 "from information_schema.tables\n" +
                 "where table_schema='%s'";
-        List<DsInfo> tableInfos = GlobalContext.getJdbcTemplate(ds).query(String.format(sql,
+        List<DsInfo> tableInfos = ShowDBContext.getJdbcTemplate(ds).query(String.format(sql,
                 DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds)), (rs, i) -> {
             DsInfo dsInfo = new DsInfo();
             dsInfo.setDataSize(rs.getString("data_size_MB"));
@@ -99,7 +99,7 @@ public class MySqlMonitorExecuteStrategy extends MySqlExecuteStrategy implements
     @Override
     public List<TranscationalStatus> transcationalStatus(String ds) {
         String sql = "select * from information_schema.innodb_trx";
-        return GlobalContext.getJdbcTemplate(ds).query(String.format(sql,
+        return ShowDBContext.getJdbcTemplate(ds).query(String.format(sql,
                 DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds)), (rs, i) -> {
             TranscationalStatus status = new TranscationalStatus();
             status.setTrxId(rs.getString("trx_id"));

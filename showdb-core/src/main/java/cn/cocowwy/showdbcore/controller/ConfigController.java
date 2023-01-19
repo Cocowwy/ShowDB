@@ -1,7 +1,7 @@
 package cn.cocowwy.showdbcore.controller;
 
-import cn.cocowwy.showdbcore.cache.ShowDbCache;
-import cn.cocowwy.showdbcore.config.GlobalContext;
+import cn.cocowwy.showdbcore.config.ShowDbCache;
+import cn.cocowwy.showdbcore.config.ShowDBContext;
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.entities.Res;
 import cn.cocowwy.showdbcore.entities.ShowDBConfig;
@@ -54,6 +54,6 @@ public class ConfigController {
      */
     @GetMapping("config")
     public Res<ShowDBConfig> config() {
-        return Res.success(GlobalContext.getShowDBConfig());
+        return Res.success(ShowDBContext.getShowDBConfig());
     }
 }

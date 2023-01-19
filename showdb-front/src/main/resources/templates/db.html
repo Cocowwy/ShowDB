@@ -48,8 +48,9 @@
             <div v-if="sidebarDirectory == '3'" th:include="component/monitor :: monitor"></div>
         </el-main>
 
-        <!--右侧数据源-->
-        <el-aside width="20%" style="margin-top: 10px;margin-left: 10px">
+
+        <!--右侧-->
+        <el-aside width="15%" style="margin-top: 5%;margin-left: 10px">
             <!--customize-->
             <el-card v-if="customize" :body-style="{ padding: '0px' }"
                      style="width:80%;overflow-x: auto" shadow="hover">
@@ -62,6 +63,8 @@
             </el-card>
             <el-empty v-if="customize==null" description="暂无自定义描述信息"></el-empty>
         </el-aside>
+
+
     </el-container>
 
 
@@ -228,6 +231,7 @@
 <script th:inline="javascript" type="text/javascript">
     // 获取Spring的contextPath的值，拼接在实际请求路径的前面
     var context = [[${@Defined.contextPath}]];
+    var version = [[${@Defined.version}]];
 </script>
 <script th:src="@{js/common.js}"></script>
 <script th:src="@{js/sql-formatter.min.js}"></script>

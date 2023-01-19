@@ -1,8 +1,6 @@
 package cn.cocowwy.showdbcore.entities;
 
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 /**
  * 配置信息 用于ShowDB前端读取配置
  * @author cocowwy.cn

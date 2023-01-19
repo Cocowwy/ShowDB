@@ -14,4 +14,6 @@ public class DefinedConfig {
      */
     @Value("${server.servlet.context-path:#{null}}")
     public String contextPath;
+
+    public String version = "2.0.0";
 }

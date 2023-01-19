@@ -1,83 +1,68 @@
 {
   "groups": [
     {
-      "name": "ShowDB",
-      "type": "cn.cocowwy.showdb.configuration.ShowDBProperties",
-      "sourceType": "cn.cocowwy.showdb.configuration.ShowDBProperties"
+      "name": "showdb",
+      "type": "cn.cocowwy.showdb.configuration.ShowDbProperties",
+      "sourceType": "cn.cocowwy.showdb.configuration.ShowDbProperties"
+    },
+    {
+      "name": "showdb.customize",
+      "type": "cn.cocowwy.showdb.configuration.ShowDbProperties$Customize",
+      "sourceType": "cn.cocowwy.showdb.configuration.ShowDbProperties",
+      "sourceMethod": "getCustomize()"
     }
   ],
   "properties": [
     {
-      "name": "showdb.enable",
-      "type": "java.lang.Boolean",
-      "description": "Whether to use ShowDB",
-      "defaultValue": true
-    },
-    {
-      "name": "showdb.refresh",
-      "type": "java.lang.Long",
-      "description": "ShowDB cache expiration time，If it is less than 0, it will not expire, and the unit is seconds.",
-      "defaultValue": "-1"
-    },
-    {
-      "name": "showdb.customize",
-      "type": "cn.cocowwy.showdb.configuration.Customize",
-      "description": "Customize",
-      "defaultValue": null
-    },
-    {
-      "name": "showdb.customize.top-alert",
-      "type": "java.lang.String",
-      "description": "top alert",
-      "defaultValue": null
-    },
-    {
       "name": "showdb.customize.creator",
       "type": "java.lang.String",
-      "description": "creator",
-      "defaultValue": null
-    },
-    {
-      "name": "showdb.customize.email",
-      "type": "java.lang.String",
-      "description": "email",
-      "defaultValue": null
+      "description": "创建者",
+      "sourceType": "cn.cocowwy.showdb.configuration.ShowDbProperties$Customize"
     },
     {
       "name": "showdb.customize.desc",
       "type": "java.lang.String",
-      "description": "description",
-      "defaultValue": null
+      "description": "描述",
+      "sourceType": "cn.cocowwy.showdb.configuration.ShowDbProperties$Customize"
+    },
+    {
+      "name": "showdb.customize.email",
+      "type": "java.lang.String",
+      "description": "邮箱",
+      "sourceType": "cn.cocowwy.showdb.configuration.ShowDbProperties$Customize"
     },
     {
       "name": "showdb.customize.img",
       "type": "java.lang.String",
-      "description": "img",
-      "defaultValue": null
+      "description": "icon 图标地址",
+      "sourceType": "cn.cocowwy.showdb.configuration.ShowDbProperties$Customize"
+    },
+    {
+      "name": "showdb.customize.top-alert",
+      "type": "java.lang.String",
+      "description": "首页alert文案",
+      "sourceType": "cn.cocowwy.showdb.configuration.ShowDbProperties$Customize"
+    },
+    {
+      "name": "showdb.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否启用",
+      "sourceType": "cn.cocowwy.showdb.configuration.ShowDbProperties",
+      "defaultValue": true
     },
     {
       "name": "showdb.plugin",
-      "type": "cn.cocowwy.showdb.configuration.Plugin",
-      "description": "plugin",
-      "defaultValue": null
+      "type": "cn.cocowwy.showdbcore.entities.ShowDBConfig$Plugin",
+      "description": "插件生成",
+      "sourceType": "cn.cocowwy.showdb.configuration.ShowDbProperties"
     },
     {
-      "name": "showdb.plugin.generate",
-      "type": "java.lang.Boolean",
-      "description": "code generation",
-      "defaultValue": null
-    },
-    {
-      "name": "showdb.plugin.execute",
-      "type": "java.lang.Boolean",
-      "description": "execute sql",
-      "defaultValue": null
-    },
-    {
-      "name": "showdb.plugin.monitor",
-      "type": "java.lang.Boolean",
-      "description": "monitor datasource",
-      "defaultValue": null
+      "name": "showdb.refresh",
+      "type": "java.lang.Long",
+      "description": "缓存刷新时间 小于0时 不自动刷新，默认值为 -1 单位为 秒",
+      "sourceType": "cn.cocowwy.showdb.configuration.ShowDbProperties",
+      "defaultValue": -1
     }
-  ]
+  ],
+  "hints": []
 }

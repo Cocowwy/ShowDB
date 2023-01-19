@@ -1,6 +1,8 @@
 const app = new Vue({
     el: '#ShowDB',
     data: {
+        // 版本
+        version: null,
         apiPrefix: '',
         // 用户自定义信息
         customize: null,
@@ -443,7 +445,7 @@ const app = new Vue({
          */
         generateMyBatisClick(table) {
             var that = this;
-            axios.get(that.apiPrefix + '/showdb/generate/defind/' + this.currentDataSource + '/' + table).then(function (res) {
+            axios.get(that.apiPrefix + '/showdb/generate/defind/mybatis/' + this.currentDataSource + '/' + table).then(function (res) {
                 if (res.data.code !== 200) {
                     alertError(that, res.data.msg);
                     return;
@@ -509,7 +511,7 @@ const app = new Vue({
 
                 that.sqlResult = res.data.data.data
                 that.sqlColum = res.data.data.colum
-                alertSuccess(that,'SQL执行成功');
+                alertSuccess(that, 'SQL执行成功');
             })
 
         },
@@ -544,6 +546,7 @@ const app = new Vue({
         } else {
             this.apiPrefix = '';
         }
+        this.version = version;
         this.dsInfo();
         this.getConfig();
         console.log('作者：🌸Cocowwy  Github：https://github.com/Cocowwy/ShowDB\n'

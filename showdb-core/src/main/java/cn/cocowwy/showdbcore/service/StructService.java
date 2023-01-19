@@ -1,7 +1,7 @@
 package cn.cocowwy.showdbcore.service;
 
-import cn.cocowwy.showdbcore.cache.ShowDbCache;
-import cn.cocowwy.showdbcore.config.GlobalContext;
+import cn.cocowwy.showdbcore.config.ShowDbCache;
+import cn.cocowwy.showdbcore.config.ShowDBContext;
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.entities.TableField;
 import cn.cocowwy.showdbcore.entities.TableInfo;
@@ -57,10 +57,10 @@ public class StructService {
         List<TableStructVo.TableStruct> rts = (List<TableStructVo.TableStruct>) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
             List<String> tables = page(tableNames(ds), pageSize, pageNumber);
             List<TableStructVo.TableStruct> rt = tables.stream().map(table -> {
-                List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableStructure(ds, table);
+                List<TableField> tableFields = STRUCT_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).tableStructure(ds, table);
                 TableInfo tableInfo = new TableInfo();
                 tableInfo.setTableName(table);
-                tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableComment(ds, table).getTableComment());
+                tableInfo.setTableComment(STRUCT_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).tableComment(ds, table).getTableComment());
                 TableStructVo.TableStruct tableStruct = new TableStructVo.TableStruct();
                 tableStruct.setTableInfo(tableInfo);
                 tableStruct.setTableFieldList(tableFields);
@@ -85,7 +85,7 @@ public class StructService {
         String tablesKey = ShowDbCache.buildCacheKey(ds, "tableLists", "names");
 
         List<String> rts = (List<String>) ShowDbCache.cache().computeIfAbsent(tablesKey,
-                (key) -> STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableNames(ds));
+                (key) -> STRUCT_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).tableNames(ds));
         return rts;
     }
 
@@ -101,10 +101,10 @@ public class StructService {
         List<TableStructVo.TableStruct> rts = (List<TableStructVo.TableStruct>) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
             List<String> likeTale = page(tabkes, pageSize, pageNumber);
             List<TableStructVo.TableStruct> rt = likeTale.stream().map(table -> {
-                List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableStructure(ds, table);
+                List<TableField> tableFields = STRUCT_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).tableStructure(ds, table);
                 TableInfo tableInfo = new TableInfo();
                 tableInfo.setTableName(table);
-                tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableComment(ds, table).getTableComment());
+                tableInfo.setTableComment(STRUCT_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).tableComment(ds, table).getTableComment());
                 TableStructVo.TableStruct tableStruct = new TableStructVo.TableStruct();
                 tableStruct.setTableInfo(tableInfo);
                 tableStruct.setTableFieldList(tableFields);
@@ -127,7 +127,7 @@ public class StructService {
         String key = ShowDbCache.buildCacheKey(ds, "tableDetailInfo", table);
         TableStructVo rt = (TableStructVo) ShowDbCache.cache().computeIfAbsent(key, (k) -> {
             TableStructVo vo = new TableStructVo();
-            vo.setTableInfo(STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableInfo(ds, table));
+            vo.setTableInfo(STRUCT_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).tableInfo(ds, table));
             return vo;
         });
         return rt;
@@ -142,7 +142,7 @@ public class StructService {
     public String tableCreateStatement(String ds, String table) {
         String key = ShowDbCache.buildCacheKey(ds, "createStatement", table);
         return (String) ShowDbCache.cache()
-                .computeIfAbsent(key, (k) -> STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).createTableStatement(ds, table));
+                .computeIfAbsent(key, (k) -> STRUCT_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).createTableStatement(ds, table));
     }
 
     /**
@@ -155,10 +155,10 @@ public class StructService {
         if (htmlStr == null) {
             htmlStr = new StringBuilder("<div style='margin-left: 20%'><h1>").append(ds).append("</h1></div><div>");
             for (String table : this.tableNames(ds)) {
-                List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableStructure(ds, table);
+                List<TableField> tableFields = STRUCT_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).tableStructure(ds, table);
                 TableInfo tableInfo = new TableInfo();
                 tableInfo.setTableName(table);
-                tableInfo.setTableComment(STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableComment(ds, table).getTableComment());
+                tableInfo.setTableComment(STRUCT_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).tableComment(ds, table).getTableComment());
                 TableStructVo.TableStruct tableStruct = new TableStructVo.TableStruct();
                 tableStruct.setTableInfo(tableInfo);
                 tableStruct.setTableFieldList(tableFields);
@@ -239,7 +239,7 @@ public class StructService {
     public String tableJavaCode(String ds, String table) {
         String rt = (String) ShowDbCache.cache().computeIfAbsent(ShowDbCache.buildCacheKey(ds, "tableJavaCode", table),
                 (key) -> {
-                    List<TableField> tableFields = STRUCT_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).tableStructure(ds, table);
+                    List<TableField> tableFields = STRUCT_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).tableStructure(ds, table);
                     StringBuilder code = new StringBuilder("@Data\npublic class ");
                     code.append(CodeGenerateUtil.className(table));
                     code.append("{");

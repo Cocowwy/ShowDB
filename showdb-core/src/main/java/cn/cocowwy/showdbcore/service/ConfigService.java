@@ -1,7 +1,7 @@
 package cn.cocowwy.showdbcore.service;
 
-import cn.cocowwy.showdbcore.cache.ShowDbCache;
-import cn.cocowwy.showdbcore.config.GlobalContext;
+import cn.cocowwy.showdbcore.config.ShowDbCache;
+import cn.cocowwy.showdbcore.config.ShowDBContext;
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.entities.DsInfo;
 import cn.cocowwy.showdbcore.strategy.ConfigExecuteStrategy;
@@ -51,7 +51,7 @@ public class ConfigService {
     public String getOsEnv(String ds) {
         String key = ShowDbCache.buildCacheKey(ds, "os", "env");
         return (String) ShowDbCache.cache().computeIfAbsent(key,
-                (k) -> CONFIG_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).OsEnv(ds));
+                (k) -> CONFIG_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).OsEnv(ds));
     }
 
     /**
@@ -61,7 +61,7 @@ public class ConfigService {
     public String getDbVersion(String ds) {
         String key = ShowDbCache.buildCacheKey(ds, "db", "version");
         return (String) ShowDbCache.cache().computeIfAbsent(key,
-                (k) -> CONFIG_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).DbVersion(ds));
+                (k) -> CONFIG_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).DbVersion(ds));
     }
 
     /**
@@ -71,7 +71,7 @@ public class ConfigService {
     private String getBaseDir(String ds) {
         String key = ShowDbCache.buildCacheKey(ds, "db", "baseDir");
         return (String) ShowDbCache.cache().computeIfAbsent(key,
-                (k) -> CONFIG_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).baseDir(ds));
+                (k) -> CONFIG_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).baseDir(ds));
     }
 
     /**
@@ -81,14 +81,14 @@ public class ConfigService {
     private String getTransactionIsolation(String ds) {
         String key = ShowDbCache.buildCacheKey(ds, "db", "getTransactionIsolation");
         return (String) ShowDbCache.cache().computeIfAbsent(key,
-                (k) -> CONFIG_STRATEGY.get(GlobalContext.mapDs2DbType(ds)).transactionIsolation(ds));
+                (k) -> CONFIG_STRATEGY.get(ShowDBContext.mapDs2DbType(ds)).transactionIsolation(ds));
     }
 
     /**
      * @return 数据源信息
      */
     public List<DsInfo> getDsInfo() {
-        Map<String, DataSource> dsMap = GlobalContext.getDataSourcesMap();
+        Map<String, DataSource> dsMap = ShowDBContext.getDataSourcesMap();
 
         return dsMap.keySet().stream().map(dataSource -> {
             DsInfo dsInfo = new DsInfo();
