@@ -5,9 +5,14 @@
         <el-container>
             <el-main>
                 <el-row style="padding: 10px 0;" :gutter="40">
-                    <el-col :span="6">
+
+                    <!--数据源-->
+                    <el-col :span="12">
                         <el-card style="width:100%" class="box-card"
                                  v-if="currentDataSourceInfo!=null" shadow="hover">
+                            <div slot="header" class="clearfix">
+                                <span style="font-size: 32px;font-weight: 700;">{{currentDataSourceInfo.beanName}}</span>
+                            </div>
                             <el-descriptions direction="vertical" :column="1" border v-if="currentDataSourceInfo!=null"
                                              shadow="hover"
                                              :title="currentDataSourceInfo.beanName">
@@ -40,8 +45,9 @@
                             </el-descriptions>
                         </el-card>
                     </el-col>
-                    <!--IP客户端信息-->
-                    <el-col :span="6">
+
+                    <!--客户端连接信息-->
+                    <el-col :span="12">
                         <el-card style="width:100%" class="box-card"
                                  v-if="ipConInfo!=null" shadow="hover">
                             <div slot="header" class="clearfix">
@@ -53,8 +59,10 @@
                             </el-table>
                         </el-card>
                     </el-col>
+                </el-row>
 
-                    <el-col :span="6">
+                <el-row style="padding: 10px 0;" :gutter="40">
+                    <el-col :span="12">
                         <!--主从信息  IDEA的飘红不管-->
                         <el-card style="width:100%" class="box-card"
                                  v-if="currentDataSourceMasterSlaveInfo==null"
@@ -63,8 +71,6 @@
                                       description="暂未检测到当前数据源存在主从信息">
                             </el-empty>
                         </el-card>
-                    </el-col>
-                    <el-col :span="6">
                         <el-card style="width:80%" class="box-card"
                                  v-if="currentDataSourceMasterSlaveInfo"
                                  shadow="hover">
@@ -129,6 +135,73 @@
                     </el-col>
                 </el-row>
 
+                <el-row style="padding: 10px 0;" :gutter="40">
+                    <el-col :span="24">
+                        <el-card style="width:100%" class="box-card"
+                                 v-if="currentDataSourceInfo!=null" shadow="hover">
+                            <div slot="header" class="clearfix">
+                                <span style="font-size: 32px;font-weight: 700;">实时事务状态
+                                    <el-button @click="trxInfo"
+                                               style="float: right; padding: 3px 0"
+                                               type="text">刷新</el-button></span>
+                            </div>
+                            <div v-loading="transLoading">
+                                <el-table :data="trxInfos" style="margin-top: 4px">
+                                    <el-table-column label="trxId" property="trxId" width="150"></el-table-column>
+                                    <el-table-column label="trx_state" property="trxState"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_started" property="trxStarted"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_requested_lock_id" property="trxRequestedLockId"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_wait_started" property="trxWaitStarted"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_weight" property="trxWeight"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_mysql_thread_id" property="trxMysqlThreadId"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_query" property="trxQuery"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_operation_state" property="trxOperationState"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_tables_in_use" property="trxTablesInUse"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_tables_locked" property="trxTablesLocked"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_lock_structs" property="trxLockStructs"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_lock_memory_bytes" property="trxLockMemoryBytes"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_rows_locked" property="trxRowsLocked"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_rows_modified" property="trxRowsModified"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_concurrency_tickets" property="trxConcurrencyTickets"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_isolation_level" property="trxIsolationLevel"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_unique_checks" property="trxUniqueChecks"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_foreign_key_checks" property="trxForeignKeyChecks"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_last_foreign_key_error"
+                                                     property="trxLastForeignKeyError"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_adaptive_hash_latched" property="trxAdaptiveHashLatched"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_adaptive_hash_timeout" property="trxAdaptiveHashTimeout"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_is_read_only" property="trxIsReadOnly"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_autocommit_non_locking"
+                                                     property="trxAutocommitNonLocking"
+                                                     width="150"></el-table-column>
+                                </el-table>
+                            </div>
+                        </el-card>
+                    </el-col>
+
+                </el-row>
             </el-main>
         </el-container>
     </footer>

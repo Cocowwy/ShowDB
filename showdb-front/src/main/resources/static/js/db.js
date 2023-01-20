@@ -25,8 +25,8 @@ const app = new Vue({
         // loadiong..
         loadingTables: true,
         loadingDataSource: false,
-        // 事务详情表格
-        transDialogTableVisible: false,
+        transLoading: false,
+
         // mybatis设置工具
         mybatisGenerateDialogVisible: false,
         mybatisGenerateDefind: null,
@@ -396,15 +396,14 @@ const app = new Vue({
          */
         trxInfo() {
             var that = this;
-            this.loadingOpen()
+            this.transLoading = true;
             axios.get(that.apiPrefix + '/showdb/monitor/' + this.currentDataSource + '/trxInfo').then(function (res) {
                 if (res.data.code !== 200) {
                     alertError(that, res.data.msg);
                     return;
                 }
                 that.trxInfos = res.data.data
-                that.transDialogTableVisible = true
-                that.loadingClose()
+                that.transLoading = false;
             });
         },
 
@@ -483,6 +482,10 @@ const app = new Vue({
          */
         handleSidebarDirectory(index) {
             this.sidebarDirectory = index;
+            // 选择数据监控的时候执行脚本
+            if(index==='3'){
+                this.trxInfo();
+            }
         },
 
         //  ================CRUD================

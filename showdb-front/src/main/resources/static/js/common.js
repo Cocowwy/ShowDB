@@ -12,7 +12,7 @@ function alertError(ref, msg) {
     ref.$notify.error({
         title: 'ERROR 🎃',
         message: msg,
-        duration: 0,
+        duration: 3000,
         position: 'top-left',
         type: 'success'
     });

@@ -48,7 +48,6 @@
             <div v-if="sidebarDirectory == '3'" th:include="component/monitor :: monitor"></div>
         </el-main>
 
-
         <!--右侧-->
         <el-aside width="15%" style="margin-top: 5%;margin-left: 10px">
             <!--customize-->
@@ -63,7 +62,6 @@
             </el-card>
             <el-empty v-if="customize==null" description="暂无自定义描述信息"></el-empty>
         </el-aside>
-
 
     </el-container>
 
@@ -132,42 +130,6 @@
         <span slot="footer" style="text" class="dialog-footer">
     <el-button type="primary" @click="tableDetailDialog = false">确 定</el-button>
   </span>
-    </el-dialog>
-
-    <!--数据源事务-->
-    <el-dialog title="事务详情" :visible.sync="transDialogTableVisible">
-        <el-table :data="trxInfos">
-            <el-table-column label="trxId" property="trxId" width="150"></el-table-column>
-            <el-table-column label="trx_state" property="trxState" width="150"></el-table-column>
-            <el-table-column label="trx_started" property="trxStarted" width="150"></el-table-column>
-            <el-table-column label="trx_requested_lock_id" property="trxRequestedLockId" width="150"></el-table-column>
-            <el-table-column label="trx_wait_started" property="trxWaitStarted" width="150"></el-table-column>
-            <el-table-column label="trx_weight" property="trxWeight" width="150"></el-table-column>
-            <el-table-column label="trx_mysql_thread_id" property="trxMysqlThreadId" width="150"></el-table-column>
-            <el-table-column label="trx_query" property="trxQuery" width="150"></el-table-column>
-            <el-table-column label="trx_operation_state" property="trxOperationState" width="150"></el-table-column>
-            <el-table-column label="trx_tables_in_use" property="trxTablesInUse" width="150"></el-table-column>
-            <el-table-column label="trx_tables_locked" property="trxTablesLocked" width="150"></el-table-column>
-            <el-table-column label="trx_lock_structs" property="trxLockStructs" width="150"></el-table-column>
-            <el-table-column label="trx_lock_memory_bytes" property="trxLockMemoryBytes" width="150"></el-table-column>
-            <el-table-column label="trx_rows_locked" property="trxRowsLocked" width="150"></el-table-column>
-            <el-table-column label="trx_rows_modified" property="trxRowsModified" width="150"></el-table-column>
-            <el-table-column label="trx_concurrency_tickets" property="trxConcurrencyTickets"
-                             width="150"></el-table-column>
-            <el-table-column label="trx_isolation_level" property="trxIsolationLevel" width="150"></el-table-column>
-            <el-table-column label="trx_unique_checks" property="trxUniqueChecks" width="150"></el-table-column>
-            <el-table-column label="trx_foreign_key_checks" property="trxForeignKeyChecks"
-                             width="150"></el-table-column>
-            <el-table-column label="trx_last_foreign_key_error" property="trxLastForeignKeyError"
-                             width="150"></el-table-column>
-            <el-table-column label="trx_adaptive_hash_latched" property="trxAdaptiveHashLatched"
-                             width="150"></el-table-column>
-            <el-table-column label="trx_adaptive_hash_timeout" property="trxAdaptiveHashTimeout"
-                             width="150"></el-table-column>
-            <el-table-column label="trx_is_read_only" property="trxIsReadOnly" width="150"></el-table-column>
-            <el-table-column label="trx_autocommit_non_locking" property="trxAutocommitNonLocking"
-                             width="150"></el-table-column>
-        </el-table>
     </el-dialog>
 
     <!--MyBatis文件生成-->
