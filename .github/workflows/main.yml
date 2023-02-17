@@ -27,6 +27,4 @@ jobs:
       run: mvn -B clean install -P release-sign-artifacts
 
     - name: Deploy Snapshot to Maven Central
-      run: 
-        echo "${{ secrets.MAVEN_SETTINGS }}" | base64 --decode > settings.xml
-        mvn -DskipTests=true deploy -Dmaven.deploy.skip=false -Dmaven.deploy.redeploy=true --settings settings.xml
+      run: mvn clean deploy -P snapshots -Darguments="gpg.passphrase=${{ secrets.GPG_PASSPHRASE }}" -Dmaven.javadoc.skip=true
