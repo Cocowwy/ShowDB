@@ -16,7 +16,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
-        java-version: '8'
+        java-version: '11'
 
     - name: Set up GPG key
       uses: crazy-max/ghaction-import-gpg@v1
