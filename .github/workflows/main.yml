@@ -27,4 +27,6 @@ jobs:
       run: mvn -B clean install -P release-sign-artifacts
 
     - name: Deploy Snapshot to Maven Central
-      run: mvn -DskipTests=true deploy -Dmaven.deploy.skip=false -Dmaven.deploy.redeploy=true  --settings ${{ secrets.MAVEN_SETTINGS }}
+      run: 
+        echo "${{ secrets.MAVEN_SETTINGS }}" | base64 --decode > settings.xml
+        mvn -DskipTests=true deploy -Dmaven.deploy.skip=false -Dmaven.deploy.redeploy=true --settings settings.xml
