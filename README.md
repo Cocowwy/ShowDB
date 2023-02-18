@@ -60,7 +60,6 @@ showdb:
   enable: true
   refresh: 500
   customize:
-    top-alert: 数据源文档工具 V1.0.1
     creator: Cocowwy
     img: https://avatars.githubusercontent.com/u/63331147?s=400&u=d12524532cc111c9ec069f1aa754e702289a587c&v=4
     email: 514658459@qq.com

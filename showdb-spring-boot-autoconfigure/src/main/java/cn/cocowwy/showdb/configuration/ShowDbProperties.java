@@ -66,10 +66,6 @@ public class ShowDbProperties {
 
     public static class Customize {
         /**
-         * 首页alert文案
-         */
-        private String topAlert;
-        /**
          * 创建者
          */
         private String creator;
@@ -85,14 +81,6 @@ public class ShowDbProperties {
          * icon 图标地址
          */
         private String img;
-
-        public String getTopAlert() {
-            return topAlert;
-        }
-
-        public void setTopAlert(String topAlert) {
-            this.topAlert = topAlert;
-        }
 
         public String getCreator() {
             return creator;

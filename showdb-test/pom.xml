@@ -8,6 +8,12 @@
         <version>1.1.2-SNAPSHOTS</version>
     </parent>
 
+    <properties>
+        <!--skip-->
+        <maven.install.skip>true</maven.install.skip>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
     <artifactId>showdb-test</artifactId>
     <name>showdb-test</name>
     <description>ShowDB测试模块</description>

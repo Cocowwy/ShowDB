@@ -2,7 +2,7 @@ const app = new Vue({
     el: '#ShowDB',
     data: {
         // 版本
-        version: null,
+        showDbVersion: null,
         apiPrefix: '',
         // 用户自定义信息
         customize: null,
@@ -549,7 +549,7 @@ const app = new Vue({
         } else {
             this.apiPrefix = '';
         }
-        this.version = version;
+        this.showDbVersion = version;
         this.dsInfo();
         this.getConfig();
         console.log('作者：🌸Cocowwy  Github：https://github.com/Cocowwy/ShowDB\n'

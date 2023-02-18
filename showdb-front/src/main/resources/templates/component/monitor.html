@@ -67,6 +67,9 @@
                         <el-card style="width:100%" class="box-card"
                                  v-if="currentDataSourceMasterSlaveInfo==null"
                                  shadow="hover">
+                            <div slot="header" class="clearfix">
+                                <span style="font-size: 32px;font-weight: 700;">主从状态检测</span>
+                            </div>
                             <el-empty th:image="@{img/masterSlave.png}"
                                       description="暂未检测到当前数据源存在主从信息">
                             </el-empty>
@@ -74,6 +77,9 @@
                         <el-card style="width:80%" class="box-card"
                                  v-if="currentDataSourceMasterSlaveInfo"
                                  shadow="hover">
+                            <div slot="header" class="clearfix">
+                                <span style="font-size: 32px;font-weight: 700;">主从状态检测</span>
+                            </div>
                             <div>
                                 <el-descriptions title="主从信息" direction="vertical" :column="1" border>
                                     <el-descriptions-item label="主机IP（Master_Host）">
