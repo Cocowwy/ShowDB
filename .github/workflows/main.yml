@@ -25,8 +25,6 @@ jobs:
         if:  endsWith(steps.version.outputs.version, '-SNAPSHOT')
         uses: samuelmeuli/action-maven-publish@v1
         with:
-          gpg_private_key: ${{ secrets.gpg_private_key }}
-          gpg_passphrase: ${{ secrets.gpg_passphrase }}
           nexus_username: ${{ secrets.nexus_username }}
           nexus_password: ${{ secrets.nexus_password }}
           maven_args: -Dmaven.test.skip=true
