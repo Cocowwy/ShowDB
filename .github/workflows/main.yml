@@ -22,7 +22,7 @@ jobs:
         run: echo ::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 
       - name: Deploy Snapshot Maven package
-        if: (github.ref == 'refs/heads/develop') && endsWith(steps.version.outputs.version, '-SNAPSHOT')
+        if:  endsWith(steps.version.outputs.version, '-SNAPSHOT')
         uses: samuelmeuli/action-maven-publish@v1
         with:
           gpg_private_key: ${{ secrets.gpg_private_key }}
@@ -31,7 +31,7 @@ jobs:
           nexus_password: ${{ secrets.nexus_password }}
 
       - name: Deploy Release Maven package
-        if: (github.ref == 'refs/heads/master') && endsWith(steps.version.outputs.version, '-SNAPSHOT') == false
+        if:  endsWith(steps.version.outputs.version, '-SNAPSHOT') == false
         uses: samuelmeuli/action-maven-publish@v1
         with:
           gpg_private_key: ${{ secrets.gpg_private_key }}
