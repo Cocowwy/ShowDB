@@ -70,11 +70,13 @@ public class ShowDbAutoConfiguration implements InitializingBean {
         copyProperties(plugin, plg);
 
         // customize
-        ShowDBConfig.Customize cst = new ShowDBConfig.Customize();
-        if (Objects.nonNull(showDbProperties.getCustomize())) {
+        if (showDbProperties.getCustomize() == null) {
+            return new ShowDBConfig(null, plg);
+        } else {
+            ShowDBConfig.Customize cst = new ShowDBConfig.Customize();
             copyProperties(showDbProperties.getCustomize(), cst);
+            return new ShowDBConfig(cst, plg);
         }
-        return new ShowDBConfig(cst, plg);
     }
 
     private void bannerLog() {

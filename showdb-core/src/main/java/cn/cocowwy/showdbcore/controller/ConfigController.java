@@ -38,8 +38,6 @@ public class ConfigController {
 
     /**
      * 清除缓存
-     *
-     * @return
      */
     @DeleteMapping("cleanCache")
     public Res<Void> cleanCache() {
@@ -49,8 +47,6 @@ public class ConfigController {
 
     /**
      * 自定义
-     *
-     * @return
      */
     @GetMapping("config")
     public Res<ShowDBConfig> config() {
