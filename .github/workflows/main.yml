@@ -1,4 +1,4 @@
-name: Snapshot Deploy
+name: Deploy ShowDB maven
 
 on:
   push:
@@ -6,25 +6,35 @@ on:
       - v1-dev
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  deploy:
+    runs-on: ubuntu-18.04
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Check out Git repository
+        uses: actions/checkout@v1
 
+      - name: Install Java and Maven
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
 
-    - name: Set up JDK
-      uses: actions/setup-java@v1
-      with:
-        java-version: '1.8'
+      - name: Get Version
+        id: version
+        run: echo ::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 
-    - name: Set up GPG key
-      uses: crazy-max/ghaction-import-gpg@v1
-      with:
-        key: ${{ secrets.GPG_SECRET }}
-        passphrase: ${{ secrets.GPG_PASSWORD }}
+      - name: Deploy Snapshot Maven package
+        if: (github.ref == 'refs/heads/develop') && endsWith(steps.version.outputs.version, '-SNAPSHOT')
+        uses: samuelmeuli/action-maven-publish@v1
+        with:
+          gpg_private_key: ${{ secrets.gpg_private_key }}
+          gpg_passphrase: ${{ secrets.gpg_passphrase }}
+          nexus_username: ${{ secrets.nexus_username }}
+          nexus_password: ${{ secrets.nexus_password }}
 
-    - name: Build and deploy
-      run: |
-        mvn -B clean deploy -DskipTests -Psnapshot -Dmaven.javadoc.skip=true -Dgpg.passphrase="${{ secrets.GPG_PASSWORD }}" --settings ${{ secrets.MAVEN_SETTINGS }}
+      - name: Deploy Release Maven package
+        if: (github.ref == 'refs/heads/master') && endsWith(steps.version.outputs.version, '-SNAPSHOT') == false
+        uses: samuelmeuli/action-maven-publish@v1
+        with:
+          gpg_private_key: ${{ secrets.gpg_private_key }}
+          gpg_passphrase: ${{ secrets.gpg_passphrase }}
+          nexus_username: ${{ secrets.nexus_username }}
+          nexus_password: ${{ secrets.nexus_password }}
