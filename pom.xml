@@ -6,7 +6,7 @@
 
     <groupId>cn.cocowwy</groupId>
     <artifactId>ShowDB</artifactId>
-    <version>1.1.2-SNAPSHOTS</version>
+    <version>1.1.2-SNAPSHOT</version>
 
     <modules>
         <module>showdb-spring-boot-autoconfigure</module>
@@ -36,7 +36,7 @@
     </developers>
 
     <properties>
-        <showdb.version>1.1.2-SNAPSHOTS</showdb.version>
+        <showdb.version>1.1.2-SNAPSHOT</showdb.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
