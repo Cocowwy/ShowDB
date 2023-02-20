@@ -1,8 +1,10 @@
 package cn.cocowwy.showdbcore.generate.impl;
 
-import cn.cocowwy.showdbcore.config.GlobalContext;
+import cn.cocowwy.showdbcore.config.ShowDBContext;
 import cn.cocowwy.showdbcore.constants.DBEnum;
-import cn.cocowwy.showdbcore.entities.GenerateDefind;
+import cn.cocowwy.showdbcore.entities.MyBatisGenerateDefinition;
+import cn.cocowwy.showdbcore.entities.GenerateFileDefinition;
+import cn.cocowwy.showdbcore.exception.ShowDbException;
 import cn.cocowwy.showdbcore.generate.GeneratorService;
 import cn.cocowwy.showdbcore.generate.custom.CustomCommentGenerator;
 import cn.cocowwy.showdbcore.generate.plugin.BatchInsertPlugin;
@@ -43,22 +45,24 @@ public class MybatisGeneratorImpl implements GeneratorService {
      * @return 校验是否是MySQl
      */
     private Boolean checkIsMySQL(String ds) {
-        return GlobalContext.getDataSourcesTypeMap().get(ds).equals(DBEnum.MySQL);
+        return ShowDBContext.getDataSourcesTypeMap().get(ds).equals(DBEnum.MySQL);
     }
 
-    public Boolean generate(String ds, String tableName, GenerateDefind generateDefind) {
+    @Override
+    public Boolean generate(String ds, String tableName, GenerateFileDefinition generate) {
+        MyBatisGenerateDefinition myBatisGenerate = (MyBatisGenerateDefinition) generate;
         List<String> warnings = new ArrayList<>();
         boolean overwrite = true;
         Configuration config = new Configuration();
         Context context = new Context(ModelType.CONDITIONAL);
-        buildConfiguration(ds, tableName, generateDefind, config, context);
-        buildComment(context, generateDefind);
-        buildPlugins(ds, generateDefind, context);
+        buildConfiguration(ds, tableName, myBatisGenerate, config, context);
+        buildComment(context, myBatisGenerate);
+        buildPlugins(ds, myBatisGenerate, context);
         context.setTargetRuntime("MyBatis3");
         try {
             // overrideXML
-            if (generateDefind.getOverrideXML()) {
-                String mappingXMLFilePath = getMappingXMLFilePath(generateDefind);
+            if (myBatisGenerate.getOverrideXML()) {
+                String mappingXMLFilePath = getMappingXMLFilePath(myBatisGenerate);
                 File mappingXMLFile = new File(mappingXMLFilePath);
                 if (mappingXMLFile.exists()) {
                     mappingXMLFile.delete();
@@ -89,11 +93,11 @@ public class MybatisGeneratorImpl implements GeneratorService {
      * @param config 配置
      * @param context context
      */
-    private void buildConfiguration(String ds, String tableName, GenerateDefind generateDefind, Configuration config, Context context) {
+    private void buildConfiguration(String ds, String tableName, MyBatisGenerateDefinition generateDefind, Configuration config, Context context) {
         JDBCConnectionConfiguration jdbcConfig = new JDBCConnectionConfiguration();
 
         // 构造 JDBCConnectionConfiguration 连接信息
-        buildJdbcConfig(jdbcConfig, GlobalContext.getDataSourcesMap().get(ds));
+        buildJdbcConfig(jdbcConfig, ShowDBContext.getDataSourcesMap().get(ds));
 
         context.addProperty("javaFileEncoding", "UTF-8");
         context.addProperty("autoDelimitKeywords", "true");
@@ -136,7 +140,7 @@ public class MybatisGeneratorImpl implements GeneratorService {
      * @param context context
      * @param generateDefind generateDefind
      */
-    private static void buildComment(Context context, GenerateDefind generateDefind) {
+    private static void buildComment(Context context, MyBatisGenerateDefinition generateDefind) {
         CommentGeneratorConfiguration commentConfig = new CommentGeneratorConfiguration();
         commentConfig.addProperty("author", generateDefind.getAuthor());
         commentConfig.setConfigurationType(CustomCommentGenerator.class.getName());
@@ -149,7 +153,7 @@ public class MybatisGeneratorImpl implements GeneratorService {
      * @param generateDefind 自定义信息
      * @param context context
      */
-    private void buildPlugins(String ds, GenerateDefind generateDefind, Context context) {
+    private void buildPlugins(String ds, MyBatisGenerateDefinition generateDefind, Context context) {
         // 实体添加序列化
         PluginConfiguration serializablePluginConfiguration = new PluginConfiguration();
         serializablePluginConfiguration.setConfigurationType(SerializablePlugin.class.getName());
@@ -204,7 +208,7 @@ public class MybatisGeneratorImpl implements GeneratorService {
      * @param mapperConfig XML
      * @param daoConfig 持久层
      */
-    void buildGenerateFilePath(GenerateDefind generateDefind,
+    void buildGenerateFilePath(MyBatisGenerateDefinition generateDefind,
                                JavaModelGeneratorConfiguration modelConfig,
                                SqlMapGeneratorConfiguration mapperConfig,
                                JavaClientGeneratorConfiguration daoConfig) {
@@ -228,7 +232,7 @@ public class MybatisGeneratorImpl implements GeneratorService {
      */
     public void buildJdbcConfig(JDBCConnectionConfiguration jdbcConfig, DataSource dataSource) {
         if (Objects.isNull(dataSource)) {
-            throw new RuntimeException("Illegal data source");
+            throw new ShowDbException("Illegal data source");
         }
         try {
             Class<?> c = dataSource.getClass();
@@ -245,11 +249,11 @@ public class MybatisGeneratorImpl implements GeneratorService {
             jdbcConfig.setPassword(pwd);
             jdbcConfig.setDriverClass(driverClassName);
         } catch (Exception e) {
-            throw new RuntimeException("Reflection to obtain DataSource information exception ", e);
+            throw new ShowDbException("Reflection to obtain DataSource information exception ", e);
         }
     }
 
-    private String getMappingXMLFilePath(GenerateDefind defind) {
+    private String getMappingXMLFilePath(MyBatisGenerateDefinition defind) {
         StringBuilder sb = new StringBuilder();
         sb.append(defind.getMapperXmlProjectPath()).append("/")
                 .append(defind.getMapperXmlPackagePath().replace(".", "/")).append("/");

@@ -5,6 +5,7 @@ package cn.cocowwy.showdb.configuration;
  * @create 2022-03-03-22:22
  */
 
+import cn.cocowwy.showdbcore.entities.ShowDBConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Collections;
@@ -29,7 +30,7 @@ public class ShowDbProperties {
     /**
      * 插件生成
      */
-    private Plugin plugin = new Plugin();
+    private ShowDBConfig.Plugin plugin = new ShowDBConfig.Plugin();
 
     public boolean isEnable() {
         return enable;
@@ -55,11 +56,63 @@ public class ShowDbProperties {
         this.customize = customize;
     }
 
-    public Plugin getPlugin() {
+    public ShowDBConfig.Plugin getPlugin() {
         return plugin;
     }
 
-    public void setPlugin(Plugin plugin) {
+    public void setPlugin(ShowDBConfig.Plugin plugin) {
         this.plugin = plugin;
     }
+
+    public static class Customize {
+        /**
+         * 创建者
+         */
+        private String creator;
+        /**
+         * 邮箱
+         */
+        private String email;
+        /**
+         * 描述
+         */
+        private String desc;
+        /**
+         * icon 图标地址
+         */
+        private String img;
+
+        public String getCreator() {
+            return creator;
+        }
+
+        public void setCreator(String creator) {
+            this.creator = creator;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+
+        public String getImg() {
+            return img;
+        }
+
+        public void setImg(String img) {
+            this.img = img;
+        }
+    }
+
 }

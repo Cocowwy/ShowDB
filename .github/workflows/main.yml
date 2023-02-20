@@ -1,0 +1,40 @@
+name: Deploy ShowDB maven
+
+on:
+  push:
+    branches:
+      - v1-dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Install Java and Maven
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Get Version
+        id: version
+        run: echo ::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+
+      - name: Deploy Snapshot Maven package
+        if:  endsWith(steps.version.outputs.version, '-SNAPSHOT')
+        uses: samuelmeuli/action-maven-publish@v1
+        with:
+          nexus_username: ${{ secrets.nexus_username }}
+          nexus_password: ${{ secrets.nexus_password }}
+          maven_args: -Dmaven.test.skip=true
+          
+      - name: Deploy Release Maven package
+        if:  endsWith(steps.version.outputs.version, '-SNAPSHOT') == false
+        uses: samuelmeuli/action-maven-publish@v1
+        with:
+          gpg_private_key: ${{ secrets.gpg_private_key }}
+          gpg_passphrase: ${{ secrets.gpg_passphrase }}
+          nexus_username: ${{ secrets.nexus_username }}
+          nexus_password: ${{ secrets.nexus_password }}
+          

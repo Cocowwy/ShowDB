@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:v-if="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>ShowDB</title>
+    <!--相关引入-->
+    <link rel="shortcut icon" th:href="@{img/database.png}">
+    <script th:src="@{js/vue.min.js}"></script>
+    <script th:src="@{js/axios.min.js}"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <link rel="stylesheet" th:href="@{css/db.css}">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+<dev id="ShowDB">
+    <!--顶部-->
+    <el-alert style="font-weight: bold" v-if="customize!=null"
+              :title="showDbVersion"
+              type="success"
+              @close="starIt" center>
+    </el-alert>
+
+    <el-container>
+
+        <el-aside width="8%" v-if="plugin">
+            <!--侧边目录栏-->
+            <el-menu :default-active="sidebarDirectory" class="el-menu-demo" @select="handleSidebarDirectory">
+                <el-menu-item index="1">数据文档</el-menu-item>
+                <el-menu-item index="2" :disabled="!plugin.execute">数据执行</el-menu-item>
+                <el-menu-item index="3" :disabled="!plugin.monitor">数据监控</el-menu-item>
+            </el-menu>
+        </el-aside>
+
+        <!--中间区域抽取成可变的区域-->
+        <el-main width="48%" style="margin: 10px">
+
+            <!--数据源选取-->
+            <div v-loading="loadingDataSource">
+                <el-radio v-model="currentDataSource" @change="dsChange" v-for="(item,index) in dataSorucesInfo"
+                          :label="item.beanName" border>{{item.beanName}}
+                </el-radio>
+            </div>
+            <!-- 文档-->
+            <div v-if="sidebarDirectory == '1'" th:include="component/doc :: doc"></div>
+            <!--SQL执行-->
+            <div v-if="sidebarDirectory == '2'" th:include="component/execute :: execute"></div>
+            <!--监控-->
+            <div v-if="sidebarDirectory == '3'" th:include="component/monitor :: monitor"></div>
+        </el-main>
+
+        <!--右侧-->
+        <el-aside width="15%" style="margin-top: 5%;margin-left: 10px">
+            <!--customize-->
+            <el-card v-if="customize" :body-style="{ padding: '0px' }"
+                     style="width:80%;overflow-x: auto" shadow="hover">
+                <img :src="customize.img" class="image" style="width: 100%;display: block;">
+                <div style="padding: 14px;">
+                    <span style="font-size: large">👤  {{customize.creator}}</span><br>
+                    <span style="font-size: large">📮  {{customize.email}}</span><br>
+                    <span style="font-size: large">🗒  {{customize.desc}}</span><br>
+                </div>
+            </el-card>
+            <el-empty v-if="customize==null" description="暂无自定义描述信息"></el-empty>
+        </el-aside>
+
+    </el-container>
+
+
+    <!--表创建语句弹框-->
+    <el-dialog
+            :title="createStatementTableName"
+            :visible.sync="createStatementDialog"
+            width="38%">
+        <el-input
+                type="textarea"
+                :autosize="{ minRows: 2, maxRows: 20}"
+                v-model="createStatementContent">
+        </el-input>
+        <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="createStatementDialog = false">确 定</el-button>
+  </span>
+    </el-dialog>
+
+    <!--Java实体类代码-->
+    <el-dialog
+            :title="createJavaCodeTableName"
+            :visible.sync="createJavaCodeDialog"
+            width="38%">
+        <el-input
+                type="textarea"
+                :autosize="{ minRows: 2, maxRows: 20}"
+                v-model="createJavaCodeContent">
+        </el-input>
+        <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="createJavaCodeDialog = false">确 定</el-button>
+  </span>
+    </el-dialog>
+
+    <!--表 详细信息-->
+    <el-dialog :title="tableDetailTableName" :visible.sync="tableDetailDialog" width="38%">
+        <el-descriptions v-if="tableDetailInformation!=null">版本号
+            <el-descriptions-item label="表描述">{{tableDetailInformation.tableInfo.tableComment}}
+            </el-descriptions-item>
+            <el-descriptions-item label="行数">{{tableDetailInformation.tableInfo.rows}}</el-descriptions-item>
+            <el-descriptions-item label="数据大小">{{(tableDetailInformation.tableInfo.dataSize / 1024 /
+                1024).toFixed(2)}}MB
+                /
+                {{tableDetailInformation.tableInfo.dataSize}}B
+            </el-descriptions-item>
+            <el-descriptions-item label="索引大小">{{(tableDetailInformation.tableInfo.indexSie / 1024 /
+                1024).toFixed(2)}}MB
+                /
+                {{tableDetailInformation.tableInfo.indexSie}}B
+            </el-descriptions-item>
+            <el-descriptions-item label="平均每行字节数">{{tableDetailInformation.tableInfo.avgRowLength}}B
+            </el-descriptions-item>
+            <el-descriptions-item v-if="tableDetailInformation.tableInfo.maxDataLenth===0" label="最大容量">
+                {{(tableDetailInformation.tableInfo.maxDataLenth / 1024 / 1024).toFixed(2)}}MB /
+                {{tableDetailInformation.tableInfo.maxDataLenth}}B
+            </el-descriptions-item>
+            <el-descriptions-item v-else label="最大容量">无上限</el-descriptions-item>
+
+            <el-descriptions-item label="存储引擎">{{tableDetailInformation.tableInfo.engine}}</el-descriptions-item>
+            <el-descriptions-item label="字符集">{{tableDetailInformation.tableInfo.collation}}</el-descriptions-item>
+            <el-descriptions-item label="创建时间">{{tableDetailInformation.tableInfo.createTime}}
+            </el-descriptions-item>
+            <el-descriptions-item label="更新时间">{{tableDetailInformation.tableInfo.updateTime}}
+            </el-descriptions-item>
+        </el-descriptions>
+        <span slot="footer" style="text" class="dialog-footer">
+    <el-button type="primary" @click="tableDetailDialog = false">确 定</el-button>
+  </span>
+    </el-dialog>
+
+    <!--MyBatis文件生成-->
+    <el-dialog v-if="mybatisGenerateDefind" :visible.sync="mybatisGenerateDialogVisible"
+               :title="'MyBatis文件生成🍓'+mybatisGenerateDefind.tableName">
+        <el-form label-width="120px">
+            <el-form-item label="类名" style="width: 40%">
+                <el-input v-model="mybatisGenerateDefind.domainObjName"></el-input>
+            </el-form-item>
+            <el-form-item label="Dao项目路径">
+                <el-input v-model="mybatisGenerateDefind.mapperJavaProjectPath"></el-input>
+            </el-form-item>
+            <el-form-item label="Dao包路径">
+                <el-input v-model="mybatisGenerateDefind.mapperJavaPackagePath"></el-input>
+            </el-form-item>
+            <el-form-item label="XML项目路径">
+                <el-input v-model="mybatisGenerateDefind.mapperXmlProjectPath"></el-input>
+            </el-form-item>
+            <el-form-item label="XML包路径">
+                <el-input v-model="mybatisGenerateDefind.mapperXmlPackagePath"></el-input>
+            </el-form-item>
+            <el-form-item label="XML文件名">
+                <el-input v-model="mybatisGenerateDefind.mapperName"></el-input>
+            </el-form-item>
+            <el-form-item label="实体类项目路径">
+                <el-input v-model="mybatisGenerateDefind.modelProjectPath"></el-input>
+            </el-form-item>
+            <el-form-item label="实体类包路径">
+                <el-input v-model="mybatisGenerateDefind.modelPackagePath"></el-input>
+            </el-form-item>
+            <el-form-item label="功能开关">
+                <el-switch width="50" active-text="覆盖XML" v-model="mybatisGenerateDefind.overrideXML"></el-switch>
+                &nbsp;&nbsp;&nbsp;
+                <el-switch active-text="toString" v-model="mybatisGenerateDefind.useToString"></el-switch>
+                &nbsp;&nbsp;&nbsp;
+                <el-switch active-text="equals和hashCode" v-model="mybatisGenerateDefind.useEqAndHx"></el-switch>
+                &nbsp;&nbsp;&nbsp;
+                <el-switch active-text="批量插入更新语句" v-model="mybatisGenerateDefind.useBatch"></el-switch>
+                &nbsp;&nbsp;&nbsp;
+                <br>
+                <el-switch active-text="JSR310" v-model="mybatisGenerateDefind.useJSR310"></el-switch>
+                &nbsp;&nbsp;&nbsp;
+                <el-switch active-text="Lombok" v-model="mybatisGenerateDefind.useLombok"></el-switch>
+                &nbsp;&nbsp;&nbsp;
+                <el-switch active-text="使用Example" v-model="mybatisGenerateDefind.useExample"></el-switch>
+                &nbsp;&nbsp;&nbsp;
+            </el-form-item>
+            <el-form-item label="作者名" style="width: 40%">
+                <el-input v-model="mybatisGenerateDefind.author"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="doGenerateMyBatis">立即创建</el-button>
+                <el-button @click="mybatisGenerateDialogVisible = false">取消</el-button>
+            </el-form-item>
+        </el-form>
+    </el-dialog>
+</dev>
+
+</body>
+<!--获取Spring的配置文件信息-->
+<script th:inline="javascript" type="text/javascript">
+    // 获取Spring的contextPath的值，拼接在实际请求路径的前面
+    var context = [[${@Defined.contextPath}]];
+    var version = [[${@Defined.version}]];
+</script>
+<script th:src="@{js/common.js}"></script>
+<script th:src="@{js/sql-formatter.min.js}"></script>
+<script th:src="@{js/db.js}"></script>
+</html>

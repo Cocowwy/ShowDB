@@ -1,5 +1,6 @@
 package cn.cocowwy.showdbcore.generate.plugin;
 
+import cn.cocowwy.showdbcore.exception.ShowDbException;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
@@ -67,7 +68,7 @@ public class BatchUpdatePlugin extends PluginAdapter {
         } else if (introspectedTable.getRules().generatePrimaryKeyClass()) {
             paramListType = new FullyQualifiedJavaType(introspectedTable.getPrimaryKeyType());
         } else {
-            throw new RuntimeException(getString("RuntimeError.12")); //$NON-NLS-1$
+            throw new ShowDbException(getString("RuntimeError.12")); //$NON-NLS-1$
         }
         paramType.addTypeArgument(paramListType);
 

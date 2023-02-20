@@ -1,11 +1,9 @@
 package cn.cocowwy.showdbcore.util;
 
-import cn.cocowwy.showdbcore.cache.ShowDbCache;
-import cn.cocowwy.showdbcore.config.GlobalContext;
+import cn.cocowwy.showdbcore.config.ShowDbCache;
+import cn.cocowwy.showdbcore.config.ShowDBContext;
 import cn.cocowwy.showdbcore.constants.DBEnum;
 import cn.cocowwy.showdbcore.exception.ShowDbException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -30,7 +28,7 @@ public class DataSourcePropUtil {
                     DBEnum type = null;
                     Connection connection = null;
                     try {
-                        connection = GlobalContext.getDataSourcesMap().get(dataSourceBeanName).getConnection();
+                        connection = ShowDBContext.getDataSourcesMap().get(dataSourceBeanName).getConnection();
                         String name = connection.getMetaData().getDatabaseProductName();
                         switch (name) {
                             case "MySQL":
@@ -46,8 +44,7 @@ public class DataSourcePropUtil {
                         try {
                             // fix：修复不释放连接的bug
                             connection.close();
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
+                        } catch (SQLException ignored) {
                         }
                     }
                     return type;
@@ -60,7 +57,7 @@ public class DataSourcePropUtil {
      * @return
      */
     public static String getBeanName(DataSource dataSource) {
-        for (Map.Entry<String, DataSource> entry : GlobalContext.getDataSourcesMap().entrySet()) {
+        for (Map.Entry<String, DataSource> entry : ShowDBContext.getDataSourcesMap().entrySet()) {
             if (entry.getValue().equals(dataSource)) {
                 return entry.getKey();
             }
@@ -79,7 +76,7 @@ public class DataSourcePropUtil {
                     String mysqlSchema = null;
                     Connection connection = null;
                     try {
-                        connection = GlobalContext.getDataSourcesMap()
+                        connection = ShowDBContext.getDataSourcesMap()
                                 .get(beanName)
                                 .getConnection();
                         mysqlSchema = connection.getMetaData().getURL();

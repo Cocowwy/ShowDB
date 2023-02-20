@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <footer th:fragment="monitor">
+        <el-container>
+            <el-main>
+                <el-row style="padding: 10px 0;" :gutter="40">
+
+                    <!--数据源-->
+                    <el-col :span="12">
+                        <el-card style="width:100%" class="box-card"
+                                 v-if="currentDataSourceInfo!=null" shadow="hover">
+                            <div slot="header" class="clearfix">
+                                <span style="font-size: 32px;font-weight: 700;">{{currentDataSourceInfo.beanName}}</span>
+                            </div>
+                            <el-descriptions direction="vertical" :column="1" border v-if="currentDataSourceInfo!=null"
+                                             shadow="hover"
+                                             :title="currentDataSourceInfo.beanName">
+                                <el-descriptions-item label="数据库类型">
+                                    <el-tag size="large" type="info">{{currentDataSourceInfo.dsProductName}}</el-tag>
+                                </el-descriptions-item>
+                                <el-descriptions-item label="数据库版本号">
+                                    <el-tag size="large" type="success"> {{currentDataSourceInfo.dbVersion}}</el-tag>
+                                </el-descriptions-item>
+                                <el-descriptions-item label="数据库">
+                                    <div style="color:black;font-weight:bold;font-size: large">
+                                        {{currentDataSourceInfo.tableSchema}}
+                                    </div>
+                                </el-descriptions-item>
+                                <el-descriptions-item label="操作系统">{{currentDataSourceInfo.osEnv}}
+                                </el-descriptions-item>
+                                <el-descriptions-item label="连接用户">{{currentDataSourceInfo.username}}
+                                </el-descriptions-item>
+                                <el-descriptions-item label="总记录数">{{currentDataSourceInfo.records}} 行
+                                </el-descriptions-item>
+                                <el-descriptions-item label="总数据量">{{currentDataSourceInfo.dataSize}}MB
+                                </el-descriptions-item>
+                                <el-descriptions-item label="总索引量">{{currentDataSourceInfo.indexSize}}MB
+                                </el-descriptions-item>
+                                <el-descriptions-item label="路径">{{currentDataSourceInfo.baseDir}}
+                                </el-descriptions-item>
+                                <el-descriptions-item label="连接URL">
+                                    {{currentDataSourceInfo.url}}
+                                </el-descriptions-item>
+                            </el-descriptions>
+                        </el-card>
+                    </el-col>
+
+                    <!--客户端连接信息-->
+                    <el-col :span="12">
+                        <el-card style="width:100%" class="box-card"
+                                 v-if="ipConInfo!=null" shadow="hover">
+                            <div slot="header" class="clearfix">
+                                <span style="font-size: 32px;font-weight: 700;">客户端连接信息</span>
+                            </div>
+                            <el-table :data="ipConInfo" border>
+                                <el-table-column prop="ip" label="IP"></el-table-column>
+                                <el-table-column prop="count" label="连接数量"></el-table-column>
+                            </el-table>
+                        </el-card>
+                    </el-col>
+                </el-row>
+
+                <el-row style="padding: 10px 0;" :gutter="40">
+                    <el-col :span="12">
+                        <!--主从信息  IDEA的飘红不管-->
+                        <el-card style="width:100%" class="box-card"
+                                 v-if="currentDataSourceMasterSlaveInfo==null"
+                                 shadow="hover">
+                            <div slot="header" class="clearfix">
+                                <span style="font-size: 32px;font-weight: 700;">主从状态检测</span>
+                            </div>
+                            <el-empty th:image="@{img/masterSlave.png}"
+                                      description="暂未检测到当前数据源存在主从信息">
+                            </el-empty>
+                        </el-card>
+                        <el-card style="width:80%" class="box-card"
+                                 v-if="currentDataSourceMasterSlaveInfo"
+                                 shadow="hover">
+                            <div slot="header" class="clearfix">
+                                <span style="font-size: 32px;font-weight: 700;">主从状态检测</span>
+                            </div>
+                            <div>
+                                <el-descriptions title="主从信息" direction="vertical" :column="1" border>
+                                    <el-descriptions-item label="主机IP（Master_Host）">
+                                        {{currentDataSourceMasterSlaveInfo.masterHost}}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item label="主从复制用户（Master_User）">
+                                        {{currentDataSourceMasterSlaveInfo.masterUser}}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item label="主机端口（Master_Port）">
+                                        {{currentDataSourceMasterSlaveInfo.masterPort}}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item label="从库滞后时长（SQL_Delay），单位：秒">
+                                        <div style="color:#8de013;font-weight:bold;font-size: large"
+                                             v-if="currentDataSourceMasterSlaveInfo.sqlDelay==0">
+                                            {{currentDataSourceMasterSlaveInfo.sqlDelay}}
+                                        </div>
+                                        <div style="color:red;font-weight:bold;font-size: large"
+                                             v-if="currentDataSourceMasterSlaveInfo.sqlDelay!=0">
+                                            {{currentDataSourceMasterSlaveInfo.sqlDelay}}
+                                        </div>
+                                    </el-descriptions-item>
+                                    <el-descriptions-item label="连接主库失败最多的重试次数（Master_Retry_Count）">
+                                        {{currentDataSourceMasterSlaveInfo.masterRetryCount}}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item label="slave I/O线程状态（Slave_IO_State）">
+                                        <div style="color:black;font-weight:bold;font-size: large">
+                                            {{currentDataSourceMasterSlaveInfo.slaveIOState}}
+                                        </div>
+                                    </el-descriptions-item>
+                                    <el-descriptions-item label="Slave_IO_Running">
+                                        <div style="color:#8de013;font-weight:bold;font-size: large"
+                                             v-if="currentDataSourceMasterSlaveInfo.slaveIORunning=='Yes'">
+                                            {{currentDataSourceMasterSlaveInfo.slaveIORunning}}
+                                        </div>
+                                        <div style="color:red;font-weight:bold;font-size: large"
+                                             v-if="currentDataSourceMasterSlaveInfo.slaveIORunning!='Yes'">
+                                            {{currentDataSourceMasterSlaveInfo.slaveIORunning}}
+                                        </div>
+                                    </el-descriptions-item>
+                                    <el-descriptions-item label="Slave_SQL_Running">
+                                        <div style="color:#8de013;font-weight:bold;font-size: large"
+                                             v-if="currentDataSourceMasterSlaveInfo.slaveSQLRunning=='Yes'">
+                                            {{currentDataSourceMasterSlaveInfo.slaveSQLRunning}}
+                                        </div>
+                                        <div style="color:red;font-weight:bold;font-size: large"
+                                             v-if="currentDataSourceMasterSlaveInfo.slaveSQLRunning!='Yes'">
+                                            {{currentDataSourceMasterSlaveInfo.slaveSQLRunning}}
+                                        </div>
+                                    </el-descriptions-item>
+                                    <el-descriptions-item label="Relay_Log_File">
+                                        {{currentDataSourceMasterSlaveInfo.relayLogFile}}
+                                    </el-descriptions-item>
+                                    <el-descriptions-item label="Master_Log_File">
+                                        {{currentDataSourceMasterSlaveInfo.masterLogFile}}
+                                    </el-descriptions-item>
+                                </el-descriptions>
+                            </div>
+                        </el-card>
+                    </el-col>
+                </el-row>
+
+                <el-row style="padding: 10px 0;" :gutter="40">
+                    <el-col :span="24">
+                        <el-card style="width:100%" class="box-card"
+                                 v-if="currentDataSourceInfo!=null" shadow="hover">
+                            <div slot="header" class="clearfix">
+                                <span style="font-size: 32px;font-weight: 700;">实时事务状态
+                                    <el-button @click="trxInfo"
+                                               style="float: right; padding: 3px 0"
+                                               type="text">刷新</el-button></span>
+                            </div>
+                            <div v-loading="transLoading">
+                                <el-table :data="trxInfos" style="margin-top: 4px">
+                                    <el-table-column label="trxId" property="trxId" width="150"></el-table-column>
+                                    <el-table-column label="trx_state" property="trxState"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_started" property="trxStarted"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_requested_lock_id" property="trxRequestedLockId"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_wait_started" property="trxWaitStarted"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_weight" property="trxWeight"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_mysql_thread_id" property="trxMysqlThreadId"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_query" property="trxQuery"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_operation_state" property="trxOperationState"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_tables_in_use" property="trxTablesInUse"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_tables_locked" property="trxTablesLocked"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_lock_structs" property="trxLockStructs"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_lock_memory_bytes" property="trxLockMemoryBytes"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_rows_locked" property="trxRowsLocked"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_rows_modified" property="trxRowsModified"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_concurrency_tickets" property="trxConcurrencyTickets"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_isolation_level" property="trxIsolationLevel"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_unique_checks" property="trxUniqueChecks"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_foreign_key_checks" property="trxForeignKeyChecks"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_last_foreign_key_error"
+                                                     property="trxLastForeignKeyError"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_adaptive_hash_latched" property="trxAdaptiveHashLatched"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_adaptive_hash_timeout" property="trxAdaptiveHashTimeout"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_is_read_only" property="trxIsReadOnly"
+                                                     width="150"></el-table-column>
+                                    <el-table-column label="trx_autocommit_non_locking"
+                                                     property="trxAutocommitNonLocking"
+                                                     width="150"></el-table-column>
+                                </el-table>
+                            </div>
+                        </el-card>
+                    </el-col>
+
+                </el-row>
+            </el-main>
+        </el-container>
+    </footer>
+</head>
+</body>
+</html>

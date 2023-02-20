@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <footer th:fragment="execute">
+        <el-container>
+            <el-main>
+                <div>
+                    <el-input
+                            style="font-size: xx-large"
+                            type="textarea"
+                            :rows=10
+                            placeholder="请输入SQL脚本"
+                            @input="listenInput"
+                            v-model="sqlText"
+                            clearable="true" @blur="sqlBlur">
+                    </el-input>
+                </div>
+                <div style="margin-top: 30px">
+                    <el-select v-model="sqlLimit" placeholder="请选择行数默认"
+                               filterable size="small">
+                        <el-option
+                                v-for="item in sqlLimitOptions"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value"
+                                :disabled="item.disabled">
+                        </el-option>
+                    </el-select>
+                    <el-switch style="margin-left: 20px"
+                               v-model="sqlResultShowOverflowTooltip"
+                               active-text="内容超长隐藏"
+                               inactive-text="">
+                    </el-switch>
+                </div>
+                <div style="margin-top: 30px" v-if="sqlResult">
+                    <el-table
+                            :data="sqlResult"
+                            highlight-current-row
+                            empty-text="暂无数据"
+                            border @cell-click="sqlDataClick">
+                        <el-table-column
+                                v-for="(item,index) in sqlColum"
+                                :prop="item"
+                                :label="item"
+                                :show-overflow-tooltip="sqlResultShowOverflowTooltip"
+                                width="200">
+                        </el-table-column>
+                    </el-table>
+                </div>
+            </el-main>
+            <el-aside>
+                <el-row style="margin-top: 20px">
+                    <el-button type="primary" @click="executeSQL">执行</el-button>
+                </el-row>
+                <el-row style="margin-top: 20px">
+                    <el-button type="primary" @click="sqlFormat">格式化SQL</el-button>
+                </el-row>
+                <el-row style="margin-top: 20px">
+                    <el-button type="info" round @click="clearSQL">清空</el-button>
+                </el-row>
+                <el-row style="margin-top: 20px">
+                    <el-checkbox-group v-model="sqlCheckBoxGroup">
+                        <el-checkbox label="readOnly">READ ONLY</el-checkbox>
+                    </el-checkbox-group>
+                </el-row>
+            </el-aside>
+        </el-container>
+    </footer>
+</head>
+</body>
+</html>

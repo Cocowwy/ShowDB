@@ -1,44 +1,40 @@
 package cn.cocowwy.showdbcore.strategy.impl.mysql;
 
-import cn.cocowwy.showdbcore.config.ShowDbFactory;
+import cn.cocowwy.showdbcore.config.ShowDBContext;
 import cn.cocowwy.showdbcore.entities.TableField;
 import cn.cocowwy.showdbcore.entities.TableInfo;
+import cn.cocowwy.showdbcore.strategy.MySqlExecuteStrategy;
 import cn.cocowwy.showdbcore.strategy.StructExecuteStrategy;
 import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Cocowwy
  * @create 2022-03-03-21:57
  */
 @Component
-public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlExecuteStrategy {
-    private static final Map<DataSource, String> mapSchema = new HashMap<>(1);
-
+public class MySqlStructExecuteStrategy extends MySqlExecuteStrategy implements StructExecuteStrategy {
     /**
      * 表结构
      * @param tableName
      */
     @Override
     public List<TableField> tableStructure(String ds, String tableName) {
-        return ShowDbFactory.getJdbcTemplate(ds)
+        return ShowDBContext.getJdbcTemplate(ds)
                 .query(String.format("SELECT TABLE_SCHEMA,\n" +
-                                "       TABLE_NAME,\n" +
-                                "       COLUMN_NAME,\n" +
-                                "       COLUMN_TYPE,\n" +
-                                "       IS_NULLABLE,\n" +
-                                "       COLUMN_DEFAULT,\n" +
-                                "       COLUMN_COMMENT,\n" +
-                                "       COLUMN_KEY\n" +
-                                "FROM information_schema.COLUMNS \n" +
-                                "WHERE table_name = '%s' AND TABLE_SCHEMA = '%s' ORDER BY ORDINAL_POSITION ASC", tableName,
-                        DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds)),
+                                        "       TABLE_NAME,\n" +
+                                        "       COLUMN_NAME,\n" +
+                                        "       COLUMN_TYPE,\n" +
+                                        "       IS_NULLABLE,\n" +
+                                        "       COLUMN_DEFAULT,\n" +
+                                        "       COLUMN_COMMENT,\n" +
+                                        "       COLUMN_KEY\n" +
+                                        "FROM information_schema.COLUMNS \n" +
+                                        "WHERE table_name = '%s' AND TABLE_SCHEMA = '%s' ORDER BY ORDINAL_POSITION ASC", tableName,
+                                DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds)),
                         (rs, i) -> {
                             TableField ts = new TableField();
                             ts.setSchema(rs.getString("TABLE_SCHEMA"));
@@ -61,7 +57,7 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
      */
     @Override
     public List<String> tableNames(String ds) {
-        return ShowDbFactory.getJdbcTemplate(ds)
+        return ShowDBContext.getJdbcTemplate(ds)
                 .query("show tables", (rs, i) ->
                         rs.getObject(1, String.class));
     }
@@ -73,7 +69,7 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
      */
     @Override
     public String createTableStatement(String ds, String tableName) {
-        List<String> result = ShowDbFactory.getJdbcTemplate(ds)
+        List<String> result = ShowDBContext.getJdbcTemplate(ds)
                 .query(String.format("show create table %s", tableName), (resultSet, i) ->
                         resultSet.getObject(2, String.class));
         return CollectionUtils.lastElement(result);
@@ -85,10 +81,10 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
      */
     @Override
     public TableInfo tableComment(String ds, String table) {
-        List<TableInfo> rts = ShowDbFactory.getJdbcTemplate(ds)
+        List<TableInfo> rts = ShowDBContext.getJdbcTemplate(ds)
                 .query(String.format("SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES  " +
-                                "WHERE TABLE_NAME = '%s' AND TABLE_SCHEMA = '%s'", table,
-                        DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds)),
+                                        "WHERE TABLE_NAME = '%s' AND TABLE_SCHEMA = '%s'", table,
+                                DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds)),
                         (rs, i) -> {
                             TableInfo ti = new TableInfo();
                             ti.setTableComment(rs.getString("TABLE_COMMENT"));
@@ -107,7 +103,7 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
     @Override
     public TableInfo tableInfo(String ds, String table) {
         String sql = "show table status from %s where name = '%s'";
-        List<TableInfo> rts = ShowDbFactory.getJdbcTemplate(ds)
+        List<TableInfo> rts = ShowDBContext.getJdbcTemplate(ds)
                 .query(String.format(sql, DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds), table),
                         (rs, i) -> {
                             TableInfo ti = new TableInfo();
@@ -127,6 +123,4 @@ public class MySqlStructExecuteStrategy implements StructExecuteStrategy, MySqlE
 
         return CollectionUtils.lastElement(rts);
     }
-
-
 }
