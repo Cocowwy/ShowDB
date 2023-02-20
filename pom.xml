@@ -12,7 +12,7 @@
         <module>showdb-spring-boot-autoconfigure</module>
         <module>showdb-core</module>
         <module>showdb-spring-boot-starter</module>
-        <module>showdb-test</module>
+<!--        <module>showdb-test</module>-->
         <module>showdb-front</module>
     </modules>
 
