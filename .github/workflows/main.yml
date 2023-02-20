@@ -26,7 +26,7 @@ jobs:
         if:  endsWith(steps.version.outputs.version, '-SNAPSHOT')
         uses: samuelmeuli/action-maven-publish@v1
         with:
-          maven_args: '-DskipTests'
+          maven_args: '-DskipTests -Dgpg.skip=true'
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
           nexus_username: ${{ secrets.OSSRH_USERNAME }}
@@ -36,7 +36,7 @@ jobs:
         if:  endsWith(steps.version.outputs.version, '-SNAPSHOT') == false
         uses: samuelmeuli/action-maven-publish@v1
         with:
-          maven_args: '-DskipTests'
+          maven_args: '-DskipTests -Dgpg.skip=true'
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
           nexus_username: ${{ secrets.OSSRH_USERNAME }}
