@@ -12,7 +12,7 @@
         <module>showdb-spring-boot-autoconfigure</module>
         <module>showdb-core</module>
         <module>showdb-spring-boot-starter</module>
-<!--        <module>showdb-test</module>-->
+        <module>showdb-test</module>
         <module>showdb-front</module>
     </modules>
 
@@ -182,10 +182,11 @@
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>false</autoReleaseAfterClose>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 </project>
