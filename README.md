@@ -32,7 +32,7 @@
 <dependency>
     <groupId>cn.cocowwy</groupId>
     <artifactId>showdb-spring-boot-starter</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
 </dependency>
 ```
 **如果要食用最新的快照版本（还在测试使用的功能），使用如下依赖🍔**  
@@ -41,7 +41,7 @@
 <dependency>
     <groupId>cn.cocowwy</groupId>
     <artifactId>showdb-spring-boot-starter</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.2-SNAPSHOT</version>
 </dependency>
 <repositories>
     <repository>
