@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - v1-dev
-      - main
+      - master
 
 jobs:
   deploy:
