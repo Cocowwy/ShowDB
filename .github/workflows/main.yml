@@ -3,7 +3,7 @@ name: Deploy ShowDB maven
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
