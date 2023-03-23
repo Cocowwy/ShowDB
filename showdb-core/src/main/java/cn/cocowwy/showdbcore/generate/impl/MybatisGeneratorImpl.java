@@ -11,6 +11,7 @@ import cn.cocowwy.showdbcore.generate.plugin.BatchInsertPlugin;
 import cn.cocowwy.showdbcore.generate.plugin.BatchUpdatePlugin;
 import cn.cocowwy.showdbcore.generate.plugin.DaoInterfacePlugin;
 import cn.cocowwy.showdbcore.generate.plugin.Jsr310ResolverPlugin;
+import cn.cocowwy.showdbcore.util.DataSourcePropUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mybatis.generator.api.MyBatisGenerator;
@@ -116,7 +117,9 @@ public class MybatisGeneratorImpl implements GeneratorService {
         tableConfig.setSelectByExampleStatementEnabled(generateDefind.getUseExample());
         tableConfig.setTableName(tableName);
         tableConfig.setDomainObjectName(generateDefind.getDomainObjName());
-        tableConfig.setCatalog(ds);
+        // fix: catalog set ds ,cant create file ,we need set catalog = schema
+        String schemaName = DataSourcePropUtil.getMysqlSchemaFromDataSourceBeanName(ds);
+        tableConfig.setCatalog(schemaName);
         if (!StringUtils.isEmpty(generateDefind.getMapperName())) {
             tableConfig.setMapperName(generateDefind.getMapperName());
         }

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - v1-dev
+      - main
 
 jobs:
   deploy:
@@ -25,16 +26,19 @@ jobs:
         if:  endsWith(steps.version.outputs.version, '-SNAPSHOT')
         uses: samuelmeuli/action-maven-publish@v1
         with:
-          nexus_username: ${{ secrets.nexus_username }}
-          nexus_password: ${{ secrets.nexus_password }}
-          maven_args: -Dmaven.test.skip=true
+          maven_args: '-DskipTests -Dmaven.javadoc.skip=true'
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          nexus_username: ${{ secrets.OSSRH_USERNAME }}
+          nexus_password: ${{ secrets.OSSRH_TOKEN }}
           
       - name: Deploy Release Maven package
         if:  endsWith(steps.version.outputs.version, '-SNAPSHOT') == false
         uses: samuelmeuli/action-maven-publish@v1
         with:
-          gpg_private_key: ${{ secrets.gpg_private_key }}
-          gpg_passphrase: ${{ secrets.gpg_passphrase }}
-          nexus_username: ${{ secrets.nexus_username }}
-          nexus_password: ${{ secrets.nexus_password }}
+          maven_args: '-DskipTests -Dmaven.javadoc.skip=true'
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          nexus_username: ${{ secrets.OSSRH_USERNAME }}
+          nexus_password: ${{ secrets.OSSRH_TOKEN }}
           
