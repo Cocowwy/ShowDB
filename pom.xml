@@ -6,7 +6,7 @@
 
     <groupId>cn.cocowwy</groupId>
     <artifactId>ShowDB</artifactId>
-    <version>1.1.4-SNAPSHOT</version>
+    <version>1.1.3</version>
 
     <modules>
         <module>showdb-spring-boot-autoconfigure</module>
@@ -36,7 +36,7 @@
     </developers>
 
     <properties>
-        <showdb.version>1.1.4-SNAPSHOT</showdb.version>
+        <showdb.version>1.1.3</showdb.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -163,8 +163,8 @@
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
 
