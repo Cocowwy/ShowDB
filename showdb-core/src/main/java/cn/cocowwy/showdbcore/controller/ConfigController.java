@@ -18,7 +18,6 @@ import java.util.List;
  * 配置相关
  *
  * @author Cocowwy
- * @create 2022-03-03-21:23
  */
 @RestController
 @RequestMapping("/showdb/config")
@@ -28,8 +27,6 @@ public class ConfigController {
 
     /**
      * 获取连接数据源相关信息
-     *
-     * @return
      */
     @GetMapping("dsInfo")
     public Res<List<DsInfo>> getDsInfo() {

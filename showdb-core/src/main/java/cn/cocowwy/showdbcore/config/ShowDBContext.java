@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 /**
  * ShowDB context
  * @author cocowwy.cn
- * @create 2022-03-03-12:51
  */
 public final class ShowDBContext {
     private static final Log logger = LogFactory.getLog(ShowDBContext.class);

@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
  * ShowDB's simple cache
  *
  * @author Cocowwy
- * @create 2022-03-03-21:37
  */
 public class ShowDbCache {
     private static final Log logger = LogFactory.getLog(ShowDbCache.class);
@@ -55,7 +54,7 @@ public class ShowDbCache {
      * @param ds    数据源
      * @param biz   业务标识
      * @param label 唯一标识
-     * @return
+     * @return 缓存键
      */
     public static String buildCacheKey(String ds, String biz, String label) {
         return String.format("%s#%s#%s", ds, biz, label);

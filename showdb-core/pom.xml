@@ -11,6 +11,7 @@
     <artifactId>showdb-core</artifactId>
     <name>showdb-core</name>
     <description>ShowDB核心包，SQL执行策略，缓存，权限，上下文，工具包等</description>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>

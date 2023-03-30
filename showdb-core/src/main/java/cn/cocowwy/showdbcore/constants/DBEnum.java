@@ -5,7 +5,6 @@ import java.util.Map;
 
 /**
  * @author Cocowwy
- * @create 2022-03-03-22:50
  */
 public enum DBEnum {
     /**

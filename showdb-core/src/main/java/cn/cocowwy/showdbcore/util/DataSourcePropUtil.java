@@ -11,16 +11,14 @@ import java.sql.SQLException;
 import java.util.Map;
 
 /**
- *
  * @author cocowwy.cn
- * @create 2022-03-03-10:03
  */
 public class DataSourcePropUtil {
 
     /**
      * 根据当前数据源的bean名称，获取到数据源枚举
-     * @param dataSourceBeanName
-     * @return
+     * @param dataSourceBeanName 数据源bean名称
+     * @return DBEnum
      */
     public static DBEnum dataSourceTypeByBeanName(String dataSourceBeanName) {
         return (DBEnum) ShowDbCache.cache().computeIfAbsent(ShowDbCache.buildCacheKey(dataSourceBeanName, "dataSourceTypeByBeanName", dataSourceBeanName),
@@ -67,7 +65,7 @@ public class DataSourcePropUtil {
 
     /**
      * 获取MySQL环境的数据源的schema(通过字符串截取URL)，走缓存
-     * @return
+     * @return schema
      */
     public static String getMysqlSchemaFromDataSourceBeanName(String beanName) {
         return (String) ShowDbCache.cache().computeIfAbsent(

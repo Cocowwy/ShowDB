@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author cocowwy.cn
- * @create 2022-05-05-11:45
  */
 @Configuration("Defined")
 public class DefinedConfig {

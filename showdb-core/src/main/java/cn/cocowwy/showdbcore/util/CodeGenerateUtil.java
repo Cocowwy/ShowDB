@@ -8,7 +8,6 @@ import java.util.Date;
 /**
  * 代码生成工具
  * @author Cocowwy
- * @create 2022-03-03-22:01
  */
 public class CodeGenerateUtil {
     public static String LEFT_PARENTS = "(";
@@ -17,7 +16,6 @@ public class CodeGenerateUtil {
     /**
      * 生成类名
      * @param tableName 数据表表名
-     * @return
      */
     public static String className(String tableName) {
         String fileName = "";
@@ -56,7 +54,7 @@ public class CodeGenerateUtil {
     /**
      * 数据库类型 映射成 Java 类型
      * @param dataType
-     * @return
+     * @return 类型
      */
     public static String getType(String dataType) {
         String type = "";

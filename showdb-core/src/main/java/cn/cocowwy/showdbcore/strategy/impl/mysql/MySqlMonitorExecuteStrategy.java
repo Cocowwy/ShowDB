@@ -44,7 +44,6 @@ public class MySqlMonitorExecuteStrategy extends MySqlExecuteStrategy implements
      * 主从信息查询
      * @param ds 当前数据源
      * @return 主从状态
-     * @return
      */
     @Override
     public SlaveStatus slaveStatus(String ds) {

@@ -11,6 +11,7 @@
     <artifactId>showdb-spring-boot-starter</artifactId>
     <name>showdb-spring-boot-starter</name>
     <description>ShowDB starter</description>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>

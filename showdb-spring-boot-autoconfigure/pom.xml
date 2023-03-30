@@ -11,6 +11,7 @@
     <artifactId>showdb-spring-boot-autoconfigure</artifactId>
     <name>showdb-spring-boot-autoconfigure</name>
     <description>ShowDB Spring Boot autoconfigure</description>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
